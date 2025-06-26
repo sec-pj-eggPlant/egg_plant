@@ -1,8 +1,8 @@
 package com.took.egg_plant_project.member;
 
 import com.took.egg_plant_project.entity.Member;
-import com.took.egg_plant_project.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -19,5 +19,11 @@ public class MemberDao {
 
     public void save(Member savedMember) {
         memberRepository.save(savedMember);
+    }
+
+    @Repository
+    public static interface MemberRepository extends JpaRepository<Member, Integer> {
+
+        Optional<Member> findByUserID(String admin);
     }
 }

@@ -1,6 +1,5 @@
-package com.took.egg_plant_project.controller;
+package com.took.egg_plant_project.extra;
 
-import lombok.Getter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

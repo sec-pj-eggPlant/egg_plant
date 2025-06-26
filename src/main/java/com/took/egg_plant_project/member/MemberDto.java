@@ -1,4 +1,4 @@
-package com.took.egg_plant_project.dto;
+package com.took.egg_plant_project.member;
 
 import com.took.egg_plant_project.constant.Role;
 import lombok.*;
