@@ -19,7 +19,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, CustomLoginSuccessHandler customLoginSuccessHandler) throws Exception {
         httpSecurity.authorizeHttpRequests(
-                        (auth) ->auth.requestMatchers(
+                        (auth) -> auth.requestMatchers(
 //                                        "/",
 //                                        "/index/index",
 //                                        "/member/**",
@@ -28,13 +28,13 @@ public class SecurityConfig {
 //                                        "/flowers",
 //                                        "/corporate",
 //                                        "/onsilfaq",
-////                                            "/api/**",
+//                                        "/api/**",
 //                                        "/css/**",
 //                                        "/images/**",
 //                                        "/js/**",
 //                                        "/html/**",
 //                                        "/upload/**"
-                                "**"
+                                        "**"
                                 ) //작업 편하게 하기 위해 임시로 모든 경로 보안 허용
                                 .permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -42,23 +42,23 @@ public class SecurityConfig {
                 )
                 .formLogin(
                         form -> form
-                                .loginPage("/member/login")
+                                .loginPage("/main/login")
                                 .usernameParameter("userID")
                                 .passwordParameter("userPW")
-                                .loginProcessingUrl("/member/login")
+                                .loginProcessingUrl("/main/login")
                                 .successHandler(customLoginSuccessHandler)
-                                .failureUrl("/member/login?error") //redirect로 넘어간다.
+                                .failureUrl("/main/login?error") //redirect로 넘어간다.
                                 .permitAll()
                 )
                 .logout(
                         logout -> logout
-                                .logoutUrl("/member/logout")
+                                .logoutUrl("/main/logout")
                                 .logoutSuccessUrl("/index/index")
                                 .invalidateHttpSession(true)
                                 .deleteCookies("JSESSIONID")
                                 .permitAll()
                 )
-                .csrf((csrf)->csrf.disable());
+                .csrf((csrf) -> csrf.disable());
         return httpSecurity.build();
     }
 }

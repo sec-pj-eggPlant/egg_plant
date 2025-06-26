@@ -19,34 +19,46 @@ public class AdminInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Optional<Member> optionalMember = memberDao.findByUserID("admin");
-        if (!optionalMember.isPresent()) {
-            Member adminMember = Member.builder()
+        Optional<Member> adminMember = memberDao.findByUserID("admin");
+        if (adminMember.isEmpty()) {
+            Member admin = Member.builder()
                     .userID("admin")
-                    .role(Role.ROLE_ADMIN)
+                    .userPW(bCryptPasswordEncoder.encode("1234"))
+                    .nickName("admin")
                     .userName("관리자")
                     .userEmail("admin@admin.com")
-                    .nickName("adminNickName")
-                    .tel("01087654321")
-                    .userPW(bCryptPasswordEncoder.encode("1234"))
+                    .tel("010-8765-4321")
+                    .role(Role.ROLE_ADMIN)
                     .build();
-            memberDao.save(adminMember);
+            memberDao.save(admin);
         } else {
             System.out.println("관리자 계정이 이미 있습니다.");
         }
-        Optional<Member> hongMember = memberDao.findByUserID("user");
-        if (!hongMember.isPresent()) {
-            Member member1 = Member.builder()
-                    .userID("user")
-                    .userName("userName")
-                    .userEmail("user@naver.com")
-                    .nickName("userNickName")
-                    .tel("01012345678")
+        Optional<Member> ownerMember = memberDao.findByUserID("owner");
+        if (ownerMember.isEmpty()) {
+            Member owner = Member.builder()
+                    .userID("owner")
                     .userPW(bCryptPasswordEncoder.encode("1234"))
+                    .nickName("iAmOwner")
+                    .userName("ownerName")
+                    .userEmail("owner@naver.com")
+                    .tel("010-1234-5678")
                     .role(Role.ROLE_OWNER)
                     .build();
-            memberDao.save(member1);
+            memberDao.save(owner);
         }
-
+        Optional<Member> renterMember = memberDao.findByUserID("renter");
+        if (renterMember.isEmpty()) {
+            Member renter = Member.builder()
+                    .userID("renter")
+                    .userPW(bCryptPasswordEncoder.encode("1234"))
+                    .nickName("iAmRenter")
+                    .userName("renterName")
+                    .userEmail("renter@naver.com")
+                    .tel("010-9876-5432")
+                    .role(Role.ROLE_RENTER)
+                    .build();
+            memberDao.save(renter);
+        }
     }
 }
