@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <style>
+        .square-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .square-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            border-radius: 10px;
+            position: relative;
+            background: #fff;
+        }
+
+        .square-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .color-dots {
+            margin-top: 5px;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 2px;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+        }
+
+        .dot.red {
+            background-color: red;
+        }
+
+        .dot.blue {
+            background-color: blue;
+        }
+
+        .dot.black {
+            background-color: black;
+        }
+
+        .disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .checkbox-wrapper {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<form method="post" action="/submitSquares">
+    <div class="square-grid">
+
+        <!-- Square Example -->
+        <div class="square-item">
+            <div class="checkbox-wrapper">
+                <input type="checkbox" name="selectedSquares" value="A1">
+            </div>
+            <img src="https://via.placeholder.com/200x200" alt="item">
+            <div class="color-dots">
+                <span class="dot red"></span>
+                <span class="dot blue"></span>
+                <span class="dot black"></span>
+            </div>
+            <div>White T-Shirt</div>
+        </div>
+
+        <!-- Square Example (Disabled) -->
+        <div class="square-item disabled">
+            <div class="checkbox-wrapper">
+                <input type="checkbox" disabled>
+            </div>
+            <img src="https://via.placeholder.com/200x200" alt="item">
+            <div class="color-dots">
+                <span class="dot red"></span>
+                <span class="dot blue"></span>
+            </div>
+            <div>Gray Hoodie (사용 중)</div>
+        </div>
+
+        <!-- ... 복제하여 최대 9개까지 -->
+
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <button type="submit">선택 완료</button>
+    </div>
+</form>
+
+</body>
+</html>
