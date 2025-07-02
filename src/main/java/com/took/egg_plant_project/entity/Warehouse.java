@@ -13,16 +13,15 @@ import lombok.NoArgsConstructor;
 public class Warehouse {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @Column(name = "warehouseID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
     @Column(length = 10)
-    private String sector; // 예: A, B, C 등
+    private String sector;
 
-    private Integer area; // 면적 (예: 5㎡)
-
+    private Integer area;
     private Integer pricePerDay;
 
     @Column(length = 20)
-    private String status; // 예: ACTIVE, INACTIVE 등
+    private String status;
 }
