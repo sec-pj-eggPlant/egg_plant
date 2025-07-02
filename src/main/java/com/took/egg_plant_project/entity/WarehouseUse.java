@@ -20,11 +20,11 @@ public class WarehouseUse {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "warehouseId", nullable = false)
+    @JoinColumn(name = "warehouseID", nullable = false, referencedColumnName = "warehouseID")
     private Warehouse warehouse;
 
     @ManyToOne
-    @JoinColumn(name = "memberID", nullable = false)
+    @JoinColumn(name = "memberID", nullable = false, referencedColumnName = "memberID")
     private Member user;
 
     private LocalDate startDate;

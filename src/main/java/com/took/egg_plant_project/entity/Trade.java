@@ -15,18 +15,18 @@ public class Trade extends BaseTime {
     @Id
     @Column(name = "tradeID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "postId")
+    @JoinColumn(name = "postID", referencedColumnName = "postID")  // ✔️ 정확한 컬럼 지정
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "renterId")
+    @JoinColumn(name = "renterID",referencedColumnName = "memberID")
     private Member renter;
 
     @ManyToOne
-    @JoinColumn(name = "ownerId")
+    @JoinColumn(name = "ownerID",referencedColumnName ="memberID")
     private Member owner;
 
     @Column(length = 20)
