@@ -17,34 +17,30 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class Member {
+public class Member extends BaseTime{
 
     @Id
     @Column(name = "memberID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 100)
     private String userID;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 60)
     private String userPW;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, length = 255, unique = true)
     private String nickName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 60)
     private String userName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, length = 100)
     private String userEmail;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, length = 13)
     private String tel;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
