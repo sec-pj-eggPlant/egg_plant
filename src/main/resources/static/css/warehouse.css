@@ -1,0 +1,528 @@
+.other-proucts,
+.other-proucts * {
+    box-sizing: border-box;
+}
+
+.other-proucts {
+    background: #ffffff;
+    border-style: solid;
+    border-color: #000000;
+    border-width: 1px;
+    height: 1516px;
+    position: relative;
+    overflow: hidden;
+}
+
+.header {
+    background: var(--white, #ffffff);
+    padding: 12px 108px 12px 108px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 1920px;
+    height: 168px;
+    position: absolute;
+    left: calc(50% - -963px);
+    top: 0px;
+    transform-origin: 0 0;
+    transform: rotate(0deg) scale(-1, 1);
+    overflow: hidden;
+}
+
+.login-cart {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    width: 288px;
+    position: relative;
+}
+
+.button {
+    border-radius: 8px;
+    padding: 8px 24px 8px 24px;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 117px;
+    height: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.div {
+    color: var(--neutral-gray-9, #434343);
+    text-align: center;
+    font-family: "NotoSans-Medium", sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 500;
+    position: relative;
+}
+
+.vuesax-outline-shopping-cart {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    position: relative;
+}
+
+.vuesax-outline-shopping-cart2 {
+    height: auto;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    overflow: visible;
+}
+
+.button2 {
+    border-radius: 8px;
+    padding: 8px 24px 8px 24px;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 154px;
+    height: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hicon-outline-login {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.login {
+    width: 81.25%;
+    height: 81.25%;
+    position: absolute;
+    right: 9.37%;
+    left: 9.38%;
+    bottom: -71.88%;
+    top: 90.63%;
+    transform: translate(-19.5px, -19.5px);
+    overflow: visible;
+}
+
+.count {
+    background: var(--primary-tint-5, #dcacb1);
+    border-radius: 100px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    left: calc(50% - 50.5px);
+    top: 4px;
+    overflow: hidden;
+}
+
+.div2 {
+    color: var(--neutral-gray-10, #242424);
+    text-align: center;
+    font-family: "NotoSans-Bold", sans-serif;
+    font-size: 14px;
+    line-height: 180%;
+    font-weight: 700;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search {
+    border-radius: 16px;
+    border-style: solid;
+    border-color: var(--neutral-gray-4, #d6d6d6);
+    border-width: 1px;
+    padding: 11px 24px 11px 24px;
+    display: flex;
+    flex-direction: row;
+    gap: 481px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    height: 48px;
+    position: relative;
+    overflow: hidden;
+}
+
+.vuesax-outline-search-normal {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    position: relative;
+}
+
+.vuesax-outline-search-normal2 {
+    height: auto;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    overflow: visible;
+}
+
+.div3 {
+    color: var(--redp, #a72f3b);
+    text-align: center;
+    font-family: "NotoSans-Regular", sans-serif;
+    font-size: 14px;
+    line-height: 180%;
+    font-weight: 400;
+    position: relative;
+}
+
+.frame-26088044 {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.type {
+    flex-shrink: 0;
+    width: 134.91px;
+    height: 50.77px;
+    position: relative;
+}
+
+.div4 {
+    height: auto;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    overflow: visible;
+}
+
+.div5 {
+    height: auto;
+    position: absolute;
+    left: 41.1px;
+    top: 31.43px;
+    overflow: visible;
+}
+
+.logo {
+    border-radius: 100px;
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    position: relative;
+    overflow: visible;
+}
+
+.footer {
+    background: #5f328e;
+    height: 247px;
+    position: absolute;
+    right: 0px;
+    left: 0px;
+    top: 1270px;
+    overflow: hidden;
+}
+
+.footer-menu {
+    display: flex;
+    flex-direction: row;
+    gap: 160px;
+    align-items: center;
+    justify-content: flex-end;
+    position: absolute;
+    left: calc(50% - 84px);
+    top: 233px;
+}
+
+.contact {
+    width: 372px;
+    height: 22px;
+    position: absolute;
+    left: calc(50% - 588px);
+    top: 299px;
+}
+
+.license {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    align-items: center;
+    justify-content: center;
+    height: 64px;
+    position: absolute;
+    left: calc(50% - 517px);
+    top: 393px;
+}
+
+.tab-menu-A {
+    background: #ff8787;
+    border-style: solid;
+    border-color: #9b0000;
+    border-width: 5px;
+    padding: 8px 8px 16px 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-end;
+    width: 115px;
+    height: 115px;
+    position: absolute;
+    left: 883px;
+    top: 218px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.tab-menu-B {
+    background: #ff3c3c;
+    padding: 8px 8px 16px 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-end;
+    width: 115px;
+    height: 115px;
+    position: absolute;
+    left: 1164px;
+    top: 218px;
+}
+
+.tab-menu-C {
+    background: #ff5151;
+    padding: 8px 8px 16px 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-end;
+    width: 115px;
+    height: 115px;
+    position: absolute;
+    left: 1445px;
+    top: 218px;
+}
+
+.rectangle-29 {
+    background: #ff5555;
+    width: 210px;
+    height: 210px;
+    position: absolute;
+    left: 839px;
+    top: 367px;
+}
+
+.rectangle-32 {
+    background: #ff5555;
+    border-style: solid;
+    border-color: #a53535;
+    border-width: 11px;
+    width: 210px;
+    height: 210px;
+    position: absolute;
+    left: 839px;
+    top: 645px;
+}
+
+.rectangle-35 {
+    background: #d9d9d9;
+    width: 210px;
+    height: 210px;
+    position: absolute;
+    left: 839px;
+    top: 923px;
+}
+
+.rectangle-30 {
+    background: #ff5555;
+    width: 210px;
+    height: 210px;
+    position: absolute;
+    left: 1117px;
+    top: 367px;
+}
+
+.rectangle-33 {
+    background: #ff5555;
+    border-style: solid;
+    border-color: #a53535;
+    border-width: 11px;
+    width: 210px;
+    height: 210px;
+    position: absolute;
+    left: 1117px;
+    top: 645px;
+}
+
+.rectangle-36 {
+    background: #ff5555;
+    width: 210px;
+    height: 210px;
+    position: absolute;
+    left: 1117px;
+    top: 923px;
+}
+
+.rectangle-31 {
+    background: #ff5555;
+    width: 210px;
+    height: 210px;
+    position: absolute;
+    left: 1395px;
+    top: 367px;
+}
+
+.rectangle-34 {
+    background: #d9d9d9;
+    width: 210px;
+    height: 210px;
+    position: absolute;
+    left: 1395px;
+    top: 645px;
+}
+
+.rectangle-37 {
+    background: #d9d9d9;
+    width: 210px;
+    height: 210px;
+    position: absolute;
+    left: 1395px;
+    top: 923px;
+}
+
+.rectangle-38 {
+    background: #d9d9d9;
+    width: 389px;
+    height: 699px;
+    position: absolute;
+    left: 293px;
+    top: 287px;
+}
+
+.div6 {
+    color: #000000;
+    text-align: center;
+    font-family: "NotoSans-Regular", sans-serif;
+    font-size: 36px;
+    line-height: 180%;
+    font-weight: 400;
+    position: absolute;
+    left: 320px;
+    top: 333px;
+    width: 328px;
+    height: 69px;
+}
+
+.div7 {
+    color: #000000;
+    text-align: center;
+    font-family: "NotoSans-Regular", sans-serif;
+    font-size: 36px;
+    line-height: 180%;
+    font-weight: 400;
+    position: absolute;
+    left: 320px;
+    top: 435px;
+    width: 328px;
+    height: 69px;
+}
+
+.div8 {
+    color: #000000;
+    text-align: center;
+    font-family: "NotoSans-Regular", sans-serif;
+    font-size: 36px;
+    line-height: 180%;
+    font-weight: 400;
+    position: absolute;
+    left: 320px;
+    top: 537px;
+    width: 328px;
+    height: 69px;
+}
+
+.div9 {
+    color: #000000;
+    text-align: center;
+    font-family: "NotoSans-Regular", sans-serif;
+    font-size: 36px;
+    line-height: 180%;
+    font-weight: 400;
+    position: absolute;
+    left: 320px;
+    top: 640px;
+    width: 328px;
+    height: 69px;
+}
+
+.input {
+    color: #000000;
+    text-align: center;
+    font-family: "NotoSans-Regular", sans-serif;
+    font-size: 36px;
+    line-height: 180%;
+    font-weight: 400;
+    position: absolute;
+    left: 320px;
+    top: 743px;
+    width: 328px;
+    height: 69px;
+}
+
+.input2 {
+    color: #000000;
+    text-align: center;
+    font-family: "NotoSans-Regular", sans-serif;
+    font-size: 36px;
+    line-height: 180%;
+    font-weight: 400;
+    position: absolute;
+    left: 320px;
+    top: 845px;
+    width: 328px;
+    height: 69px;
+}
+
+.rectangle-39 {
+    background: #ff8bb8;
+    border-radius: 25px;
+    width: 146px;
+    height: 85px;
+    position: absolute;
+    left: 1633px;
+    top: 1117px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.div10 {
+    color: #000000;
+    text-align: center;
+    font-family: "NotoSans-Regular", sans-serif;
+    font-size: 36px;
+    line-height: 180%;
+    font-weight: 400;
+    position: absolute;
+    left: 1624px;
+    top: 1127px;
+    width: 164px;
+    height: 41px;
+    -webkit-text-stroke: 1px #000000;
+}
