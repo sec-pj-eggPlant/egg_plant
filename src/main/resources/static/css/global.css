@@ -1,0 +1,22 @@
+ul,
+ol,
+dl,
+li {
+  list-style: none;
+  margin-bottom: 0;
+}
+
+body {
+  font-family: "Roboto", "Noto Sans KR", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+footer {
+  background-color: #5f328e;
+  color: #fff;
+  font-size: 14px;
+}
