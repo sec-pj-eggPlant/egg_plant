@@ -10,4 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 public class MainController {
 
+    @GetMapping("/list")
+    public String list() {
+        return "main/list";
+    }
 }

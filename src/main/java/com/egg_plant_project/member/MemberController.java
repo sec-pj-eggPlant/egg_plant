@@ -14,4 +14,9 @@ public class MemberController {
     public String login() {
         return "member/login";
     }
+
+    @GetMapping("/signup")
+    public String signup() {
+        return "member/signup";
+    }
 }
