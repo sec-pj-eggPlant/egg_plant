@@ -1,4 +1,10 @@
 :root {
+    --day-search-font-family: "Inter", Helvetica;
+    --day-search-font-weight: 400;
+    --day-search-font-size: 12px;
+    --day-search-letter-spacing: 0px;
+    --day-search-line-height: normal;
+    --day-search-font-style: normal;
     --semantic-heading-2-font-family: "Noto Sans", Helvetica;
     --semantic-heading-2-font-weight: 700;
     --semantic-heading-2-font-size: 24px;

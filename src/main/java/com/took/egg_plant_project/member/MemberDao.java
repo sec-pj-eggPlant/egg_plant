@@ -20,10 +20,4 @@ public class MemberDao {
     public void save(Member savedMember) {
         memberRepository.save(savedMember);
     }
-
-    @Repository
-    public static interface MemberRepository extends JpaRepository<Member, Integer> {
-
-        Optional<Member> findByUserID(String admin);
-    }
 }
