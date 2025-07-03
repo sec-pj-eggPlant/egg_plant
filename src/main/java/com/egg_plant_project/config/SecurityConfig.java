@@ -42,12 +42,12 @@ public class SecurityConfig {
                 )
                 .formLogin(
                         form -> form
-                                .loginPage("/main/login")
+                                .loginPage("/member/login")
                                 .usernameParameter("userID")
                                 .passwordParameter("userPW")
-                                .loginProcessingUrl("/main/login")
+                                .loginProcessingUrl("/member/login")
                                 .successHandler(customLoginSuccessHandler)
-                                .failureUrl("/main/login?error") //redirect로 넘어간다.
+                                .failureUrl("/member/login?error") //redirect로 넘어간다.
                                 .permitAll()
                 )
                 .logout(

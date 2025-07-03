@@ -3,7 +3,7 @@ package com.egg_plant_project.member;
 import com.egg_plant_project.constant.Role;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -19,6 +19,6 @@ public class MemberDto {
     private String userName;
     private String userEmail;
     private String tel;
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
     private Role role;
 }

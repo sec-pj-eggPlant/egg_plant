@@ -38,6 +38,7 @@
         </div>
         <div class="col-6 px-5">
           <h2 class="mb-5">회원가입</h2>
+          <form action="/member/signup" method="post">
           <div class="mb-3">
             <label for="userName" class="form-label fw-bold">이름</label>
             <input
@@ -45,7 +46,7 @@
               class="form-control"
               id="userName"
               name="userName" required
-              placeholder=""
+              placeholder="Name"
             />
           </div>
           <div class="mb-3">
@@ -54,8 +55,8 @@
               type="text"
               class="form-control"
               id="nickName"
-              name="userName" required
-              placeholder=""
+              name="nickName" required
+              placeholder="Nickname"
             />
           </div>
           <div class="mb-3">
@@ -64,8 +65,8 @@
               type="text"
               class="form-control"
               id="tel"
-              name="userName" required
-              placeholder=""
+              name="tel" required
+              placeholder="Tel"
             />
           </div>
           <div class="mb-3">
@@ -74,18 +75,8 @@
               type="text"
               class="form-control"
               id="userID"
-              name="userName" required
-              placeholder=""
-            />
-          </div>
-          <div class="mb-3">
-            <label for="userEmail" class="form-label fw-bold">이메일</label>
-            <input
-              type="text"
-              class="form-control"
-              id="userEmail"
-              name="userName" required
-              placeholder=""
+              name="userID" required
+              placeholder="ID"
             />
           </div>
           <div class="mb-3">
@@ -94,8 +85,8 @@
               type="password"
               class="form-control"
               id="userPW"
-              name="userName" required
-              placeholder=""
+              name="userPW" required
+              placeholder="PW"
             />
           </div>
           <div class="mb-3">
@@ -104,13 +95,32 @@
               type="password"
               class="form-control"
               id="userPWCheck"
-              name="userName" required
-              placeholder=""
+              name="userPWCheck" required
+              placeholder="CheckPW"
             />
           </div>
-          <div class="mb-3">
-            <a href="" class="w-100 btn btn-primary"> SIGNUP </a>
-          </div>
+            <div class="mb-3">
+              <label for="userEmail" class="form-label fw-bold">이메일</label>
+              <input
+                      type="text"
+                      class="form-control"
+                      id="userEmail"
+                      name="userEmail" required
+                      placeholder="Email"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">회원 유형</label>
+              <select name="role" class="form-select" required>
+                <option value="">유형을 선택하세요</option>
+                <option value="ROLE_OWNER">임차인</option>
+                <option value="ROLE_RENTER">임대인</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <button type="submit" class="w-100 btn btn-primary">SIGNUP</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
