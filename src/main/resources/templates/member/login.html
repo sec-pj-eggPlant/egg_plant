@@ -75,7 +75,10 @@
         </div>
     </div>
 </div>
-
+<script th:if="${signupSuccess != null}">
+    alert([[${signupSuccess}]]);
+</script>
+</body>
 <footer class="mt-5">
     <div class="container">
         <div class="row pt-5">
@@ -103,5 +106,4 @@
         </div>
     </div>
 </footer>
-</body>
 </html>
