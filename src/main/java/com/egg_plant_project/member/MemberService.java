@@ -25,10 +25,8 @@ public class MemberService {
             throw new IllegalStateException("이미 사용중인 닉네임입니다.");
         }
 
-        memberRepository.save(member);
-
-
         String encodedPw = passwordEncoder.encode(member.getUserPW());
+
         member = Member.builder()
                 .userID(member.getUserID())
                 .userPW(encodedPw)
@@ -49,5 +47,17 @@ public class MemberService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
         return member;
+    }
+
+    public boolean existsByUserID(String userID) {
+        return memberRepository.existsByUserID(userID);
+    }
+
+    public boolean existsByUserEmail(String userEmail) {
+        return memberRepository.existsByUserEmail(userEmail);
+    }
+
+    public boolean existsByNickName(String nickName) {
+        return memberRepository.existsByNickName(nickName);
     }
 }

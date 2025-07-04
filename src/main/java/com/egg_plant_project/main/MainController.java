@@ -7,15 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("main")
+@RequestMapping("/main")
 @Slf4j
 public class MainController {
 
     @GetMapping("/list")
-    public String list(HttpSession session) {
-        if (session.getAttribute("loginID") == null) {
-            return "redirect:/member/login";
-        }
+    public String list() {
         return "main/list";
     }
 }

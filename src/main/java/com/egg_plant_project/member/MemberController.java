@@ -4,11 +4,8 @@ import com.egg_plant_project.entity.Member;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -16,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 public class MemberController {
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final MemberDao memberDao;
+    private final MemberService memberService;
 
     @GetMapping("/login")
     public String login() {
@@ -28,20 +24,15 @@ public class MemberController {
     public String login(MemberDto memberDto, HttpSession session) {
         log.info("로그인 시도: {}", memberDto.getUserID());
 
-
-        Member member = memberDao.findByUserID(memberDto.getUserID())
-                .orElse(null);
-
-        if (member == null) {
-            return "redirect:/member/login?error=notfound";
+        try {
+            Member member = memberService.login(memberDto.getUserID(), memberDto.getUserPW());
+            session.setAttribute("loginID", member.getUserID());
+            log.info("로그인 성공");
+            return "redirect:/main/list";
+        } catch (IllegalArgumentException e) {
+            log.info("로그인 실패");
+            return "redirect:/member/login?error=" + e.getMessage();
         }
-
-        if (!member.getUserPW().equals(memberDto.getUserPW())) {
-            return "redirect:/member/login?error=wrongpw";
-        }
-
-        session.setAttribute("loginID", member.getUserID());
-        return "redirect:/main/list";   // 메인 리스트 페이지
     }
 
     @GetMapping("/signup")
@@ -52,11 +43,9 @@ public class MemberController {
     @PostMapping("/signup")
     public String signup(MemberDto memberDto, HttpSession session) {
 
-        String encodedPw = bCryptPasswordEncoder.encode(memberDto.getUserPW());
-
         Member member = Member.builder()
                 .userID(memberDto.getUserID())
-                .userPW(encodedPw)
+                .userPW(memberDto.getUserPW())
                 .userName(memberDto.getUserName())
                 .nickName(memberDto.getNickName())
                 .userEmail(memberDto.getUserEmail())
@@ -64,8 +53,26 @@ public class MemberController {
                 .role(memberDto.getRole())
                 .build();
 
-        memberDao.save(member);
+        memberService.signup(member);
 
         return "redirect:/member/login";
+    }
+
+    @GetMapping("/checkUserID")
+    @ResponseBody
+    public boolean checkUserID(@RequestParam String userID) {
+        return memberService.existsByUserID(userID);
+    }
+
+    @GetMapping("/checkUserNickname")
+    @ResponseBody
+    public boolean checkUserNickname(@RequestParam String nickName) {
+        return memberService.existsByNickName(nickName);
+    }
+
+    @GetMapping("/checkUserEmail")
+    @ResponseBody
+    public boolean checkUserEmail(@RequestParam String userEmail) {
+        return memberService.existsByUserEmail(userEmail);
     }
 }

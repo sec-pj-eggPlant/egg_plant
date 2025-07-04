@@ -22,7 +22,6 @@ public class SecurityConfig {
                         (auth) -> auth.requestMatchers(
 //                                        "/",
 //                                        "/index/index",
-//                                        "/member/**",
 //                                        "/subscribe/**",
 //                                        "/product/**",
 //                                        "/flowers",

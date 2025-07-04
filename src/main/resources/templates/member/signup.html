@@ -58,6 +58,7 @@
               name="nickName" required
               placeholder="Nickname"
             />
+            <div id="nickNameCheckMsg" class="text-danger mt-1"></div>
           </div>
           <div class="mb-3">
             <label for="tel" class="form-label fw-bold">전화번호</label>
@@ -78,6 +79,7 @@
               name="userID" required
               placeholder="ID"
             />
+            <div id="userIDCheckMsg" class="text-danger mt-1"></div>
           </div>
           <div class="mb-3">
             <label for="userPW" class="form-label fw-bold">비밀번호</label>
@@ -108,6 +110,7 @@
                       name="userEmail" required
                       placeholder="Email"
               />
+              <div id="userEmailCheckMsg" class="text-danger mt-1"></div>
             </div>
             <div class="mb-3">
               <label class="form-label fw-bold">회원 유형</label>
@@ -118,7 +121,7 @@
               </select>
             </div>
             <div class="mb-3">
-              <button type="submit" class="w-100 btn btn-primary">SIGNUP</button>
+              <button type="submit" class="w-100 btn btn-primary">회원가입</button>
             </div>
           </form>
         </div>
@@ -157,3 +160,72 @@
     </footer>
   </body>
 </html>
+<script>
+  document.querySelector("#userID").addEventListener("input", function() {
+    const userID = this.value;
+    if (userID.length < 3) {
+      document.querySelector("#userIDCheckMsg").textContent = "3글자 이상 적어주세요";
+      return;
+    }
+
+    fetch(`/member/checkUserID?userID=${encodeURIComponent(userID)}`)
+            .then(res => res.json())
+            .then(exists => {
+              if (exists) {
+                document.querySelector("#userIDCheckMsg").textContent = "이미 사용중인 아이디입니다.";
+              } else {
+                document.querySelector("#userIDCheckMsg").textContent = "";
+              }
+            })
+            .catch(error => {
+              console.error(error);
+              document.querySelector("#userIDCheckMsg").textContent = "확인 중 오류 발생";
+            });
+  });
+
+  document.querySelector("#nickName").addEventListener("input", function() {
+    const nickName = this.value;
+    if (nickName.length < 2) {
+      document.querySelector("#nickNameCheckMsg").textContent = "2글자 이상 적어주세요";
+      return;
+    }
+
+    fetch(`/member/checkUserNickname?nickName=${encodeURIComponent(nickName)}`)
+            .then(res => res.json())
+            .then(exists => {
+              if (exists) {
+                document.querySelector("#nickNameCheckMsg").textContent = "이미 사용중인 닉네임입니다.";
+              } else {
+                document.querySelector("#nickNameCheckMsg").textContent = "";
+              }
+            })
+            .catch(error => {
+              console.error(error);
+              document.querySelector("#nickNameCheckMsg").textContent = "확인 중 오류 발생";
+            });
+  });
+
+  document.querySelector("#userEmail").addEventListener("input", function() {
+
+    const userEmail = this.value;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(userEmail)) {
+      document.querySelector("#userEmailCheckMsg").textContent = "올바른 이메일 형식으로 작성해주세요";
+      return;
+    }
+
+    fetch(`/member/checkUserEmail?userEmail=${encodeURIComponent(userEmail)}`)
+            .then(res => res.json())
+            .then(exists => {
+              if (exists) {
+                document.querySelector("#userEmailCheckMsg").textContent = "이미 사용중인 이메일입니다.";
+              } else {
+                document.querySelector("#userEmailCheckMsg").textContent = "";
+              }
+            })
+            .catch(error => {
+              console.error(error);
+              document.querySelector("#userEmailCheckMsg").textContent = "확인 중 오류 발생";
+            });
+  });
+</script>
