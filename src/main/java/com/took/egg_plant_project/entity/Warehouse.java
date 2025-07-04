@@ -16,12 +16,12 @@ public class Warehouse {
     @Column(name = "warehouseID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
+
     @Column(length = 10)
     private String sector;
 
     private Integer area;
     private Integer pricePerDay;
 
-    @Column(length = 20)
-    private String status;
+
 }

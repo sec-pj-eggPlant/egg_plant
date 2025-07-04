@@ -1,0 +1,82 @@
+<script>
+    let selectedBoxes = new Set();
+    let pricePerBox = 100000;  // 기본값 (A 탭 기준)
+    let areaPerBox = 10;  // 기본값 (A 탭 기준)
+
+    function loadTab(type) {
+
+        const buttons = document.querySelectorAll('.sector ul li button');
+        buttons.forEach(button => {
+            button.parentElement.classList.remove('on'); // 기존의 'on' 클래스 제거
+        });
+        // 선택된 버튼에만 'on' 클래스 추가
+        const selectedButton = document.querySelector(`button[onclick="loadTab('${type}')"]`);
+        selectedButton.parentElement.classList.add('on');
+
+        fetch(`/warehouse/get-sector-pricing?sector=${type}`)
+            .then(res => res.json())  // JSON 형식으로 응답 받기
+            .then(data => {
+
+                const tabContent = document.getElementById('tab-content');
+                tabContent.innerHTML = '';  // 기존 콘텐츠 초기화
+
+                // 기존 그리드 클래스들 제거
+                tabContent.classList.remove('a-grid', 'b-grid', 'c-grid');
+
+                // 가격과 면적 값을 받아와서 입력 필드에 설정
+                pricePerBox = data.pricePerDay;
+                areaPerBox = data.area;
+
+                // 가격과 면적 값을 UI에 업데이트
+                document.getElementById('sector-price').value = pricePerBox.toLocaleString();  // 개별 가격
+                document.getElementById('sector-area').value = areaPerBox + ' m²';  // 기본 면적
+
+                updateTotals();  // 총 가격과 면적 업데이트
+
+                // 동적으로 그리드 클래스를 적용
+                let boxClass = '';
+                if (type === 'A') {
+                    tabContent.classList.add('a-grid');
+                    boxClass = 'a-box';  // A탭에 대해 a-box 클래스를 적용
+                } else if (type === 'B') {
+                    tabContent.classList.add('b-grid');
+                    boxClass = 'b-box';  // B탭에 대해 b-box 클래스를 적용
+                } else if (type === 'C') {
+                    tabContent.classList.add('c-grid');
+                    boxClass = 'c-box';  // C탭에 대해 c-box 클래스를 적용
+                }
+
+                // 받은 데이터로 박스 생성 (checkbox와 label로 변환)
+                let exampleData = [
+                    { id: 1, sector: 'A', status: 'AVAILABLE' },
+                    { id: 2, sector: 'A', status: 'RENTED' },
+                    { id: 3, sector: 'A', status: 'AVAILABLE' },
+                    // 추가 데이터...
+                ];
+
+                exampleData.forEach(box => {
+                    const labelElement = document.createElement('label');
+                    labelElement.classList.add('custom-check');
+
+                    // input 요소 생성
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.name = '';
+                    checkbox.id = box.id; // 박스 ID를 사용하여 id 설정
+                    checkbox.dataset.warehouseUseId = box.id; // ID 설정
+
+                    // checkbox 클릭 이벤트 (박스 선택)
+                    labelElement.onclick = () => toggleBox(labelElement);
+
+                    // tabContent에 추가
+                    tabContent.appendChild(labelElement);
+                });
+            })
+            .catch(err => console.error("탭 로딩 실패:", err));
+    }
+
+
+
+    document.addEventListener('DOMContentLoaded', () => loadTab('A')); // 페이지 로드 시 기본 탭 A 로드
+
+</script>

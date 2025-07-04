@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+            crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/global.css"/>
+    <link rel="stylesheet" href="../css/list.css"/>
+    <link rel="stylesheet" href="../css/warehouse.css"/>
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+            crossorigin="anonymous"
+    ></script>
+</head>
+<body>
+<header id="header">
+    <div class="container">
+        <h1>
+            <a href=""><img src="../images/logo.svg" alt=""/></a>
+        </h1>
+        <div class="search-box">
+            <form action="">
+                <input type="text" class="form-control" placeholder="search"/>
+                <button class="btn" type="button">search</button>
+            </form>
+        </div>
+        <a href="" id="profile">
+            <span>김의진</span>
+            <span class="img">
+            <img src="../images/profile.jpg" alt=""/>
+          </span>
+        </a>
+    </div>
+</header>
+<div class="container min-vh-100 list-wrap warehouse">
+    <div class="sector tab-menu">
+        <ul>
+            <li>
+                <button onclick="loadTab('A')">A</button>
+            </li>
+            <li>
+                <button onclick="loadTab('B')">B</button>
+            </li>
+            <li>
+                <button onclick="loadTab('C')">C</button>
+            </li>
+        </ul>
+    </div>
+    <div class="main-content row list-box">
+        <div class="info-panel col-4 px-5">
+            <div class="mb-4">
+                <label for="sector-price" class="form-label fw-bold">개별 가격</label>
+                <input type="text" class="form-control" id="sector-price" placeholder="price" readonly/>
+            </div>
+
+            <div class="mb-4">
+                <label for="total-price" class="form-label fw-bold">총 가격</label>
+                <input type="text" class="form-control" id="total-price" placeholder="price" readonly/>
+            </div>
+
+            <div class="mb-4">
+                <label for="sector-area" class="form-label fw-bold">기본 면적</label>
+                <input type="text" class="form-control" id="sector-area" placeholder="area" readonly/>
+            </div>
+
+            <div class="mb-4">
+                <label for="total-price" class="form-label fw-bold">개별 가격</label>
+                <input type="text" class="form-control" id="total-area" placeholder="area" readonly/>
+            </div>
+
+            <div class="mb-4">
+                <!--                        <div>기간: <input type="text" id="period"> 일</div>-->
+                <label for="" class="form-label fw-bold">기간</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="date" id="startDate" class="form-control" placeholder="YYYY-MM-DD"/>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="date" id="endDate" class="form-control" placeholder="YYYY-MM-DD"/>
+                    </div>
+                </div>
+                <input type="text" class="form-control mt-2" id="period" placeholder="area"/>
+            </div>
+            <div class="mb-4">
+                <button class="apply-button btn btn-primary w-100 btn-lg" onclick="apply()">신청</button>
+            </div>
+        </div>
+        <div class="other-products col-8">
+            <!--                        &lt;!&ndash; JS로 박스가 생성됩니다 &ndash;&gt;-->
+            <div class="items custom-check-wrap" id="tab-content">
+                <!--                <label class="custom-check">-->
+                <!--                    <input type="checkbox" name="" id=""/>-->
+                <!--                    <span>A1</span>-->
+                <!--                </label>-->
+
+                <!--                <label class="custom-check">-->
+                <!--                    <input type="checkbox" name="" id=""/>-->
+                <!--                    <span>A2</span>-->
+                <!--                </label>-->
+
+                <!--                <label class="custom-check">-->
+                <!--                    <input type="checkbox" name="" id=""/>-->
+                <!--                    <span>A3</span>-->
+                <!--                </label>-->
+
+                <!--                <label class="custom-check">-->
+                <!--                    <input type="checkbox" name="" id=""/>-->
+                <!--                    <span>A4</span>-->
+                <!--                </label>-->
+
+                <!--                <label class="custom-check">-->
+                <!--                    <input type="checkbox" name="" id=""/>-->
+                <!--                    <span>A5</span>-->
+                <!--                </label>-->
+
+                <!--                <label class="custom-check">-->
+                <!--                    <input type="checkbox" name="" id=""/>-->
+                <!--                    <span>A6</span>-->
+                <!--                </label>-->
+
+                <!--                <label class="custom-check">-->
+                <!--                    <input type="checkbox" name="" id=""/>-->
+                <!--                    <span>A7</span>-->
+                <!--                </label>-->
+
+                <!--                <label class="custom-check">-->
+                <!--                    <input type="checkbox" name="" id=""/>-->
+                <!--                    <span>A8</span>-->
+                <!--                </label>-->
+
+                <!--                <label class="custom-check">-->
+                <!--                    <input type="checkbox" name="" id=""/>-->
+                <!--                    <span>A9</span>-->
+                <!--                </label>-->
+
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    <div class="container">
+        <div class="row pt-5">
+            <div class="col-7">
+                <ul class="d-flex gap-3">
+                    <li><a href="">이용약관</a></li>
+                    <li><a href="">개인정보처리방침</a></li>
+                    <li><a href="">위치기반서비스</a></li>
+                    <li><a href="">이용약관</a></li>
+                    <li><a href="">이메일 무단수집거부</a></li>
+                    <li><a href="">법적고지</a></li>
+                    <li><a href="">사업자정보</a></li>
+                </ul>
+            </div>
+            <div class="col-5">
+                <p>
+                    대표이사 : 이몽룡 | 개인정보보호책임자 : 임춘향 | 사업자등록번호 :
+                    8282-82-828282
+                </p>
+                <p>
+                    통신판매업종신고 : 제 2025-서울강남구-8282 | 대표이메일 :
+                    gagi@gagi.store
+                </p>
+                <p>
+                    copyright ⓒ 2021. 가지 : 가장가까운지역창고 Co., Ltd. All rights
+                    reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+<!--<script>-->
+<!--    const rangeInput = document.querySelector("#range-input");-->
+<!--    const rangeOutput = document.querySelector("#range-value");-->
+
+<!--    rangeOutput.textContent = rangeInput.value;-->
+
+<!--    rangeInput.addEventListener("input", function () {-->
+<!--        rangeOutput.textContent = this.value;-->
+<!--    });-->
+<!--</script>-->
+<script>
+
+    // sector별 가격/면적 캐시
+    const sectorInfo = {};
+    const selectedBoxes = new Set();
+
+    function toggleBox(el) {
+        const id = el.dataset.warehouseUseId;
+        const sector = el.dataset.sector;
+        if (!id || !sector) return;
+        if (el.classList.contains('disabled')) return;
+
+        const key = `${sector}_${id}`;
+        if (selectedBoxes.has(key)) {
+            selectedBoxes.delete(key);
+            el.classList.remove('selected');
+        } else {
+            selectedBoxes.add(key);
+            el.classList.add('selected');
+        }
+
+        updateTotals();
+    }
+
+    function updateTotals() {
+        let totalPrice = 0;
+        let totalArea = 0;
+        selectedBoxes.forEach(key => {
+            const [sector] = key.split('_');
+            const info = sectorInfo[sector];
+            if (info) {
+                totalPrice += info.pricePerDay;
+                totalArea += info.area;
+            }
+        });
+
+        document.getElementById('total-price').value = totalPrice.toLocaleString();
+        document.getElementById('total-area').value = totalArea + ' m²';
+    }
+
+    function apply() {
+        if (selectedBoxes.size === 0) {
+            alert("박스를 선택해주세요!");
+            return;
+        }
+
+        const boxIds = Array.from(selectedBoxes).map(k => k.split('_')[1]);
+
+        const data = {
+            boxes: boxIds,
+            period: document.getElementById('period').value
+        };
+
+        fetch('/warehouse/apply-boxes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => {
+                if (res.ok) {
+                    alert("신청 완료!");
+                    res.json().then(updatedBoxes => {
+                        updatedBoxes.forEach(box => {
+                            const el = document.querySelector(`[data-warehouse-use-id='${box.id}']`);
+                            if (el && box.status === 'RENTED') {
+                                el.classList.add('disabled');
+                            }
+                        });
+                    });
+                    selectedBoxes.clear();
+                    document.querySelectorAll('.box').forEach(b => b.classList.remove('selected'));
+                    updateTotals();
+                } else {
+                    alert("신청 실패!");
+                }
+            })
+            .catch(err => {
+                console.error("신청 오류:", err);
+                alert("오류 발생!");
+            });
+    }
+
+    function loadTab(type) {
+        const buttons = document.querySelectorAll('.sector ul li button');
+        buttons.forEach(button => button.parentElement.classList.remove('on'));
+        const selectedButton = document.querySelector(`button[onclick="loadTab('${type}')"]`);
+        selectedButton.parentElement.classList.add('on');
+
+        fetch(`/warehouse/get-sector-pricing?sector=${type}`)
+            .then(res => res.json())
+            .then(pricing => {
+                // console.log("받은 pricing:", pricing);
+                if (!pricing || pricing.pricePerDay == null) {
+                    throw new Error("pricePerDay 값이 비어 있음");
+                }
+                sectorInfo[type] = {
+                    pricePerDay: pricing.pricePerDay,
+                    area: pricing.area
+                };
+                document.getElementById('sector-price').value = pricing.pricePerDay.toLocaleString();
+                document.getElementById('sector-area').value = pricing.area + ' m²';
+                updateTotals();
+            })
+
+
+        fetch(`/warehouse/tab-content-json?type=${type}`)
+            .then(res => res.json())
+            .then(data => {
+                const tabContent = document.getElementById('tab-content');
+                tabContent.innerHTML = '';
+                tabContent.classList.remove('a-grid', 'b-grid', 'c-grid');
+
+                let boxClass = '';
+                if (type === 'A') {
+                    tabContent.classList.add('a-grid');
+                    boxClass = 'a-box';
+                } else if (type === 'B') {
+                    tabContent.classList.add('b-grid');
+                    boxClass = 'b-box';
+                } else if (type === 'C') {
+                    tabContent.classList.add('c-grid');
+                    boxClass = 'c-box';
+                }
+
+                data.forEach(box => {
+                    const boxElement = document.createElement('div');
+                    boxElement.classList.add('box', boxClass);
+                    boxElement.textContent = `${box.sector}${box.id}`;
+                    boxElement.dataset.warehouseUseId = box.id;
+                    boxElement.dataset.sector = box.sector;
+
+                    if (box.status === 'RENTED') {
+                        boxElement.classList.add('disabled');
+                    }
+
+                    // ✅ 선택된 박스면 selected 클래스 추가
+                    const key = `${box.sector}_${box.id}`;
+                    if (selectedBoxes.has(key)) {
+                        boxElement.classList.add('selected');
+                    }
+
+                    boxElement.onclick = () => toggleBox(boxElement);
+                    tabContent.appendChild(boxElement);
+                });
+            })
+            .catch(err => console.error("탭 로딩 실패:", err));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => loadTab('A'));
+
+
+</script>
+</html>
