@@ -31,13 +31,11 @@
     <div class="row login-box w-100">
         <div class="col-6 d-flex justify-content-center align-items-center px-5">
             <h1>
-                <!-- 로고 경로 주의 -->
                 <img src="/images/logo.svg" alt="로고" class="w-100" />
             </h1>
         </div>
         <div class="col-6 px-5">
             <h2 class="mb-5">로그인</h2>
-            <!-- form 시작 -->
             <form action="/member/login" method="post">
                 <div class="mb-3">
                     <label for="user-id" class="form-label fw-bold">아이디</label>
@@ -75,10 +73,6 @@
         </div>
     </div>
 </div>
-<script th:if="${signupSuccess != null}">
-    alert([[${signupSuccess}]]);
-</script>
-</body>
 <footer class="mt-5">
     <div class="container">
         <div class="row pt-5">
@@ -106,4 +100,11 @@
         </div>
     </div>
 </footer>
+</body>
+<script th:inline="javascript">
+    const signupSuccess = [[${signupSuccess != null ? "'" + signupSuccess + "'" : "null"}]];
+    if (signupSuccess && signupSuccess !== "null") {
+        alert(signupSuccess);
+    }
+</script>
 </html>

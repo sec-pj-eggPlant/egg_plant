@@ -1,64 +1,64 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
-          crossorigin="anonymous"
-  />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet"
-  />
-  <link rel="stylesheet" href="/css/global.css" />
-  <link rel="stylesheet" href="/css/list.css" />
-  <style>
-    :root {
-      --bs-primary: #5f328e; /* 예: 보라색으로 변경 */
-    }
-  </style>
-  <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-          crossorigin="anonymous"
-  ></script>
-</head>
-<body>
-<header id="header">
-  <div class="container">
-    <h1>
-      <a href=""><img src="../images/logo.svg" alt="" /></a>
-    </h1>
-    <nav>
-      <ul>
-        <li><a href="">자사창고</a></li>
-        <li><a href="">빌려드림</a></li>
-      </ul>
-    </nav>
-    <div class="search-box">
-      <form action="">
-        <input type="text" class="form-control" placeholder="search" />
-        <button class="btn" type="button">search</button>
-      </form>
-    </div>
-    <a href="" id="profile">
-      <span>김의진</span>
-      <span class="img">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/list.css" />
+    <style>
+      :root {
+        --bs-primary: #5f328e; /* 예: 보라색으로 변경 */
+      }
+    </style>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header id="header">
+      <div class="container">
+        <h1>
+          <a href=""><img src="../images/logo.svg" alt="" /></a>
+        </h1>
+        <nav>
+          <ul>
+            <li><a href="">자사창고</a></li>
+            <li><a href="">빌려드림</a></li>
+          </ul>
+        </nav>
+        <div class="search-box">
+          <form action="">
+            <input type="text" class="form-control" placeholder="search" />
+            <button class="btn" type="button">search</button>
+          </form>
+        </div>
+        <a href="" id="profile">
+          <span>김의진</span>
+          <span class="img">
             <img src="../images/profile.jpg" alt="" />
           </span>
-    </a>
-  </div>
-</header>
-<div class="container min-vh-100 list-wrap">
-  <div class="row list-box">
-    <div class="col-4 px-5">
-      <div class="mb-4">
+        </a>
+      </div>
+    </header>
+    <div class="container min-vh-100 list-wrap">
+      <div class="row list-box">
+        <div class="col-4 px-5">
+          <div class="mb-4">
             <label for="" class="form-label fw-bold">가격</label>
             <input type="text" class="form-control" id="" placeholder="price" />
           </div>
@@ -107,14 +107,15 @@
           <div class="mb-4">
             <label for="" class="form-label fw-bold">거래상태</label>
             <select class="form-select" aria-label="Default select example">
-              <option selected>거래 상태를 선택해 주세요</option>
-              <option value="1">거래 가능</option>
-              <option value="2">거래 중</option>
+              <option selected>Open this select menu</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
             </select>
           </div>
           <div class="mb-4">
             <label for="" class="form-label fw-bold">검색</label>
-            <input type="text" class="form-control" id="" placeholder="search" />
+            <input type="text" class="form-control" id="" placeholder="price" />
           </div>
           <div class="mb-4">
             <button class="btn btn-primary w-100 btn-lg">검색</button>
@@ -125,12 +126,13 @@
             <li class="d-flex">
               <div class="col-md-4">
                 <img
-                  src="/images/dummy.jpg"
+                  src="../images/dummy.jpg"
                   class="img-fluid thumbnail"
                   alt="..."
                 />
               </div>
 
+              <!-- 텍스트 영역 -->
               <div class="col-md-8 p-3">
                 <div class="card-body">
                   <h4 class="card-title mb-3">창고 이름이 들어갑니다.</h4>
@@ -162,12 +164,13 @@
             <li class="d-flex">
               <div class="col-md-4">
                 <img
-                  src="/images/dummy.jpg"
+                  src="../images/dummy.jpg"
                   class="img-fluid thumbnail"
                   alt="..."
                 />
               </div>
 
+              <!-- 텍스트 영역 -->
               <div class="col-md-8 p-3">
                 <div class="card-body">
                   <h4 class="card-title mb-3">창고 이름이 들어갑니다.</h4>
@@ -199,12 +202,13 @@
             <li class="d-flex">
               <div class="col-md-4">
                 <img
-                  src="/images/dummy.jpg"
+                  src="../images/dummy.jpg"
                   class="img-fluid thumbnail"
                   alt="..."
                 />
               </div>
 
+              <!-- 텍스트 영역 -->
               <div class="col-md-8 p-3">
                 <div class="card-body">
                   <h4 class="card-title mb-3">창고 이름이 들어갑니다.</h4>
@@ -236,12 +240,13 @@
             <li class="d-flex">
               <div class="col-md-4">
                 <img
-                  src="/images/dummy.jpg"
+                  src="../images/dummy.jpg"
                   class="img-fluid thumbnail"
                   alt="..."
                 />
               </div>
 
+              <!-- 텍스트 영역 -->
               <div class="col-md-8 p-3">
                 <div class="card-body">
                   <h4 class="card-title mb-3">창고 이름이 들어갑니다.</h4>
@@ -273,12 +278,13 @@
             <li class="d-flex">
               <div class="col-md-4">
                 <img
-                  src="/images/dummy.jpg"
+                  src="../images/dummy.jpg"
                   class="img-fluid thumbnail"
                   alt="..."
                 />
               </div>
 
+              <!-- 텍스트 영역 -->
               <div class="col-md-8 p-3">
                 <div class="card-body">
                   <h4 class="card-title mb-3">창고 이름이 들어갑니다.</h4>
@@ -343,10 +349,16 @@
       </div>
     </footer>
   </body>
-<script th:inline="javascript">
-  const loginSuccess = [[${session.loginSuccess != null ? "'" + session.loginSuccess + "'" : "null"}]];
-  if (loginSuccess && loginSuccess !== "null") {
-    alert(loginSuccess);
-  }
-</script>
+  <script>
+    // This is an example script, please modify as needed
+    const rangeInput = document.querySelector("#range-input");
+    const rangeOutput = document.querySelector("#range-value");
+
+    // Set initial value
+    rangeOutput.textContent = rangeInput.value;
+
+    rangeInput.addEventListener("input", function () {
+      rangeOutput.textContent = this.value;
+    });
+  </script>
 </html>

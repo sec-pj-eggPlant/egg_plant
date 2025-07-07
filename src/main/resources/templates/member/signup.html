@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html >
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -91,16 +91,17 @@
               placeholder="PW"
             />
           </div>
-          <div class="mb-3">
-            <label for="userPWCheck" class="form-label fw-bold">비밀번호 확인</label>
-            <input
-              type="password"
-              class="form-control"
-              id="userPWCheck"
-              name="userPWCheck" required
-              placeholder="CheckPW"
-            />
-          </div>
+            <div class="mb-3">
+              <label for="userPWCheck" class="form-label fw-bold">비밀번호 확인</label>
+              <input
+                      type="password"
+                      class="form-control"
+                      id="userPWCheck"
+                      name="userPWCheck" required
+                      placeholder="CheckPW"
+              />
+              <div id="pwCheckMsg" class="text-danger mt-1"></div>
+            </div>
             <div class="mb-3">
               <label for="userEmail" class="form-label fw-bold">이메일</label>
               <input
@@ -121,7 +122,7 @@
               </select>
             </div>
             <div class="mb-3">
-              <button type="submit" class="w-100 btn btn-primary">회원가입</button>
+              <button type="submit" class="w-100 btn btn-primary" id="signupBtn">회원가입</button>
             </div>
           </form>
         </div>
@@ -228,4 +229,32 @@
               document.querySelector("#userEmailCheckMsg").textContent = "확인 중 오류 발생";
             });
   });
+  const pw = document.querySelector("#userPW");
+  const pwCheck = document.querySelector("#userPWCheck");
+  const signupBtn = document.querySelector("#signupBtn");
+
+  const pwCheckMsg = document.createElement("div");
+  pwCheckMsg.classList.add("mt-1");
+  pwCheck.insertAdjacentElement("afterend", pwCheckMsg);
+
+  signupBtn.disabled = true;
+
+  function validatePassword() {
+    if (pw.value.length === 0 || pwCheck.value.length === 0) {
+      pwCheckMsg.textContent = "";
+      signupBtn.disabled = true;
+      return;
+    }
+    if (pw.value !== pwCheck.value) {
+      pwCheckMsg.textContent = "비밀번호가 일치하지 않습니다.";
+      pwCheckMsg.style.color = "red";
+      signupBtn.disabled = true;
+    } else {
+      pwCheckMsg.textContent = "비밀번호가 일치합니다.";
+      pwCheckMsg.style.color = "green";
+      signupBtn.disabled = false;
+    }
+  }
+  pw.addEventListener("input", validatePassword);
+  pwCheck.addEventListener("input", validatePassword);
 </script>
