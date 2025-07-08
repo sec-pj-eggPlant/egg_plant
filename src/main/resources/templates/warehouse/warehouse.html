@@ -51,14 +51,15 @@
     <div class="sector tab-menu">
         <ul>
             <li>
-                <button onclick="loadTab('A')">A</button>
+                <button onclick="handleTabClick('A')">A</button>
             </li>
             <li>
-                <button onclick="loadTab('B')">B</button>
+                <button onclick="handleTabClick('B')">B</button>
             </li>
             <li>
-                <button onclick="loadTab('C')">C</button>
+                <button onclick="handleTabClick('C')">C</button>
             </li>
+
         </ul>
     </div>
     <div class="main-content row list-box">
@@ -79,7 +80,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="total-price" class="form-label fw-bold">개별 가격</label>
+                <label for="total-price" class="form-label fw-bold">총 면적</label>
                 <input type="text" class="form-control" id="total-area" placeholder="area" readonly/>
             </div>
 
@@ -94,11 +95,22 @@
                         <input type="date" id="endDate" class="form-control" placeholder="YYYY-MM-DD"/>
                     </div>
                 </div>
-                <input type="text" class="form-control mt-2" id="period" placeholder="area"/>
+            </div>
+            <div class="mb-2">
+                <button class="btn btn-secondary w-100" id="search-button">조회</button>
             </div>
             <div class="mb-4">
-                <button class="apply-button btn btn-primary w-100 btn-lg" onclick="apply()">신청</button>
+                <button class="btn btn-outline-secondary w-100" id="reset-button">초기화</button>
             </div>
+
+
+            <div class="mb-4">
+                <button class="apply-button btn btn-primary w-100 btn-lg" id="apply-button" onclick="apply()">신청</button>
+            </div>
+            <div id="info-message" style="color:#ca2; margin-bottom:10px;">
+                기간을 입력하시면 <b>자동으로 조회</b>되고 그 후 <b>신청 가능</b>합니다.
+            </div>
+
         </div>
         <div class="other-products col-8">
             <!--                        &lt;!&ndash; JS로 박스가 생성됩니다 &ndash;&gt;-->
@@ -183,22 +195,23 @@
         </div>
     </div>
 </footer>
-</body>
-<!--<script>-->
-<!--    const rangeInput = document.querySelector("#range-input");-->
-<!--    const rangeOutput = document.querySelector("#range-value");-->
-
-<!--    rangeOutput.textContent = rangeInput.value;-->
-
-<!--    rangeInput.addEventListener("input", function () {-->
-<!--        rangeOutput.textContent = this.value;-->
-<!--    });-->
-<!--</script>-->
 <script>
-
-    // sector별 가격/면적 캐시
     const sectorInfo = {};
     const selectedBoxes = new Set();
+
+    function getActiveSector() {
+        const active = document.querySelector('.sector ul li.on button');
+        return active ? active.textContent.trim() : 'A';
+    }
+
+    function handleTabClick(type) {
+        document.querySelectorAll('.sector ul li').forEach(li => li.classList.remove('on'));
+        const button = document.querySelector(`.sector ul li button[onclick="handleTabClick('${type}')"]`);
+        if (button) {
+            button.parentElement.classList.add('on');
+        }
+        loadTab(type);
+    }
 
     function toggleBox(el) {
         const id = el.dataset.warehouseUseId;
@@ -234,80 +247,105 @@
         document.getElementById('total-area').value = totalArea + ' m²';
     }
 
+    function updateApplyButtonState() {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        const applyBtn = document.getElementById('apply-button');
+        if (applyBtn) {
+            applyBtn.disabled = !(startDate && endDate);
+        }
+    }
+
     function apply() {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+
+        if (!startDate || !endDate) {
+            alert("기간을 입력해주세요!");
+            return;
+        }
+        if (new Date(startDate) > new Date(endDate)) {
+            alert("시작일은 종료일보다 이전이어야 합니다.");
+            return;
+        }
+
         if (selectedBoxes.size === 0) {
             alert("박스를 선택해주세요!");
             return;
         }
 
         const boxIds = Array.from(selectedBoxes).map(k => k.split('_')[1]);
-
-        const data = {
-            boxes: boxIds,
-            period: document.getElementById('period').value
-        };
+        const data = {boxes: boxIds, startDate, endDate};
 
         fetch('/warehouse/apply-boxes', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
         })
             .then(res => {
-                if (res.ok) {
-                    alert("신청 완료!");
-                    res.json().then(updatedBoxes => {
-                        updatedBoxes.forEach(box => {
-                            const el = document.querySelector(`[data-warehouse-use-id='${box.id}']`);
-                            if (el && box.status === 'RENTED') {
-                                el.classList.add('disabled');
-                            }
-                        });
-                    });
-                    selectedBoxes.clear();
-                    document.querySelectorAll('.box').forEach(b => b.classList.remove('selected'));
-                    updateTotals();
-                } else {
-                    alert("신청 실패!");
-                }
+                if (!res.ok) throw new Error("신청 실패");
+                return res.json();
+            })
+            .then(updatedBoxes => {
+                alert("신청 완료!");
+                updatedBoxes.forEach(box => {
+                    const el = document.querySelector(`[data-warehouse-use-id='${box.id}']`);
+                    if (el && box.status === 'RENTED') el.classList.add('disabled');
+                });
+                selectedBoxes.clear();
+                document.querySelectorAll('.box.selected').forEach(b => b.classList.remove('selected'));
+                updateTotals();
+                document.getElementById('startDate').value = "";
+                document.getElementById('endDate').value = "";
+                loadTab(getActiveSector());
+                updateApplyButtonState();
             })
             .catch(err => {
-                console.error("신청 오류:", err);
-                alert("오류 발생!");
+                console.error(err);
+                alert(err.message || "오류 발생!");
             });
     }
 
-    function loadTab(type) {
-        const buttons = document.querySelectorAll('.sector ul li button');
-        buttons.forEach(button => button.parentElement.classList.remove('on'));
-        const selectedButton = document.querySelector(`button[onclick="loadTab('${type}')"]`);
-        selectedButton.parentElement.classList.add('on');
 
+    function loadTab(type) {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+
+        // 기존 DOM 초기화
+        const tabContent = document.getElementById('tab-content');
+        tabContent.innerHTML = '';
+        tabContent.classList.remove('a-grid', 'b-grid', 'c-grid');
+
+        // 가격 정보 갱신
         fetch(`/warehouse/get-sector-pricing?sector=${type}`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error("가격 정보 로딩 실패");
+                return res.json();
+            })
             .then(pricing => {
-                // console.log("받은 pricing:", pricing);
-                if (!pricing || pricing.pricePerDay == null) {
-                    throw new Error("pricePerDay 값이 비어 있음");
+                const price = pricing?.pricePerDay;
+                const area = pricing?.area;
+                if (price == null || area == null) {
+                    console.error("Invalid pricing data:", pricing);
+                    document.getElementById('sector-price').value = "";
+                    document.getElementById('sector-area').value = "";
+                    return;
                 }
-                sectorInfo[type] = {
-                    pricePerDay: pricing.pricePerDay,
-                    area: pricing.area
-                };
-                document.getElementById('sector-price').value = pricing.pricePerDay.toLocaleString();
-                document.getElementById('sector-area').value = pricing.area + ' m²';
+                sectorInfo[type] = {pricePerDay: price, area};
+                document.getElementById('sector-price').value = price.toLocaleString();
+                document.getElementById('sector-area').value = area + ' m²';
                 updateTotals();
             })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('sector-price').value = "";
+                document.getElementById('sector-area').value = "";
+            });
 
-
-        fetch(`/warehouse/tab-content-json?type=${type}`)
+        // 박스 상태 로드
+        fetch(`/warehouse/tab-content-json?type=${type}&startDate=${startDate}&endDate=${endDate}`)
             .then(res => res.json())
             .then(data => {
-                const tabContent = document.getElementById('tab-content');
-                tabContent.innerHTML = '';
-                tabContent.classList.remove('a-grid', 'b-grid', 'c-grid');
-
                 let boxClass = '';
                 if (type === 'A') {
                     tabContent.classList.add('a-grid');
@@ -321,9 +359,15 @@
                 }
 
                 data.forEach(box => {
+                    const key = `${box.sector}_${box.id}`;
+
+                    if (box.status === 'RENTED' && selectedBoxes.has(key)) {
+                        selectedBoxes.delete(key);
+                    }
+
                     const boxElement = document.createElement('div');
                     boxElement.classList.add('box', boxClass);
-                    boxElement.textContent = `${box.sector}${box.id}`;
+                    boxElement.textContent = box.boxNumber;
                     boxElement.dataset.warehouseUseId = box.id;
                     boxElement.dataset.sector = box.sector;
 
@@ -331,8 +375,6 @@
                         boxElement.classList.add('disabled');
                     }
 
-                    // ✅ 선택된 박스면 selected 클래스 추가
-                    const key = `${box.sector}_${box.id}`;
                     if (selectedBoxes.has(key)) {
                         boxElement.classList.add('selected');
                     }
@@ -340,12 +382,54 @@
                     boxElement.onclick = () => toggleBox(boxElement);
                     tabContent.appendChild(boxElement);
                 });
+
+                updateTotals();
             })
             .catch(err => console.error("탭 로딩 실패:", err));
     }
 
-    document.addEventListener('DOMContentLoaded', () => loadTab('A'));
+    function tryAutoSearch() {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        if (startDate && endDate) {
+            loadTab(getActiveSector());
+        }
+    }
 
+    // 날짜 입력 시마다 자동 조회
+    document.getElementById('startDate').addEventListener('input', tryAutoSearch);
+    document.getElementById('endDate').addEventListener('input', tryAutoSearch);
 
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchButton = document.getElementById('search-button');
+        if (searchButton) {
+            searchButton.addEventListener('click', () => {
+                loadTab(getActiveSector());
+            });
+        }
+
+        const resetButton = document.getElementById('reset-button');
+        if (resetButton) {
+            resetButton.addEventListener('click', () => {
+                document.getElementById('startDate').value = "";
+                document.getElementById('endDate').value = "";
+                selectedBoxes.clear();
+                loadTab(getActiveSector());
+                updateTotals();
+                updateApplyButtonState(); // 리셋할 때 버튼 비활성화
+            });
+        }
+
+        // 날짜 입력 시마다 신청 버튼 활성/비활성 갱신
+        document.getElementById('startDate').addEventListener('input', updateApplyButtonState);
+        document.getElementById('endDate').addEventListener('input', updateApplyButtonState);
+
+        // 페이지 최초 진입시 버튼 비활성화
+        updateApplyButtonState();
+
+        loadTab('A');
+    });
 </script>
+
+</body>
 </html>

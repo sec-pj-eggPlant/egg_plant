@@ -1,18 +1,15 @@
 package com.took.egg_plant_project.warehouse.dto;
 
-import com.took.egg_plant_project.entity.WarehouseUse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @AllArgsConstructor
-public class WarehouseUseDto {
+public class BoxDto {
 
     private Integer id;
-    private String status;
     private String sector;
-
+    private String boxNumber;
+    private String status;
+    // 생성자, getter/setter 생략
 }

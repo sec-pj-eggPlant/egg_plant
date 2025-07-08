@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @AllArgsConstructor
@@ -13,15 +16,18 @@ import lombok.NoArgsConstructor;
 public class Warehouse {
 
     @Id
-    @Column(name = "warehouseID")
+    @Column(name = "WAREHOUSEID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    @Column(length = 10)
+    @Column(length = 10, nullable = false)
     private String sector;
 
     private Integer area;
     private Integer pricePerDay;
 
-
+    // 필요시
+    @OneToMany(mappedBy = "warehouse")
+    private List<Box> boxes = new ArrayList<>();
 }
+

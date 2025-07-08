@@ -1,16 +1,16 @@
 package com.took.egg_plant_project.warehouse;
 
 import com.took.egg_plant_project.warehouse.WarehouseService;
-import com.took.egg_plant_project.warehouse.dto.ApplyRequest;
-import com.took.egg_plant_project.warehouse.dto.WarehouseDto;
-import com.took.egg_plant_project.warehouse.dto.WarehouseUseDto;
+import com.took.egg_plant_project.warehouse.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -20,11 +20,6 @@ import java.util.List;
 public class WarehouseController {
 
     private final WarehouseService warehouseService;
-
-//    @GetMapping("/warehouse")
-//    public String warehouse(Model model) {
-//        return "warehouse/warehouse";
-//    }
 
     @GetMapping("/warehouse")
     public String warehouseMain() {
@@ -44,22 +39,25 @@ public class WarehouseController {
 
     @GetMapping("/tab-content-json")
     @ResponseBody
-    public List<WarehouseUseDto> getTabContentJson(@RequestParam String type) {
-        return warehouseService.getBoxesBySector(type);
+    public List<BoxDto> getTabContentJson(
+            @RequestParam String type,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    ) {
+        return warehouseService.getBoxesBySectorWithPeriod(type, startDate, endDate);
     }
 
-    // 신청 메서드
     @PostMapping("/apply-boxes")
     @ResponseBody
-    public ResponseEntity<List<WarehouseUseDto>> applyBoxes(@RequestBody ApplyRequest req) {
-        List<WarehouseUseDto> updatedBoxes = warehouseService.applyForBoxes(req);  // 서비스에서 처리 후 반환된 상태
-        return ResponseEntity.ok(updatedBoxes);
+    public List<BoxDto> applyBoxes(@RequestBody ApplyRequest req) {
+        return warehouseService.applyForBoxes(req);
     }
+
 
     @GetMapping("/get-sector-pricing")
     @ResponseBody
-    public WarehouseDto getSectorPricing(@RequestParam String sector) {
-        // DB에서 sector에 맞는 가격과 면적을 가져옴
-        return warehouseService.getPricingBySector(sector);
+    public BoxPricingDto getSectorPricing(@RequestParam String sector) {
+        return warehouseService.getBoxPricingBySector(sector);
     }
+
 }

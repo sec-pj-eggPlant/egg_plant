@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class WarehouseDto {
+
     private Integer id;
     private String sector;
     private Integer area;

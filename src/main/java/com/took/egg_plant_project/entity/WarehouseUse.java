@@ -7,59 +7,51 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
 @Table(name = "warehouse_use")
+@SequenceGenerator(
+        name = "warehouse_use_seq_gen",
+        sequenceName = "WAREHOUSE_USE_SEQ",
+        allocationSize = 1
+)
 public class WarehouseUse {
 
     @Id
-    @Column(name = "warehouseUseID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "WAREHOUSEUSEID")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "warehouse_use_seq_gen"
+    )
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "warehouseId")
+    @JoinColumn(name = "BOX_ID", nullable = false)
+    private Box box;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "WAREHOUSEID", nullable = false)
     private Warehouse warehouse;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberID", referencedColumnName = "memberID")
+    @JoinColumn(name = "MEMBERID", nullable = false)
     private Member user;
 
+    @Column(nullable = false)
     private LocalDate startDate;
+
+    @Column(nullable = false)
     private LocalDate endDate;
 
-    @Column(length = 20)
-    private String status;
-
-    public static WarehouseUse create(Warehouse warehouse, Member user, LocalDate startDate, LocalDate endDate) {
+    public static WarehouseUse create(Box box, Member user, LocalDate startDate, LocalDate endDate) {
         WarehouseUse use = new WarehouseUse();
-        use.warehouse = warehouse;
+        use.box = box;
         use.user = user;
         use.startDate = startDate;
         use.endDate = endDate;
-        use.status = "RENTED";
+        // 반드시 아래 줄 필요!
+        use.warehouse = box.getWarehouse();
         return use;
     }
 
-    // 상태 변경 메서드
-    public WarehouseUse rent(Member user, LocalDate start, LocalDate end) {
-        if ("RENTED".equals(this.status)) {
-            throw new IllegalStateException("이미 대여 중입니다.");
-        }
-        this.user = user;
-        this.startDate = start;
-        this.endDate = end;
-        this.status = "RENTED";
-        return this;
-    }
-
-    public void rent(LocalDate startDate, LocalDate endDate) {
-        this.status = "RENTED";
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
 }
-
