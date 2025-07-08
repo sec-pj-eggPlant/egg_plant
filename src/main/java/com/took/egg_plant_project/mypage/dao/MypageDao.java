@@ -16,6 +16,10 @@ public class MypageDao {
         return mypageRepository.findByUserID(userID);
     }
 
+    public Optional<Member> findById(Integer id) {
+        return mypageRepository.findById(id);
+    }
+
     public Member save(Member member) {
         return mypageRepository.save(member);
     }

@@ -21,21 +21,20 @@ public class MypageService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
-    public MemberDto findByUserID(String userID){
+    public MemberDto findByUserID(String userID) {
         return mypageDao.findByUserID(userID)
                 .map(Member::toMemberDto)
                 .orElse(null);
     }
 
-    public void updateMember(MypageUpdateDto dto) throws Exception {
-        Member member = mypageDao.findByUserID(dto.getUserID())
+    public void updateInfo(MemberDto memberDto) {
+        Member member = mypageDao.findById(memberDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다."));
 
-        if (dto.getUserPW() != null & !dto.getUserPW().isEmpty()) {
-            if (!passwordEncoder.matches(dto.getUserPW(), member.getUserPW()))            {
-                throw new Exception("현재 비밀번호가 일치하지 않습니다.");
-            }
-            //member.setUserPW(passwordEncoder.encode(dto.getNewPW()));
-        }
+        member.updateInfo(
+                memberDto.getUserPW(),
+                memberDto.getUserEmail(),
+                memberDto.getTel()
+        );
     }
-    }
+}

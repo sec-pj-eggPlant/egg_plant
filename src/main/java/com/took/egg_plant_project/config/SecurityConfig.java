@@ -22,7 +22,6 @@ public class SecurityConfig {
                         (auth) -> auth.requestMatchers(
 //                                        "/",
 //                                        "/index/index",
-//                                        "/member/**",
 //                                        "/subscribe/**",
 //                                        "/product/**",
 //                                        "/flowers",
@@ -45,7 +44,7 @@ public class SecurityConfig {
                                 .loginPage("/main/login")
                                 .usernameParameter("userID")
                                 .passwordParameter("userPW")
-                                .loginProcessingUrl("/main/login")
+                                .loginProcessingUrl("/member/login")
                                 .successHandler(customLoginSuccessHandler)
                                 .failureUrl("/main/login?error") //redirect로 넘어간다.
                                 .permitAll()
@@ -61,5 +60,6 @@ public class SecurityConfig {
                 .csrf((csrf) -> csrf.disable());
         return httpSecurity.build();
     }
-}
 
+
+}
