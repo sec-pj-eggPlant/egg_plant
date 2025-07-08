@@ -24,7 +24,6 @@ public class MemberController {
     @PostMapping("/login")
     public String login(MemberDto memberDto, HttpSession session, RedirectAttributes redirectAttributes) {
         log.info("로그인 시도: {}", memberDto.getUserID());
-
         try {
             Member member = memberService.login(memberDto.getUserID(), memberDto.getUserPW());
             session.setAttribute("loginID", member.getUserID());

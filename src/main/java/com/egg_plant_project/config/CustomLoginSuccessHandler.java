@@ -1,5 +1,6 @@
 package com.egg_plant_project.config;
 
+import com.egg_plant_project.communal.CustomUserDetails;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,6 +26,12 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         if (roles.contains("ROLE_ADMIN")) {
             response.sendRedirect("/admin/home");
         } else {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+            String nickname = userDetails.getLoggedMember().getNickName();
+
+            request.getSession().setAttribute("loginSuccessMessage", nickname + "님 환영합니다!");
+
             response.sendRedirect("/main/list");
         }
     }

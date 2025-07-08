@@ -101,10 +101,21 @@
     </div>
 </footer>
 </body>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
+    <div id="signupToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="toastMessageSignup">회원가입이 완료되었습니다!</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 <script th:inline="javascript">
-    const signupSuccess = [[${signupSuccess != null ? "'" + signupSuccess + "'" : "null"}]];
-    if (signupSuccess && signupSuccess !== "null") {
-        alert(signupSuccess);
+    const signupSuccess = [[${signupSuccess}]];
+    if (signupSuccess) {
+        document.getElementById("toastMessageSignup").textContent = signupSuccess;
+        const toastEl = document.getElementById("signupToast");
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
     }
 </script>
 </html>

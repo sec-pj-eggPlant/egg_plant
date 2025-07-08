@@ -343,10 +343,22 @@
       </div>
     </footer>
   </body>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
+  <div id="loginToast" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" id="toastMessage">님 환영합니다!</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
 <script th:inline="javascript">
-  const loginSuccess = [[${session.loginSuccess != null ? "'" + session.loginSuccess + "'" : "null"}]];
-  if (loginSuccess && loginSuccess !== "null") {
-    alert(loginSuccess);
+  const loginSuccess = [[${loginSuccessMessage != null}]] ? '[[${loginSuccessMessage}]]' : null;
+  if (loginSuccess) {
+    document.getElementById("toastMessage").textContent = loginSuccess;
+    const toastEl = document.getElementById("loginToast");
+    const toast = new bootstrap.Toast(toastEl);
+    toast.show();
   }
 </script>
 </html>
