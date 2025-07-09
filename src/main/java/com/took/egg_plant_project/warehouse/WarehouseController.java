@@ -53,11 +53,9 @@ public class WarehouseController {
         return warehouseService.applyForBoxes(req);
     }
 
-
     @GetMapping("/get-sector-pricing")
     @ResponseBody
     public BoxPricingDto getSectorPricing(@RequestParam String sector) {
         return warehouseService.getBoxPricingBySector(sector);
     }
-
 }

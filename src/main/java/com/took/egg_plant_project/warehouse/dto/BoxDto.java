@@ -11,5 +11,4 @@ public class BoxDto {
     private String sector;
     private String boxNumber;
     private String status;
-    // 생성자, getter/setter 생략
 }

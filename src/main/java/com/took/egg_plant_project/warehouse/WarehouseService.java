@@ -75,7 +75,6 @@ public class WarehouseService {
         return new BoxPricingDto(warehouse.getPricePerDay(), warehouse.getArea());
     }
 
-    // 박스 대여 신청 (그대로, 단 box 필드 참조만 조심)
     @Transactional
     public List<BoxDto> applyForBoxes(ApplyRequest req) {
         Member member = memberRepository.findById(1)
@@ -105,7 +104,7 @@ public class WarehouseService {
             Warehouse w = box.getWarehouse();
             result.add(new BoxDto(
                     box.getId(),
-                    w.getSector(),   // sector
+                    w.getSector(),
                     box.getBoxNumber(),
                     "RENTED"
             ));
