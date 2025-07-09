@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>가지 : 회원가입</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/signup.css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+  <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="row signup-box">
+      <div class="col-6 d-flex justify-content-center align-items-center px-5">
+        <img src="/images/logo.svg" alt="logo" class="w-100" />
+      </div>
+      <div class="col-6 px-5">
+        <h2 class="mb-5">회원가입</h2>
+        <form action="/member/signup" method="post" id="signupForm">
+          <div class="mb-3">
+            <label class="form-label fw-bold">회원 유형</label>
+            <select name="role" class="form-select" id="role" required>
+              <option value="">유형 선택</option>
+              <option value="ROLE_OWNER">임차인</option>
+              <option value="ROLE_RENTER">임대인</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">아이디</label>
+            <input type="text" class="form-control" id="userID" name="userID" required />
+            <div id="userIDCheckMsg" class="text-danger mt-1"></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">비밀번호</label>
+            <input type="password" class="form-control" id="userPW" name="userPW" required />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">비밀번호 확인</label>
+            <input type="password" class="form-control" id="userPWCheck" name="userPWCheck" required />
+            <div id="pwCheckMsg" class="mt-1"></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">이메일</label>
+            <div class="d-flex gap-2">
+              <input type="text" class="form-control" id="email" required />
+              <span class="align-self-center">@</span>
+              <input type="text" class="form-control" id="emailDomain" required>
+              <select class="form-select" id="emailSelect" required>
+                <option value="">선택</option>
+                <option value="naver.com">naver.com</option>
+                <option value="nate.com">nate.com</option>
+                <option value="gmail.com">gmail.com</option>
+                <option value="hanmail.net">hanmail.net</option>
+                <option value="icould.com">icould.com</option>
+                <option value="custom">직접 입력</option>
+              </select>
+            </div>
+            <input type="hidden" name="userEmail" id="userEmail" />
+            <div id="userEmailCheckMsg" class="text-danger mt-1"></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">이름</label>
+            <input type="text" class="form-control" id="userName" name="userName" required />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">닉네임</label>
+            <input type="text" class="form-control" id="nickName" name="nickName" required />
+            <div id="nickNameCheckMsg" class="text-danger mt-1"></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">전화번호</label>
+            <div class="d-flex gap-2">
+              <select class="form-select w-25" id="tel1" required>
+                <option value="">선택</option>
+                <option value="010">010</option>
+                <option value="011">011</option>
+                <option value="016">016</option>
+                <option value="018">018</option>
+                <option value="019">019</option>
+              </select>
+              <span class="align-self-center">-</span>
+              <input type="text" class="form-control w-25" id="tel2" maxlength="4" required />
+              <span class="align-self-center">-</span>
+              <input type="text" class="form-control w-25" id="tel3" maxlength="4" required />
+            </div>
+            <input type="hidden" name="tel" id="tel" />
+            <div id="telCheckMsg" class="text-danger mt-1"></div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100" id="signupBtn" disabled>회원가입</button>
+        </form>
+      </div>
+    </div>
+  </div>
+    <footer>
+      <div class="container">
+        <div class="row pt-5">
+          <div class="col-7">
+            <ul class="d-flex gap-3">
+              <li><a href="">이용약관</a></li>
+              <li><a href="">개인정보처리방침</a></li>
+              <li><a href="">위치기반서비스</a></li>
+              <li><a href="">이용약관</a></li>
+              <li><a href="">이메일 무단수집거부</a></li>
+              <li><a href="">법적고지</a></li>
+              <li><a href="">사업자정보</a></li>
+            </ul>
+          </div>
+          <div class="col-5">
+            <p>
+              대표이사 : 이몽룡 | 개인정보보호책임자 : 임춘향 | 사업자등록번호 :
+              8282-82-828282
+            </p>
+            <p>
+              통신판매업종신고 : 제 2025-서울강남구-8282 | 대표이메일 :
+              gagi@gagi.store
+            </p>
+            <p>
+              copyright ⓒ 2021. 가지 : 가장가까운지역창고 Co., Ltd. All rights
+              reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+<script>
+  const signupBtn = document.querySelector("#signupBtn");
+  const pw = document.querySelector("#userPW");
+  const pwCheck = document.querySelector("#userPWCheck");
+  const pwCheckMsg = document.querySelector("#pwCheckMsg");
+
+  const email = document.querySelector("#email");
+  const emailDomain = document.querySelector("#emailDomain");
+  const emailSelect = document.querySelector("#emailSelect");
+  const userEmail = document.querySelector("#userEmail");
+
+  const tel1 = document.querySelector("#tel1");
+  const tel2 = document.querySelector("#tel2");
+  const tel3 = document.querySelector("#tel3");
+  const telHidden = document.querySelector("#tel");
+  const telCheckMsg = document.querySelector("#telCheckMsg");
+
+  const requiredFields = [
+    "#role", "#userID", "#userPW", "#userPWCheck", "#email",
+    "#emailDomain", "#userName", "#nickName", "#tel1", "#tel2", "#tel3"
+  ];
+
+  emailSelect.addEventListener("change", () => {
+    const selected = emailSelect.value;
+    if (selected === "custom") {
+      emailDomain.removeAttribute("readonly");
+      emailDomain.value = "";
+      emailDomain.focus();
+    } else {
+      emailDomain.setAttribute("readonly", true);
+      emailDomain.value = selected;
+    }
+    updateEmail();
+    checkFormValid();
+  });
+
+  function updateEmail() {
+    if (email.value && emailDomain.value) {
+      userEmail.value = `${email.value}@${emailDomain.value}`;
+      validateEmail();
+    } else {
+      userEmail.value = "";
+    }
+  }
+
+  function validateEmail() {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailMsg = document.querySelector("#userEmailCheckMsg");
+    if (!emailPattern.test(userEmail.value)) {
+      emailMsg.textContent = "올바른 이메일 형식으로 작성해주세요";
+    } else {
+      emailMsg.textContent = "";
+    }
+  }
+
+  [email, emailDomain].forEach(el => {
+    el.addEventListener("input", () => {
+      updateEmail();
+      checkFormValid();
+    });
+  });
+
+  function updateTel() {
+    if (tel1.value && tel2.value && tel3.value) {
+      telHidden.value = `${tel1.value}-${tel2.value}-${tel3.value}`;
+    } else {
+      telHidden.value = "";
+    }
+  }
+
+  function validateTel() {
+    const telPattern = /^\d{3,4}$/;
+    if (!tel1.value || !telPattern.test(tel2.value) || !telPattern.test(tel3.value)) {
+      telCheckMsg.textContent = "전화번호 형식을 올바르게 입력하세요";
+    } else {
+      telCheckMsg.textContent = "";
+    }
+  }
+
+  [tel1, tel2, tel3].forEach(el => {
+    el.addEventListener("input", () => {
+      updateTel();
+      validateTel();
+      checkFormValid();
+    });
+  });
+
+  function validatePassword() {
+    if (!pw.value || !pwCheck.value) {
+      pwCheckMsg.textContent = "";
+      return false;
+    }
+    if (pw.value !== pwCheck.value) {
+      pwCheckMsg.textContent = "비밀번호가 일치하지 않습니다.";
+      pwCheckMsg.classList.remove("text-success");
+      pwCheckMsg.classList.add("text-danger");
+      return false;
+    } else {
+      pwCheckMsg.textContent = "비밀번호가 일치합니다.";
+      pwCheckMsg.classList.remove("text-danger");
+      pwCheckMsg.classList.add("text-success");
+      return true;
+    }
+  }
+
+  pw.addEventListener("input", () => {
+    validatePassword();
+    checkFormValid();
+  });
+
+  pwCheck.addEventListener("input", () => {
+    validatePassword();
+    checkFormValid();
+  });
+
+  document.querySelector("#userID").addEventListener("input", function () {
+    const userID = this.value;
+    const msg = document.querySelector("#userIDCheckMsg");
+    if (userID.length < 3) {
+      msg.textContent = "3글자 이상 적어주세요";
+      return;
+    }
+    fetch(`/member/checkUserID?userID=${encodeURIComponent(userID)}`)
+            .then(res => res.json())
+            .then(exists => {
+              msg.textContent = exists ? "이미 사용중인 아이디입니다." : "";
+              checkFormValid();
+            });
+  });
+
+  document.querySelector("#nickName").addEventListener("input", function () {
+    const nickName = this.value;
+    const msg = document.querySelector("#nickNameCheckMsg");
+    if (nickName.length < 2) {
+      msg.textContent = "2글자 이상 적어주세요";
+      return;
+    }
+    fetch(`/member/checkUserNickname?nickName=${encodeURIComponent(nickName)}`)
+            .then(res => res.json())
+            .then(exists => {
+              msg.textContent = exists ? "이미 사용중인 닉네임입니다." : "";
+              checkFormValid();
+            });
+  });
+
+  function checkFormValid() {
+    const allFilled = requiredFields.every(sel => {
+      const el = document.querySelector(sel);
+      return el && el.value.trim() !== "";
+    });
+
+    const pwValid = validatePassword();
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail.value);
+    const telValid = tel1.value && /^\d{3,4}$/.test(tel2.value) && /^\d{3,4}$/.test(tel3.value);
+
+    const noErrors =
+            !document.querySelector("#userIDCheckMsg").textContent &&
+            !document.querySelector("#nickNameCheckMsg").textContent &&
+            !document.querySelector("#userEmailCheckMsg").textContent &&
+            !document.querySelector("#telCheckMsg").textContent;
+
+    signupBtn.disabled = !(allFilled && pwValid && emailValid && telValid && noErrors);
+  }
+
+  requiredFields.forEach(sel => {
+    const el = document.querySelector(sel);
+    if (el) {
+      el.addEventListener("input", checkFormValid);
+      el.addEventListener("change", checkFormValid);
+    }
+  });
+</script>

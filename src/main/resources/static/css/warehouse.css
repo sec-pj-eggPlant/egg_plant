@@ -34,27 +34,24 @@ body {
     margin-left: 150px;
     display: grid;
     gap: 10px;
-    /*grid-template-columns: repeat(3, 220px); !* 기본 3개의 열 *!*/
-    /*grid-auto-rows: minmax(220px, auto); !* 행의 높이를 최소 220px로 설정, 자동으로 크기 조정 *!*/
-    justify-items: center; /* 가로로 가운데 정렬 */
-    align-items: center; /* 세로로 가운데 정렬 */
+    justify-items: center;
+    align-items: center;
 }
 
 .a-grid {
-    grid-template-columns: repeat(3, 220px); /* A탭: 3열 */
-    grid-auto-rows: minmax(220px, auto); /* A탭: 행의 높이를 자동으로 설정 */
+    grid-template-columns: repeat(3, 220px);
+    grid-auto-rows: minmax(220px, auto);
 }
 
 .b-grid {
-    grid-template-columns: repeat(2, 330px); /* B탭: 2열 */
-    grid-auto-rows: minmax(330px, auto); /* B탭: 행의 높이를 자동으로 설정 */
+    grid-template-columns: repeat(2, 330px);
+    grid-auto-rows: minmax(330px, auto);
     gap: 20px;
 }
 
 .c-grid {
-    grid-template-columns: repeat(2, 330px); /* C탭: 1열 */
-    grid-auto-rows: minmax(660px, auto); /* C탭: 행의 높이를 자동으로 설정 */
-    /*gap: 50px;*/
+    grid-template-columns: repeat(2, 330px);
+    grid-auto-rows: minmax(660px, auto);
 }
 
 .box {
@@ -104,6 +101,7 @@ body {
     padding-left: 0;
 }
 
+/* 버튼 형태 */
 .sector ul li.on button {
     background-color: #5f328e;
     color: #fff;
@@ -124,6 +122,26 @@ body {
     cursor: pointer;
 }
 
+/* 링크(a 태그) 형태도 추가 */
+.sector ul li.on a {
+    background-color: #5f328e;
+    color: #fff;
+}
+
+.sector ul li a {
+    display: flex;
+    min-width: 150px;
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 20px;
+    background-color: #eee;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* 공통 체크박스 */
 .custom-check-wrap {
     display: flex;
     flex-wrap: wrap;
@@ -190,4 +208,10 @@ body {
     border-width: 0 4px 4px 0;
     transform: rotate(45deg);
 }
-#search-button { background: #007bff; color:white; font-weight:bold; }
+
+/* 추가 버튼 */
+#search-button {
+    background: #007bff;
+    color: white;
+    font-weight: bold;
+}
