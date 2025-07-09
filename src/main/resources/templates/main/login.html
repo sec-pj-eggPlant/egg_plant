@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head></head>
+<body>
+<div id="section">
+    <h1>로그인</h1>
+    <form action="/main/login" method="post">
+        <input type="text" placeholder="아이디" id="user-id" name="userID"><br>
+        <input type="password" placeholder="비밀번호" id="user-pw" name="userPW"><br>
+        <button type="submit" class="login">로그인</button>
+    </form>
+    <ul class="find_mine">
+        <li><a href="#"><span> 비회원 주문조회</span>　　|</a></li>
+        <li><a href="#"><span>아이디 찾기</span>　　|</a></li>
+        <li><a href="#"><span>비밀번호 찾기</span></a></li>
+    </ul>
+</div>
+</body>
+</html>
