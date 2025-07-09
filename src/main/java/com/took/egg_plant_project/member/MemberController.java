@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,16 +22,14 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(MemberDto memberDto, HttpSession session) {
+    public String login(MemberDto memberDto, HttpSession session, RedirectAttributes redirectAttributes) {
         log.info("로그인 시도: {}", memberDto.getUserID());
-
         try {
             Member member = memberService.login(memberDto.getUserID(), memberDto.getUserPW());
             session.setAttribute("loginID", member.getUserID());
-            log.info("로그인 성공");
+            redirectAttributes.addFlashAttribute("loginSuccess", member.getNickName() + "님 환영합니다!");;
             return "redirect:/main/list";
         } catch (IllegalArgumentException e) {
-            log.info("로그인 실패");
             return "redirect:/member/login?error=" + e.getMessage();
         }
     }
@@ -41,7 +40,7 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public String signup(MemberDto memberDto, HttpSession session) {
+    public String signup(MemberDto memberDto, RedirectAttributes redirectAttributes) {
 
         Member member = Member.builder()
                 .userID(memberDto.getUserID())
@@ -55,6 +54,7 @@ public class MemberController {
 
         memberService.signup(member);
 
+        redirectAttributes.addFlashAttribute("signupSuccess", "회원가입이 완료되었습니다!");
         return "redirect:/member/login";
     }
 

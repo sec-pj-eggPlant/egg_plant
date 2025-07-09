@@ -7,7 +7,6 @@ import com.took.egg_plant_project.mypage.service.MypageService;
 import com.took.egg_plant_project.mypage.service.MypageTradesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,13 +22,13 @@ import java.util.Map;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/mypage")
+@RequestMapping("/my")
 public class MypageController {
     private final MypageService mypageService;
     private final MypageTradesService mypageTradesService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @GetMapping("/mypage")
+    @GetMapping("/my")
     public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
         String userID = customUserDetails.getUsername();
         Integer loggedMemberID = customUserDetails.getLoggedMember().getId();
@@ -38,11 +37,11 @@ public class MypageController {
 
         model.addAttribute("loggedMemberDto", loggedMemberDto);
         log.info(loggedMemberDto.toString());
-        return "mypage/mypage";
+        return "my/my";
     }
 
     //회원 정보 수정
-    @GetMapping("/profile")
+    @GetMapping("/mypage-profile")
     public String modifyPage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
         if (customUserDetails == null) {
             log.warn("로그인 정보가 없습니다. 로그인 페이지로 이동합니다.");
@@ -51,8 +50,16 @@ public class MypageController {
 
         String userID = customUserDetails.getUsername();
         MemberDto memberDto = mypageService.findByUserID(userID);
-        model.addAttribute("member", memberDto);
-        return "mypage/profile";
+        model.addAttribute("user", memberDto);
+        return "my/mypage-profile";
+    }
+
+    //회원 정보 수정
+    @GetMapping("/modify")
+    public String profileEdit(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        MemberDto member = mypageService.findByUserID(userDetails.getUsername());
+        model.addAttribute("member", member);
+        return "my/modify";
     }
 
 
@@ -65,15 +72,17 @@ public class MypageController {
         return loggedMemberDto;
     }
 
-    @PostMapping("/profile")
+
+
+    @PostMapping("/modify")
     @ResponseBody
     public Map<String, String> modify(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                       @RequestBody Map<String, String> data) {
         Map<String, String> result = new HashMap<>();
 
-        String currentPasssword = data.get("currentPasssword");
+        String currentPasssword = data.get("currentPassword");
         String password = data.get("password");
-        String password2 = data.get("passsword2");
+        String password2 = data.get("password2");
         String newEmail = data.get("userEmail");
         String newTel = data.get("tel");
 
@@ -111,7 +120,7 @@ public class MypageController {
     }
 
     //거래 내역 조회
-    @GetMapping("/trades")
+    @GetMapping("/trades2")
     public String trades(@RequestParam(required = false) String status,
                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
@@ -129,7 +138,19 @@ public class MypageController {
         model.addAttribute("page", page);
         model.addAttribute("pageSize", pageSize);
 
-        return "mypage/trades";
+        return "my/trades2";
+    }
+
+    //나의 채팅내역
+    @GetMapping("/chat")
+    public String chat() {
+        return "my/chat";
+    }
+
+    //내가 쓴 게시글 목록
+    @GetMapping("/mywrite-list")
+    public String myWriteList() {
+        return "my/mywrite-list";
     }
 
 
