@@ -56,22 +56,24 @@
           <div class="mb-3">
             <label class="form-label fw-bold">비밀번호 확인</label>
             <input type="password" class="form-control" id="userPWCheck" name="userPWCheck" required />
-            <div id="pwCheckMsg" class="text-danger mt-1"></div>
+            <div id="pwCheckMsg" class="mt-1"></div>
           </div>
 
           <div class="mb-3">
             <label class="form-label fw-bold">이메일</label>
             <div class="d-flex gap-2">
-              <input type="text" class="form-control" id="email1" required />
+              <input type="text" class="form-control" id="email" required />
               <span class="align-self-center">@</span>
-              <select class="form-select" id="email2" required>
+              <input type="text" class="form-control" id="emailDomain" required>
+              <select class="form-select" id="emailSelect" required>
                 <option value="">선택</option>
                 <option value="naver.com">naver.com</option>
+                <option value="nate.com">nate.com</option>
                 <option value="gmail.com">gmail.com</option>
                 <option value="hanmail.net">hanmail.net</option>
+                <option value="icould.com">icould.com</option>
                 <option value="custom">직접 입력</option>
               </select>
-              <input type="text" class="form-control d-none" id="emailCustom" placeholder="다른 도메인" />
             </div>
             <input type="hidden" name="userEmail" id="userEmail" />
             <div id="userEmailCheckMsg" class="text-danger mt-1"></div>
@@ -95,6 +97,9 @@
                 <option value="">선택</option>
                 <option value="010">010</option>
                 <option value="011">011</option>
+                <option value="016">016</option>
+                <option value="018">018</option>
+                <option value="019">019</option>
               </select>
               <span class="align-self-center">-</span>
               <input type="text" class="form-control w-25" id="tel2" maxlength="4" required />
@@ -144,99 +149,174 @@
   </body>
 </html>
 <script>
-  document.querySelector("#userID").addEventListener("input", function() {
-    const userID = this.value;
-    if (userID.length < 3) {
-      document.querySelector("#userIDCheckMsg").textContent = "3글자 이상 적어주세요";
-      return;
-    }
-
-    fetch(`/member/checkUserID?userID=${encodeURIComponent(userID)}`)
-            .then(res => res.json())
-            .then(exists => {
-              if (exists) {
-                document.querySelector("#userIDCheckMsg").textContent = "이미 사용중인 아이디입니다.";
-              } else {
-                document.querySelector("#userIDCheckMsg").textContent = "";
-              }
-            })
-            .catch(error => {
-              console.error(error);
-              document.querySelector("#userIDCheckMsg").textContent = "확인 중 오류 발생";
-            });
-  });
-
-  document.querySelector("#nickName").addEventListener("input", function() {
-    const nickName = this.value;
-    if (nickName.length < 2) {
-      document.querySelector("#nickNameCheckMsg").textContent = "2글자 이상 적어주세요";
-      return;
-    }
-
-    fetch(`/member/checkUserNickname?nickName=${encodeURIComponent(nickName)}`)
-            .then(res => res.json())
-            .then(exists => {
-              if (exists) {
-                document.querySelector("#nickNameCheckMsg").textContent = "이미 사용중인 닉네임입니다.";
-              } else {
-                document.querySelector("#nickNameCheckMsg").textContent = "";
-              }
-            })
-            .catch(error => {
-              console.error(error);
-              document.querySelector("#nickNameCheckMsg").textContent = "확인 중 오류 발생";
-            });
-  });
-
-  document.querySelector("#userEmail").addEventListener("input", function() {
-
-    const userEmail = this.value;
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailPattern.test(userEmail)) {
-      document.querySelector("#userEmailCheckMsg").textContent = "올바른 이메일 형식으로 작성해주세요";
-      return;
-    }
-
-    fetch(`/member/checkUserEmail?userEmail=${encodeURIComponent(userEmail)}`)
-            .then(res => res.json())
-            .then(exists => {
-              if (exists) {
-                document.querySelector("#userEmailCheckMsg").textContent = "이미 사용중인 이메일입니다.";
-              } else {
-                document.querySelector("#userEmailCheckMsg").textContent = "";
-              }
-            })
-            .catch(error => {
-              console.error(error);
-              document.querySelector("#userEmailCheckMsg").textContent = "확인 중 오류 발생";
-            });
-  });
+  const signupBtn = document.querySelector("#signupBtn");
   const pw = document.querySelector("#userPW");
   const pwCheck = document.querySelector("#userPWCheck");
-  const signupBtn = document.querySelector("#signupBtn");
+  const pwCheckMsg = document.querySelector("#pwCheckMsg");
 
-  const pwCheckMsg = document.createElement("div");
-  pwCheckMsg.classList.add("mt-1");
-  pwCheck.insertAdjacentElement("afterend", pwCheckMsg);
+  const email = document.querySelector("#email");
+  const emailDomain = document.querySelector("#emailDomain");
+  const emailSelect = document.querySelector("#emailSelect");
+  const userEmail = document.querySelector("#userEmail");
 
-  signupBtn.disabled = true;
+  const tel1 = document.querySelector("#tel1");
+  const tel2 = document.querySelector("#tel2");
+  const tel3 = document.querySelector("#tel3");
+  const telHidden = document.querySelector("#tel");
+  const telCheckMsg = document.querySelector("#telCheckMsg");
+
+  const requiredFields = [
+    "#role", "#userID", "#userPW", "#userPWCheck", "#email",
+    "#emailDomain", "#userName", "#nickName", "#tel1", "#tel2", "#tel3"
+  ];
+
+  emailSelect.addEventListener("change", () => {
+    const selected = emailSelect.value;
+    if (selected === "custom") {
+      emailDomain.removeAttribute("readonly");
+      emailDomain.value = "";
+      emailDomain.focus();
+    } else {
+      emailDomain.setAttribute("readonly", true);
+      emailDomain.value = selected;
+    }
+    updateEmail();
+    checkFormValid();
+  });
+
+  function updateEmail() {
+    if (email.value && emailDomain.value) {
+      userEmail.value = `${email.value}@${emailDomain.value}`;
+      validateEmail();
+    } else {
+      userEmail.value = "";
+    }
+  }
+
+  function validateEmail() {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailMsg = document.querySelector("#userEmailCheckMsg");
+    if (!emailPattern.test(userEmail.value)) {
+      emailMsg.textContent = "올바른 이메일 형식으로 작성해주세요";
+    } else {
+      emailMsg.textContent = "";
+    }
+  }
+
+  [email, emailDomain].forEach(el => {
+    el.addEventListener("input", () => {
+      updateEmail();
+      checkFormValid();
+    });
+  });
+
+  function updateTel() {
+    if (tel1.value && tel2.value && tel3.value) {
+      telHidden.value = `${tel1.value}-${tel2.value}-${tel3.value}`;
+    } else {
+      telHidden.value = "";
+    }
+  }
+
+  function validateTel() {
+    const telPattern = /^\d{3,4}$/;
+    if (!tel1.value || !telPattern.test(tel2.value) || !telPattern.test(tel3.value)) {
+      telCheckMsg.textContent = "전화번호 형식을 올바르게 입력하세요";
+    } else {
+      telCheckMsg.textContent = "";
+    }
+  }
+
+  [tel1, tel2, tel3].forEach(el => {
+    el.addEventListener("input", () => {
+      updateTel();
+      validateTel();
+      checkFormValid();
+    });
+  });
 
   function validatePassword() {
-    if (pw.value.length === 0 || pwCheck.value.length === 0) {
+    if (!pw.value || !pwCheck.value) {
       pwCheckMsg.textContent = "";
-      signupBtn.disabled = true;
-      return;
+      return false;
     }
     if (pw.value !== pwCheck.value) {
       pwCheckMsg.textContent = "비밀번호가 일치하지 않습니다.";
-      pwCheckMsg.style.color = "red";
-      signupBtn.disabled = true;
+      pwCheckMsg.classList.remove("text-success");
+      pwCheckMsg.classList.add("text-danger");
+      return false;
     } else {
       pwCheckMsg.textContent = "비밀번호가 일치합니다.";
-      pwCheckMsg.style.color = "green";
-      signupBtn.disabled = false;
+      pwCheckMsg.classList.remove("text-danger");
+      pwCheckMsg.classList.add("text-success");
+      return true;
     }
   }
-  pw.addEventListener("input", validatePassword);
-  pwCheck.addEventListener("input", validatePassword);
+
+  pw.addEventListener("input", () => {
+    validatePassword();
+    checkFormValid();
+  });
+
+  pwCheck.addEventListener("input", () => {
+    validatePassword();
+    checkFormValid();
+  });
+
+  document.querySelector("#userID").addEventListener("input", function () {
+    const userID = this.value;
+    const msg = document.querySelector("#userIDCheckMsg");
+    if (userID.length < 3) {
+      msg.textContent = "3글자 이상 적어주세요";
+      return;
+    }
+    fetch(`/member/checkUserID?userID=${encodeURIComponent(userID)}`)
+            .then(res => res.json())
+            .then(exists => {
+              msg.textContent = exists ? "이미 사용중인 아이디입니다." : "";
+              checkFormValid();
+            });
+  });
+
+  document.querySelector("#nickName").addEventListener("input", function () {
+    const nickName = this.value;
+    const msg = document.querySelector("#nickNameCheckMsg");
+    if (nickName.length < 2) {
+      msg.textContent = "2글자 이상 적어주세요";
+      return;
+    }
+    fetch(`/member/checkUserNickname?nickName=${encodeURIComponent(nickName)}`)
+            .then(res => res.json())
+            .then(exists => {
+              msg.textContent = exists ? "이미 사용중인 닉네임입니다." : "";
+              checkFormValid();
+            });
+  });
+
+  function checkFormValid() {
+    const allFilled = requiredFields.every(sel => {
+      const el = document.querySelector(sel);
+      return el && el.value.trim() !== "";
+    });
+
+    const pwValid = validatePassword();
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail.value);
+    const telValid = tel1.value && /^\d{3,4}$/.test(tel2.value) && /^\d{3,4}$/.test(tel3.value);
+
+    const noErrors =
+            !document.querySelector("#userIDCheckMsg").textContent &&
+            !document.querySelector("#nickNameCheckMsg").textContent &&
+            !document.querySelector("#userEmailCheckMsg").textContent &&
+            !document.querySelector("#telCheckMsg").textContent;
+
+    signupBtn.disabled = !(allFilled && pwValid && emailValid && telValid && noErrors);
+  }
+
+  requiredFields.forEach(sel => {
+    const el = document.querySelector(sel);
+    if (el) {
+      el.addEventListener("input", checkFormValid);
+      el.addEventListener("change", checkFormValid);
+    }
+  });
 </script>
