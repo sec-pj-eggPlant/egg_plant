@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/css/admin_globals.css"/>
+    <link rel="stylesheet" href="/css/admin_member_style.css"/>
+    <link rel="stylesheet" href="/css/admin_member_styleguide.css"/>
+    <title>Members</title>
+</head>
+<body>
+<div class="screen">
+    <div class="div">
+        <div class="text-wrapper">Members</div>
+
+        <!-- 검색창 및 조건 영역 -->
+        <div class="search-top">
+            <form th:action="@{/admin/member}" method="get" class="search-form">
+                <select name="category" class="select-box">
+                    <option value="">검색 조건</option>
+                    <option value="userName">이름</option>
+                    <option value="userID">아이디</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색어를 입력해주세요." class="text-input"/>
+                <button type="submit" class="date-search-button">검색</button>
+            </form>
+        </div>
+
+
+        <!-- 데이터 테이블 -->
+        <div class="overlap">
+            <div class="group">
+                <div class="member-table-wrapper">
+                    <table class="member-table">
+                        <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>아이디</th>
+                            <th>별명</th>
+                            <th>이름</th>
+                            <th>권한</th>
+                            <th>연락처</th>
+                            <th>이메일</th>
+                            <th>가입일</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="member : ${memberList}">
+                            <td th:text="${member.id}">1</td>
+                            <td th:text="${member.userID}">admin</td>
+                            <td th:text="${member.nickName}">관리자</td>
+                            <td th:text="${member.userName}">관리자이름</td>
+                            <td th:text="${member.role}">ROLE_ADMIN</td>
+                            <td th:text="${member.tel}">010-1234-5678</td>
+                            <td th:text="${member.userEmail}">admin@example.com</td>
+                            <td th:text="${#temporals.format(member.createdAt, 'yyyy-MM-dd')}">2025-07-03</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- 사이드바 -->
+        <div class="overlap-9">
+            <!-- Gaji 로고 -->
+            <a href="/admin/dashboard">
+                <img class="layer" src="/img/admin/layer-1.svg"/>
+            </a>
+            <div class="text-wrapper-11">Logout</div>
+            <div class="text-wrapper-12">Warehouse</div>
+
+            <!-- Trades -->
+            <a href="/admin/trade">
+                <div class="text-wrapper-13">Trades</div>
+                <img class="vector" src="/img/admin/vector.svg"/>
+            </a>
+
+            <img class="design-tools-grid" src="/img/admin/grid.svg"/>
+
+            <!-- Dashboard -->
+            <a href="/admin/dashboard">
+                <div class="text-wrapper-14">Dashboard</div>
+                <img class="monochrome-layer" src="/img/admin/layer-group.svg"/>
+            </a>
+
+            <!-- Members -->
+            <a href="/admin/member">
+                <img class="users-users" src="/img/admin/users-y.svg"/>
+                <div class="text-wrapper-15">members</div>
+            </a>
+
+            <img class="img" src="/img/admin/logout.svg"/>
+        </div>
+    </div>
+</div>
+</body>
+</html>
