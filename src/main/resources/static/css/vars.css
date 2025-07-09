@@ -1,0 +1,148 @@
+/* Figma Styles of your File */
+:root {
+    /* Colors */
+    --black: linear-gradient(to left, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    linear-gradient(to left, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    linear-gradient(to left, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    linear-gradient(to left, #000000, #000000);
+    --boulder: #767676;
+    --white: #ffffff;
+    --boulder: #767676;
+    --wwwfigmacom-mountain-meadow: #14ae5c;
+    --wwwfigmacom-pomegranate: #f24822;
+    --wwwfigmacom-dodger-blue: #0d99ff;
+    --wwwfigmacom-black: #000000;
+    --wwwfigmacom-black-898: rgba(0, 0, 0, 0.9);
+    --wwwfigmacom-mercury: #e6e6e6;
+    --wwwfigmacom-sandwisp: #f5dfa8;
+    --wwwfigmacom-sunglow: #ffcd29;
+    --wwwfigmacom-tundora: #444444;
+    --wwwfigmacom-lynch: #667799;
+    --wwwfigmacom-white-02: rgba(255, 255, 255, 0);
+    --wwwfigmacom-white-898: rgba(255, 255, 255, 0.9);
+    --wwwfigmacom-wild-sand: #f5f5f5;
+    --wwwfigmacom-black-5: rgba(0, 0, 0, 0.05);
+    --wwwfigmacom-black-10: rgba(0, 0, 0, 0.1);
+    --wwwfigmacom-cod-gray: #1e1e1e;
+    --wwwfigmacom-mine-shaft: #2c2c2c;
+
+    /* Fonts */
+    --daysearch-font-family: Inter-Regular, sans-serif;
+    --daysearch-font-size: 12px;
+    --daysearch-line-height: normal;
+    --daysearch-font-weight: 400;
+    --daysearch-font-style: normal;
+    --semantic-heading-2-font-family: NotoSans-Bold, sans-serif;
+    --semantic-heading-2-font-size: 24px;
+    --semantic-heading-2-line-height: normal;
+    --semantic-heading-2-font-weight: 700;
+    --semantic-heading-2-font-style: normal;
+    --semantic-heading-3-font-family: NotoSans-Bold, sans-serif;
+    --semantic-heading-3-font-size: 18.700000762939453px;
+    --semantic-heading-3-line-height: normal;
+    --semantic-heading-3-font-weight: 700;
+    --semantic-heading-3-font-style: normal;
+    --semantic-input-font-family: Arial-Narrow, sans-serif;
+    --semantic-input-font-size: 13.300000190734863px;
+    --semantic-input-line-height: normal;
+    --semantic-input-font-weight: 400;
+    --semantic-input-font-style: normal;
+    --semantic-label-font-family: NotoSans-Regular, sans-serif;
+    --semantic-label-font-size: 16px;
+    --semantic-label-line-height: normal;
+    --semantic-label-font-weight: 400;
+    --semantic-label-font-style: normal;
+    --wwwfigmacom-inter-semi-bold-font-family: Inter-SemiBold, sans-serif;
+    --wwwfigmacom-inter-semi-bold-font-size: 12.8984375px;
+    --wwwfigmacom-inter-semi-bold-line-height: 22px;
+    --wwwfigmacom-inter-semi-bold-font-weight: 600;
+    --wwwfigmacom-inter-semi-bold-font-style: normal;
+    --wwwfigmacom-inter-regular-upper-font-family: Inter-Regular, sans-serif;
+    --wwwfigmacom-inter-regular-upper-font-size: 12px;
+    --wwwfigmacom-inter-regular-upper-line-height: 24px;
+    --wwwfigmacom-inter-regular-upper-font-weight: 400;
+    --wwwfigmacom-inter-regular-upper-font-style: normal;
+    --wwwfigmacom-inter-medium-font-family: Inter-Medium, sans-serif;
+    --wwwfigmacom-inter-medium-font-size: 11px;
+    --wwwfigmacom-inter-medium-line-height: 16px;
+    --wwwfigmacom-inter-medium-font-weight: 500;
+    --wwwfigmacom-inter-medium-font-style: normal;
+    --wwwfigmacom-inter-regular-font-family: Inter-Regular, sans-serif;
+    --wwwfigmacom-inter-regular-font-size: 11px;
+    --wwwfigmacom-inter-regular-line-height: normal;
+    --wwwfigmacom-inter-regular-font-weight: 400;
+    --wwwfigmacom-inter-regular-font-style: normal;
+    --wwwfigmacom-inter-italic-font-family: Inter-Italic, sans-serif;
+    --wwwfigmacom-inter-italic-font-size: 11px;
+    --wwwfigmacom-inter-italic-line-height: normal;
+    --wwwfigmacom-inter-italic-font-weight: 400;
+    --wwwfigmacom-inter-italic-font-style: italic;
+    --wwwfigmacom-inter-medium-font-family: Inter-Medium, sans-serif;
+    --wwwfigmacom-inter-medium-font-size: 11px;
+    --wwwfigmacom-inter-medium-line-height: normal;
+    --wwwfigmacom-inter-medium-font-weight: 500;
+    --wwwfigmacom-inter-medium-font-style: normal;
+    --wwwfigmacom-inter-medium-italic-font-family: Inter-MediumItalic, sans-serif;
+    --wwwfigmacom-inter-medium-italic-font-size: 11px;
+    --wwwfigmacom-inter-medium-italic-line-height: normal;
+    --wwwfigmacom-inter-medium-italic-font-weight: 500;
+    --wwwfigmacom-inter-medium-italic-font-style: italic;
+    --wwwfigmacom-inter-semi-bold-font-family: Inter-SemiBold, sans-serif;
+    --wwwfigmacom-inter-semi-bold-font-size: 11px;
+    --wwwfigmacom-inter-semi-bold-line-height: normal;
+    --wwwfigmacom-inter-semi-bold-font-weight: 600;
+    --wwwfigmacom-inter-semi-bold-font-style: normal;
+    --wwwfigmacom-inter-semi-bold-italic-font-family: Inter-SemiBoldItalic,
+    sans-serif;
+    --wwwfigmacom-inter-semi-bold-italic-font-size: 11px;
+    --wwwfigmacom-inter-semi-bold-italic-line-height: normal;
+    --wwwfigmacom-inter-semi-bold-italic-font-weight: 600;
+    --wwwfigmacom-inter-semi-bold-italic-font-style: italic;
+    --wwwfigmacom-inter-medium-font-family: Inter-Medium, sans-serif;
+    --wwwfigmacom-inter-medium-font-size: 11px;
+    --wwwfigmacom-inter-medium-line-height: 16px;
+    --wwwfigmacom-inter-medium-font-weight: 500;
+    --wwwfigmacom-inter-medium-font-style: normal;
+    --wwwfigmacom-semantic-button-font-family: Inter-Medium, sans-serif;
+    --wwwfigmacom-semantic-button-font-size: 11px;
+    --wwwfigmacom-semantic-button-line-height: 25px;
+    --wwwfigmacom-semantic-button-font-weight: 500;
+    --wwwfigmacom-semantic-button-font-style: normal;
+    --wwwfigmacom-semantic-button-font-family: Inter-Medium, sans-serif;
+    --wwwfigmacom-semantic-button-font-size: 11px;
+    --wwwfigmacom-semantic-button-line-height: 16px;
+    --wwwfigmacom-semantic-button-font-weight: 500;
+    --wwwfigmacom-semantic-button-font-style: normal;
+
+    /* Effects */
+}
+/* Figma Color Variables of your File */
+:root,
+[data-htmltodesign-mode="mode-1"] {
+    /* mode-1 */
+    --color-white-solid: #ffffff;
+    --color-black-solid: #000000;
+    --color-grey-46: #767676;
+}
+
+[data-wwwfigmacom-mode="mode-1"] {
+    /* mode-1 */
+    --color-spring-green-38: #14ae5c;
+    --color-red-54: #f24822;
+    --color-azure-53: #0d99ff;
+    --color-black-solid: #000000;
+    --color-black-898: rgba(0, 0, 0, 0.9);
+    --color-white-solid: #ffffff;
+    --color-grey-90: #e6e6e6;
+    --color-yellow-58: #ffcd29;
+    --color-azure-50: #667799;
+    --color-grey-96: #f5f5f5;
+    --color-black-5: rgba(0, 0, 0, 0.05);
+    --color-grey-27: #444444;
+    --color-black-10: rgba(0, 0, 0, 0.1);
+    --color-grey-12: #1e1e1e;
+    --color-grey-17: #2c2c2c;
+    --color-white-02: rgba(255, 255, 255, 0);
+    --color-white-898: rgba(255, 255, 255, 0.9);
+    --color-orange-81: #f5dfa8;
+}

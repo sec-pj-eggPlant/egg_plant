@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>창고 신청</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        .other-products {
+            padding: 20px;
+        }
+
+        .tab-menu {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-menu button {
+            padding: 10px 20px;
+            background: #ff8787;
+            border: none;
+            cursor: pointer;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .info-panel {
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .apply-button {
+            background: #ff8bb8;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #tab-content {
+            display: grid;
+            gap: 10px;
+        }
+
+        /* A탭: 3열 3행 */
+        .a-grid {
+            grid-template-columns: repeat(3, 220px);
+        }
+
+        /* B탭: 2열 2행 */
+        .b-grid {
+            grid-template-columns: repeat(2, 330px);
+        }
+
+        /* C탭: 1열 2행 */
+        .c-grid {
+            grid-template-columns: 330px;
+        }
+
+        .box {
+            background: #ff5555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .a-box {
+            width: 220px;
+            height: 220px;
+        }
+
+        .b-box {
+            width: 330px;
+            height: 330px;
+        }
+
+        .c-box {
+            width: 330px;
+            height: 660px;
+        }
+
+        .box.selected {
+            outline: 3px solid blue;
+        }
+
+        .box.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+<div class="other-products">
+    <div class="tab-menu">
+        <button onclick="loadTab('A')">A</button>
+        <button onclick="loadTab('B')">B</button>
+        <button onclick="loadTab('C')">C</button>
+    </div>
+
+    <div class="main-content">
+        <div class="info-panel">
+            <div>기본 가격: 1000</div>
+            <div>총 가격: <span id="total-price">0</span></div>
+            <div>기본 면적: 10</div>
+            <div>총 면적: <span id="total-area">0</span></div>
+            <div>기간: <input type="text" id="period"> 일</div>
+            <button class="apply-button" onclick="apply()">신청</button>
+        </div>
+
+        <div id="tab-content">
+            <!-- JS로 박스가 생성됩니다 -->
+        </div>
+    </div>
+</div>
+
+<script>
+    const selectedBoxes = new Set();
+    const pricePerBox = 1000; // 필요 시 서버 데이터와 연계
+    const areaPerBox = 10;
+
+    function toggleBox(el) {
+        const id = el.dataset.warehouseUseId;
+        if (!id) return;
+
+        // 'disabled' 상태인 박스는 클릭할 수 없도록 처리
+        if (el.classList.contains('disabled')) return;
+
+        // 박스를 선택하거나 해제하는 기능
+        if (selectedBoxes.has(id)) {
+            selectedBoxes.delete(id);
+            el.classList.remove('selected');
+        } else {
+            selectedBoxes.add(id);
+            el.classList.add('selected');
+        }
+
+        updateTotals();
+    }
+
+    function updateTotals() {
+        // 선택된 박스의 총 가격과 면적 업데이트
+        document.getElementById('total-price').innerText = selectedBoxes.size * pricePerBox;
+        document.getElementById('total-area').innerText = selectedBoxes.size * areaPerBox;
+    }
+
+    function apply() {
+        // 박스를 선택하지 않은 경우 경고 메시지 표시
+        if (selectedBoxes.size === 0) {
+            alert("박스를 선택해주세요!");
+            return;
+        }
+
+        // 선택된 박스 ID와 기간 데이터를 서버로 전송
+        const data = {
+            boxes: Array.from(selectedBoxes),
+            period: document.getElementById('period').value
+        };
+
+        // 서버에 신청 요청
+        fetch('/warehouse/apply-boxes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => {
+                if (res.ok) {
+                    alert("신청 완료!");
+
+                    // 서버에서 반환된 최신 상태를 반영하여 비활성화 처리
+                    res.json().then(updatedBoxes => {
+                        updatedBoxes.forEach(box => {
+                            const boxElement = document.querySelector(`[data-warehouse-use-id='${box.id}']`);
+                            if (boxElement && box.status === 'RENTED') {
+                                boxElement.classList.add('disabled');  // 'rented' 상태면 비활성화 처리
+                            }
+                        });
+                    });
+
+                    // 신청 후 선택된 박스 목록 초기화
+                    selectedBoxes.clear();
+                    document.querySelectorAll('.box').forEach(b => b.classList.remove('selected'));  // 선택 상태 초기화
+                    updateTotals();  // 총 가격과 면적 업데이트
+                } else {
+                    alert("신청 실패!");
+                }
+            })
+            .catch(err => {
+                console.error("신청 오류:", err);
+                alert("오류 발생!");
+            });
+    }
+
+
+    function loadTab(type) {
+        fetch(`/warehouse/tab-content-json?type=${type}`)  // JSON 응답을 받기 위한 경로 수정
+            .then(res => res.json())  // JSON 형식으로 응답 받기
+            .then(data => {
+                const tabContent = document.getElementById('tab-content');
+                tabContent.innerHTML = '';  // 기존 콘텐츠 초기화
+
+                // 받은 데이터로 박스 생성
+                data.forEach(box => {
+                    const boxElement = document.createElement('div');
+                    boxElement.classList.add('box');
+
+                    // 'rented' 상태일 경우 비활성화 처리
+                    if (box.status === 'RENTED') {
+                        boxElement.classList.add('disabled');
+                    }
+
+                    // 박스 ID와 섹터 이름을 박스 텍스트로 추가
+                    boxElement.textContent = `${box.sector}${box.id}`;
+                    boxElement.dataset.warehouseUseId = box.id;
+
+                    // 박스 클릭 이벤트
+                    boxElement.onclick = () => toggleBox(boxElement);
+
+                    tabContent.appendChild(boxElement);
+                });
+            })
+            .catch(err => console.error("탭 로딩 실패:", err));
+    }
+
+    // 페이지 로드 시 기본 탭 A 로드
+    document.addEventListener('DOMContentLoaded', () => loadTab('A'));
+
+</script>
+</body>
+</html>

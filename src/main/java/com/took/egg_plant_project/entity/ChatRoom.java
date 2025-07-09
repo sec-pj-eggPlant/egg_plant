@@ -13,20 +13,20 @@ import lombok.NoArgsConstructor;
 public class ChatRoom {
 
     @Id
-    @Column(name = "charRoomID")
+    @Column(name = "chatRoomID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "postId")
+    @JoinColumn(name = "postID",referencedColumnName ="postID")
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "renter")
+    @JoinColumn(name = "renter",referencedColumnName ="memberID")
     private Member renter;
 
     @ManyToOne
-    @JoinColumn(name = "owner")
+    @JoinColumn(name = "owner",referencedColumnName = "memberID")
     private Member owner;
 }
 

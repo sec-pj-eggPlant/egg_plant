@@ -18,11 +18,11 @@ public class ChatMessage extends BaseTime {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "roomId")
+    @JoinColumn(name = "roomID",referencedColumnName ="chatRoomID")
     private ChatRoom chatRoom;
 
     @ManyToOne
-    @JoinColumn(name = "senderId")
+    @JoinColumn(name = "senderID",referencedColumnName ="memberID")
     private Member sender;
 
     @Lob
