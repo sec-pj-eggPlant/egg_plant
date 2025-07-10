@@ -22,15 +22,28 @@
     :root {
       --bs-primary: #5f328e; /* 예: 보라색으로 변경 */
     }
-    .tab-link {
-      text-decoration: none;
-      font-size: 1.1rem;
-      padding-bottom: 4px;
+    .active-tab {
+      color: #5f328e !important;
+      border-bottom: 2px solid #5f328e;
+    }
+    .inactive-tab {
+      color: #6c757d;
       border-bottom: 2px solid transparent;
     }
-
     .tab-link:hover {
       color: #5f328e;
+    }
+
+    .btn-primary {
+      background-color: #5f328e;
+      border-color: #5f328e;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:active {
+      background-color: #4a2670;
+      border-color: #4a2670;
     }
   </style>
   <script
@@ -43,7 +56,7 @@
 <header id="header">
   <div class="container">
     <h1>
-      <a href=""><img src="../images/logo.svg" alt="" /></a>
+      <a href="/main/list"><img src="../images/logo.svg" alt="" /></a>
     </h1>
     <nav>
       <ul>
@@ -69,16 +82,14 @@
   <div class="d-flex justify-content-center align-items-center my-5">
     <div class="d-flex align-items-center gap-3">
       <a href="/main/list?role=OWNER"
-         class="tab-link fw-bold px-2"
-         th:classappend="${role} == 'OWNER' ? ' text-primary border-bottom border-primary' : ' text-secondary'">
+         th:class="${role} == 'OWNER' ? 'tab-link fw-bold px-2 active-tab' : 'tab-link fw-bold px-2 inactive-tab'">
         임대인 게시판
       </a>
 
       <span class="text-muted">|</span>
 
       <a href="/main/list?role=RENTER"
-         class="tab-link fw-bold px-2"
-         th:classappend="${role} == 'RENTER' ? ' text-primary border-bottom border-primary' : ' text-secondary'">
+         th:class="${role} == 'RENTER' ? 'tab-link fw-bold px-2 active-tab' : 'tab-link fw-bold px-2 inactive-tab'">
         임차인 게시판
       </a>
     </div>
@@ -100,7 +111,7 @@
         </div>
         <div class="mb-4">
           <label class="form-label fw-bold">면적
-            <span id="areaDisplay" class="ms-2 text-primary">50평</span>
+            <span id="areaDisplay" class="ms-2  text-primary">50평</span>
           </label>
           <input type="range" class="form-range" name="area" min="0" max="100" value="50" id="areaRange" />
         </div>
@@ -135,7 +146,8 @@
     </div>
     <div class="col-8">
       <ul class="list">
-        <li th:if="${#lists.isEmpty(posts)}" class="text-center text-muted py-5">
+        <li th:if="${#lists.isEmpty(posts) and (status != null or location != null or price != null or keyword != null)}"
+            class="text-center text-muted py-5">
           현재 조건에 해당하는 게시글이 없습니다.
         </li>
         <li class="d-flex mb-4" th:each="post : ${posts}" th:onclick="'location.href=\'/main/detail/' + ${post.id} + '\''" style="cursor:pointer;">

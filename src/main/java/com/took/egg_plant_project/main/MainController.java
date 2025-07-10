@@ -22,31 +22,44 @@ public class MainController {
 
     private final MainService mainService;
 
+    @GetMapping("")
+    public String redirectByUserRole(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        if (userDetails != null) {
+            Role userRole = userDetails.getLoggedMember().getRole();
+
+            if (userRole == Role.ROLE_RENTER) {
+                return "redirect:/main/list?role=RENTER"; //OWNER
+            } else if (userRole == Role.ROLE_OWNER) {
+                return "redirect:/main/list?role=OWNER"; //RENTER
+            }
+        }
+        return "redirect:/member/login";
+    }
+
     @GetMapping("/list")
     public String list(@RequestParam(required = false) String status,
                        @RequestParam(required = false) String location,
                        @RequestParam(required = false) Integer price,
                        @RequestParam(required = false) String keyword,
                        @RequestParam(required = false) String role,
+                       @AuthenticationPrincipal CustomUserDetails userDetails,
                        HttpSession session,
                        Model model) {
 
-        Object loginSuccess = session.getAttribute("loginSuccessMessage");
-        if (loginSuccess != null) {
-            model.addAttribute("loginSuccessMessage", loginSuccess);
-            session.removeAttribute("loginSuccessMessage");
+        if ((role == null || role.isBlank()) && userDetails != null) {
+            Role userRole = userDetails.getLoggedMember().getRole();
+            role = (userRole == Role.ROLE_OWNER) ? "OWNER" : "RENTER";
         }
 
         Role roleEnum = null;
         if (role != null && !role.isBlank()) {
             try {
                 roleEnum = Role.valueOf("ROLE_" + role.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                roleEnum = null;
-            }
+            } catch (IllegalArgumentException ignored) {}
         }
 
         List<Post> posts = mainService.getFilteredPosts(status, location, price, keyword, roleEnum);
+
         model.addAttribute("posts", posts);
         model.addAttribute("role", role);
         model.addAttribute("status", status);
@@ -54,8 +67,15 @@ public class MainController {
         model.addAttribute("price", price);
         model.addAttribute("keyword", keyword);
 
+        Object loginSuccess = session.getAttribute("loginSuccessMessage");
+        if (loginSuccess != null) {
+            model.addAttribute("loginSuccessMessage", loginSuccess);
+            session.removeAttribute("loginSuccessMessage");
+        }
+
         return "main/list";
     }
+
 
     @GetMapping("/write")
     public String writeForm() {
