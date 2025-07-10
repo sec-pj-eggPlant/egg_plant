@@ -1,5 +1,6 @@
 package com.took.egg_plant_project.main;
 
+import com.took.egg_plant_project.constant.Role;
 import com.took.egg_plant_project.entity.Member;
 import com.took.egg_plant_project.entity.Post;
 import lombok.RequiredArgsConstructor;
@@ -44,5 +45,9 @@ public class MainService {
 
     public List<Post> getPostByStatus(String status) {
         return mainRepository.findByStatus(status);
+    }
+
+    public List<Post> getFilteredPosts(String status, String location, Integer price, String keyword, Role role) {
+        return mainRepository.findByFilters(status, location, price, keyword, role);
     }
 }

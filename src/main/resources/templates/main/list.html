@@ -125,12 +125,19 @@
           </select>
         </div>
         <div class="mb-4">
+          <label class="form-label fw-bold">검색어</label>
+          <input type="text" name="keyword" class="form-control" placeholder="제목 또는 내용 검색" />
+        </div>
+        <div class="mb-4">
           <button class="btn btn-primary w-100 btn-lg" type="submit">검색</button>
         </div>
       </form>
     </div>
     <div class="col-8">
       <ul class="list">
+        <li th:if="${#lists.isEmpty(posts)}" class="text-center text-muted py-5">
+          현재 조건에 해당하는 게시글이 없습니다.
+        </li>
         <li class="d-flex mb-4" th:each="post : ${posts}" th:onclick="'location.href=\'/main/detail/' + ${post.id} + '\''" style="cursor:pointer;">
           <div class="col-md-4">
             <img src="/images/dummy.jpg" class="img-fluid thumbnail" alt="썸네일" />

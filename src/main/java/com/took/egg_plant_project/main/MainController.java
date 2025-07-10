@@ -1,6 +1,7 @@
 package com.took.egg_plant_project.main;
 
 import com.took.egg_plant_project.communal.CustomUserDetails;
+import com.took.egg_plant_project.constant.Role;
 import com.took.egg_plant_project.entity.Member;
 import com.took.egg_plant_project.entity.Post;
 import jakarta.servlet.http.HttpSession;
@@ -23,18 +24,35 @@ public class MainController {
 
     @GetMapping("/list")
     public String list(@RequestParam(required = false) String status,
+                       @RequestParam(required = false) String location,
+                       @RequestParam(required = false) Integer price,
+                       @RequestParam(required = false) String keyword,
+                       @RequestParam(required = false) String role,
                        HttpSession session,
                        Model model) {
+
         Object loginSuccess = session.getAttribute("loginSuccessMessage");
         if (loginSuccess != null) {
             model.addAttribute("loginSuccessMessage", loginSuccess);
             session.removeAttribute("loginSuccessMessage");
         }
 
-        List<Post> posts = (status == null || status.isEmpty())
-                ? mainService.getAllPosts()
-                : mainService.getPostByStatus(status);
+        Role roleEnum = null;
+        if (role != null && !role.isBlank()) {
+            try {
+                roleEnum = Role.valueOf("ROLE_" + role.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                roleEnum = null;
+            }
+        }
+
+        List<Post> posts = mainService.getFilteredPosts(status, location, price, keyword, roleEnum);
         model.addAttribute("posts", posts);
+        model.addAttribute("role", role);
+        model.addAttribute("status", status);
+        model.addAttribute("location", location);
+        model.addAttribute("price", price);
+        model.addAttribute("keyword", keyword);
 
         return "main/list";
     }
