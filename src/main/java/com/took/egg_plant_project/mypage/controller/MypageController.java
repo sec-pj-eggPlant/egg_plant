@@ -24,12 +24,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/my")
 public class MypageController {
+
     private final MypageService mypageService;
     private final MypageTradesService mypageTradesService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping("/my")
     public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+
         String userID = customUserDetails.getUsername();
         Integer loggedMemberID = customUserDetails.getLoggedMember().getId();
         MemberDto loggedMemberDto = mypageService.findByUserID(userID);
@@ -37,6 +39,7 @@ public class MypageController {
 
         model.addAttribute("loggedMemberDto", loggedMemberDto);
         log.info(loggedMemberDto.toString());
+
         return "my/my";
     }
 
@@ -45,7 +48,7 @@ public class MypageController {
     public String modifyPage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
         if (customUserDetails == null) {
             log.warn("로그인 정보가 없습니다. 로그인 페이지로 이동합니다.");
-            return "redirect:/main/login"; // 로그인 페이지 경로
+            return "redirect:/member/login"; // 로그인 페이지 경로
         }
 
         String userID = customUserDetails.getUsername();
