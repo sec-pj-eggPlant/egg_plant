@@ -7,11 +7,13 @@ import com.took.egg_plant_project.entity.Post;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -40,6 +42,9 @@ public class MainController {
     public String list(@RequestParam(required = false) String status,
                        @RequestParam(required = false) String location,
                        @RequestParam(required = false) Integer price,
+                       @RequestParam(required = false) Integer area,
+                       @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                       @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
                        @RequestParam(required = false) String keyword,
                        @RequestParam(required = false) String role,
                        @AuthenticationPrincipal CustomUserDetails userDetails,
@@ -58,7 +63,8 @@ public class MainController {
             } catch (IllegalArgumentException ignored) {}
         }
 
-        List<Post> posts = mainService.getFilteredPosts(status, location, price, keyword, roleEnum);
+        List<Post> posts = mainService.getFilteredPosts(status, location, price, area, startDate, endDate, keyword, roleEnum);
+        List<Post> posts2 = mainService.getAllPosts();
 
         model.addAttribute("posts", posts);
         model.addAttribute("role", role);
@@ -75,6 +81,8 @@ public class MainController {
 
         return "main/list";
     }
+
+
 
 
     @GetMapping("/write")
