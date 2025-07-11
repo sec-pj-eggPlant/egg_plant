@@ -18,4 +18,9 @@ public class MypageTradesDao {
 
         return mypageTradesRepository.searchTrades(status, startDate, endDate, startRow, endRow);
     }
+
+
+
+
+
 }

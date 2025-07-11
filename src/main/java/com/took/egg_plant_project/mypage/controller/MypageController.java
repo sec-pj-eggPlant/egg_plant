@@ -45,7 +45,7 @@ public class MypageController {
     public String modifyPage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
         if (customUserDetails == null) {
             log.warn("로그인 정보가 없습니다. 로그인 페이지로 이동합니다.");
-            return "redirect:/main/login"; // 로그인 페이지 경로
+            return "redirect:/member/login"; // 로그인 페이지 경로
         }
 
         String userID = customUserDetails.getUsername();
@@ -80,7 +80,7 @@ public class MypageController {
                                       @RequestBody Map<String, String> data) {
         Map<String, String> result = new HashMap<>();
 
-        String currentPasssword = data.get("currentPassword");
+        String currentPassword = data.get("currentPassword");
         String password = data.get("password");
         String password2 = data.get("password2");
         String newEmail = data.get("userEmail");
@@ -90,9 +90,22 @@ public class MypageController {
         MemberDto loggedMemberDto = mypageService.findByUserID(userID);
 
         log.info("loggedMemberDto: {}", loggedMemberDto);
-
-        if (password != null && !password.isBlank()) {
-            if (!bCryptPasswordEncoder.matches(currentPasssword, loggedMemberDto.getUserPW())) {
+        log.info("currentPassword: {}", currentPassword);
+        log.info("data: {}", newEmail);
+        log.info("data: {}", newTel);
+        log.info("data: {}", userID);
+        log.info("password: {}", password);
+        log.info("password2: {}", password2);
+        log.info("currentPassword != null: {}", currentPassword != null);
+        log.info("currentPassword.isBlank(): {}", !currentPassword.isBlank());
+        if (currentPassword == null || currentPassword.isBlank()) {
+            result.put("isModify", "false");
+            result.put("error", "비밀번호를 입력해주세요");
+            return result;
+        }
+        if (currentPassword != null && !currentPassword.isBlank()) {
+            if (!bCryptPasswordEncoder.matches(currentPassword, loggedMemberDto.getUserPW())) {
+                log.info("첫번째");
                 result.put("isModify", "false");
                 result.put("error", "현재 비밃번호가 올바르지 않습니다.");
                 return result;
@@ -107,6 +120,7 @@ public class MypageController {
             String encodeUserPW = bCryptPasswordEncoder.encode(password);
             loggedMemberDto.setUserPW(encodeUserPW);
         } else {
+            log.info("두번째");
             // 비밀번호 변경 안 하는 경우 기존 비밀번호 유지
             loggedMemberDto.setUserPW(customUserDetails.getPassword());
         }
@@ -138,7 +152,7 @@ public class MypageController {
         model.addAttribute("page", page);
         model.addAttribute("pageSize", pageSize);
 
-        return "my/trades2";
+        return "my/trades";
     }
 
     //나의 채팅내역

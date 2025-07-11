@@ -19,6 +19,6 @@ public class MypageTradesDto {
     private String postTitle;           // POST.TITLE(게시글/창고명)
     private String location;            // POST.LOCATION(위치)
     private int price;                  // POST.PRICE(금액)
-    private LocalDateTime startDate;    // WAREHOUSE_USE.STARTDATE(이용 시작일)
-    private LocalDateTime endDate;      // WAREHOUSE_USE.ENDDATE(이용 종료일)
+//    private LocalDateTime startDate;    // WAREHOUSE_USE.STARTDATE(이용 시작일)
+//    private LocalDateTime endDate;      // WAREHOUSE_USE.ENDDATE(이용 종료일)
 }

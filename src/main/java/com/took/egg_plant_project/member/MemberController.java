@@ -28,7 +28,7 @@ public class MemberController {
             Member member = memberService.login(memberDto.getUserID(), memberDto.getUserPW());
             session.setAttribute("loginID", member.getUserID());
             redirectAttributes.addFlashAttribute("loginSuccess", member.getNickName() + "님 환영합니다!");;
-            return "redirect:/main/list";
+            return "redirect:/member/login";
         } catch (IllegalArgumentException e) {
             return "redirect:/member/login?error=" + e.getMessage();
         }

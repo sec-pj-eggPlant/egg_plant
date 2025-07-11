@@ -98,7 +98,7 @@
                             type="password"
                             class="form-control"
                             id="currentPassword"
-                            name="currentPasssword"
+                            name="currentPassword"
                     />
                 </div>
                 <div class="mb-3">
@@ -116,7 +116,7 @@
                             type="password"
                             class="form-control"
                             id="newPassword2"
-                            name="passsword2"
+                            name="password2"
                     />
                 </div>
                 <div class="mb-3">
@@ -125,7 +125,7 @@
                             <button type="button" class="w-100 btn btn-primary" id="modifyBtn">MODIFY</button>
                         </div>
                         <div class="col-6">
-                            <a href="/mypage/mypage" class="w-100 btn btn-secondary">CANCEL</a>
+                            <a href="/my/mypage-profile" class="w-100 btn btn-secondary">CANCEL</a>
                         </div>
                     </div>
                 </div>
@@ -146,9 +146,10 @@
                         });
 
                         const result = await response.json();
+                        console.log("result====",result)
                         if (result.isModify === "true") {
                             alert("회원 정보가 수정되었습니다.");
-                            window.location.href = "/my/modify";
+                            //window.location.href = "/my/modify";
                         } else {
                             alert("수정 실패: " + result.error);
                         }

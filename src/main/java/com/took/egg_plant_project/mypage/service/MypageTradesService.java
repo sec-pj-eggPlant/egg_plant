@@ -31,8 +31,8 @@ public class MypageTradesService {
                 .postTitle((String) obj[5])
                 .location((String) obj[6])
                 .price(obj[7] != null ? ((Number) obj[7]).intValue() : 0)
-                .startDate(obj[8] != null ? ((Timestamp) obj[8]).toLocalDateTime() : null)
-                .endDate(obj[9] != null ? ((Timestamp) obj[9]).toLocalDateTime() : null)
+//                .startDate(obj[8] != null ? ((Timestamp) obj[8]).toLocalDateTime() : null)
+//                .endDate(obj[9] != null ? ((Timestamp) obj[9]).toLocalDateTime() : null)
                 .build()
         ).collect(Collectors.toList());
     }
