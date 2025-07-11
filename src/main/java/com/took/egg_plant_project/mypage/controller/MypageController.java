@@ -134,7 +134,7 @@ public class MypageController {
     }
 
     //거래 내역 조회
-    @GetMapping("/trades2")
+    @GetMapping("/trades")
     public String trades(@RequestParam(required = false) String status,
                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
