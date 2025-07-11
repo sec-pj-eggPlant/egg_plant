@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface MypagePostRepository extends JpaRepository<Post, Integer> {
     @Query(value = """
-            SELECT POSTID,TITLE,LOCATION,PRICE,CREATEDATE,STATUS       
+            SELECT POSTID,TITLE,LOCATION,STATUS       
             FROM POST
             WHERE WRITERID = :memberId
             ORDER BY CREATEDATE DESC

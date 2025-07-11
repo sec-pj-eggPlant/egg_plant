@@ -1,8 +1,11 @@
 package com.took.egg_plant_project.mypage.controller;
 
 import com.took.egg_plant_project.communal.CustomUserDetails;
+import com.took.egg_plant_project.entity.Member;
 import com.took.egg_plant_project.member.MemberDto;
+import com.took.egg_plant_project.mypage.dto.MypagePostDto;
 import com.took.egg_plant_project.mypage.dto.MypageTradesDto;
+import com.took.egg_plant_project.mypage.service.MypagePostService;
 import com.took.egg_plant_project.mypage.service.MypageService;
 import com.took.egg_plant_project.mypage.service.MypageTradesService;
 import lombok.RequiredArgsConstructor;
@@ -26,19 +29,20 @@ import java.util.Map;
 public class MypageController {
     private final MypageService mypageService;
     private final MypageTradesService mypageTradesService;
+    private final MypagePostService mypagePostService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @GetMapping("/my")
-    public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
-        String userID = customUserDetails.getUsername();
-        Integer loggedMemberID = customUserDetails.getLoggedMember().getId();
-        MemberDto loggedMemberDto = mypageService.findByUserID(userID);
-        log.info("loggedMemberDto: {}", loggedMemberDto);
-
-        model.addAttribute("loggedMemberDto", loggedMemberDto);
-        log.info(loggedMemberDto.toString());
-        return "my/my";
-    }
+//    @GetMapping("/my")
+//    public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+//        String userID = customUserDetails.getUsername();
+//        Integer loggedMemberID = customUserDetails.getLoggedMember().getId();
+//        MemberDto loggedMemberDto = mypageService.findByUserID(userID);
+//        log.info("loggedMemberDto: {}", loggedMemberDto);
+//
+//        model.addAttribute("loggedMemberDto", loggedMemberDto);
+//        log.info(loggedMemberDto.toString());
+//        return "my/my";
+//    }
 
     //회원 정보 수정
     @GetMapping("/mypage-profile")
@@ -165,7 +169,9 @@ public class MypageController {
 
     //내가 쓴 게시글 목록
     @GetMapping("/post")
-    public String myWriteList() {
+    public String post(Model model, @AuthenticationPrincipal Member member) {
+        List<MypagePostDto> posts = mypagePostService.findAllPosts();
+        model.addAttribute("posts", posts);
         return "my/post";
     }
 
