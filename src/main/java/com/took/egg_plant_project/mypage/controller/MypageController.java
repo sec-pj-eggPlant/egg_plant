@@ -162,9 +162,9 @@ public class MypageController {
     }
 
     //내가 쓴 게시글 목록
-    @GetMapping("/mywrite-list")
+    @GetMapping("/post")
     public String myWriteList() {
-        return "my/mywrite-list";
+        return "my/post";
     }
 
 
