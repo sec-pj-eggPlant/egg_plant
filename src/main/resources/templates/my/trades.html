@@ -113,62 +113,36 @@
                 <thead>
                   <tr>
                     <th>거래 ID</th>
-                    <th>게시글 ID</th>
-                    <th>임차인</th>
-                    <th>임대인</th>
                     <th>거래상태</th>
                     <th>요청일</th>
+                    <th>임차인</th>
+                    <th>임대인</th>
+                    <th>게시글제목</th>
+                    <th>위치</th>
+                    <th>금액</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>006</td>
-                    <td>002</td>
-                    <td>임차인 이름</td>
-                    <td>임대인 이름</td>
-                    <td><span class="ing">요청</span></td>
-                    <td>2025-07-05</td>
-                  </tr>
-                  <tr>
-                    <td>006</td>
-                    <td>002</td>
-                    <td>임차인 이름</td>
-                    <td>임대인 이름</td>
-                    <td><span class="ing">요청</span></td>
-                    <td>2025-07-05</td>
-                  </tr>
-                  <tr>
-                    <td>006</td>
-                    <td>002</td>
-                    <td>임차인 이름</td>
-                    <td>임대인 이름</td>
-                    <td><span class="ing">요청</span></td>
-                    <td>2025-07-05</td>
-                  </tr>
-                  <tr>
-                    <td>006</td>
-                    <td>002</td>
-                    <td>임차인 이름</td>
-                    <td>임대인 이름</td>
-                    <td><span class="ing">요청</span></td>
-                    <td>2025-07-05</td>
-                  </tr>
-                  <tr>
-                    <td>006</td>
-                    <td>002</td>
-                    <td>임차인 이름</td>
-                    <td>임대인 이름</td>
-                    <td><span class="ing">요청</span></td>
-                    <td>2025-07-05</td>
-                  </tr>
-                  <tr>
-                    <td>006</td>
-                    <td>002</td>
-                    <td>임차인 이름</td>
-                    <td>임대인 이름</td>
-                    <td><span class="ing">요청</span></td>
-                    <td>2025-07-05</td>
-                  </tr>
+                <tr th:each="trade : ${tradesList}">
+<!--                  <td th:text="${trade.id}"></td>-->
+<!--                  <td>-->
+<!--        <span th:classappend="${trade.status} == '요청' ? 'ing' : ''"-->
+<!--              th:text="${trade.status}"></span>-->
+<!--                  </td>-->
+                  <td th:text="${trade.tradeId}"></td>
+                  <td th:text="${trade.status}"></td>
+                  <td th:text="${trade.createDate}"></td>
+                  <td th:text="${trade.renterName}"></td>
+                  <td th:text="${trade.ownerName}"></td>
+                  <td th:text="${trade.postTitle}"></td>
+                  <td th:text="${trade.location}"></td>
+                  <td th:text="${trade.price}"></td>
+<!--                  <td th:text="${#temporals.format(trade.startDate, 'yyyy-MM-dd')}"></td>-->
+<!--                  <td th:text="${#temporals.format(trade.endDate, 'yyyy-MM-dd')}"></td>-->
+                </tr>
+                <tr th:if="${#lists.isEmpty(tradesList)}">
+                  <td colspan="10">조회된 거래가 없습니다.</td>
+                </tr>
                 </tbody>
               </table>
             </div>

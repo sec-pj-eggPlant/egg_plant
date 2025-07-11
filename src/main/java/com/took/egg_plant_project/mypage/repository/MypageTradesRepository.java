@@ -38,6 +38,8 @@ public interface MypageTradesRepository extends JpaRepository<Trade, Integer> {
     """, nativeQuery = true)
     List<Object[]> searchTrades(
             @Param("status") String status,
+            @Param("title") String title,
+            @Param("location") String location,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,
             @Param("startRow") int startRow,

@@ -12,11 +12,11 @@ import java.util.List;
 public class MypageTradesDao {
     private final MypageTradesRepository mypageTradesRepository;
 
-    public List<Object[]> searchTrades(String status, LocalDateTime startDate, LocalDateTime endDate, int page, int pageSize) {
+    public List<Object[]> searchTrades(String status, String title, String location, LocalDateTime startDate, LocalDateTime endDate, int page, int pageSize) {
         int startRow = (page - 1) * pageSize + 1;
         int endRow = page * pageSize;
 
-        return mypageTradesRepository.searchTrades(status, startDate, endDate, startRow, endRow);
+        return mypageTradesRepository.searchTrades(status, title, location, startDate, endDate, startRow, endRow);
     }
 
 

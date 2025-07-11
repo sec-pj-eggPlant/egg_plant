@@ -136,6 +136,8 @@ public class MypageController {
     //거래 내역 조회
     @GetMapping("/trades")
     public String trades(@RequestParam(required = false) String status,
+                          @RequestParam(required = false) String title,
+                          @RequestParam(required = false) String location,
                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
                           @RequestParam(required = false, defaultValue = "1") int page,
@@ -143,7 +145,7 @@ public class MypageController {
                           Model model) {
         //int totalCount = mypageTradesService.countTrades(category, keyword, startDate, endDate, status);
         //model.addAttribute("totalCount", totalCount);
-        List<MypageTradesDto> tradesList = mypageTradesService.searchTrades(status, startDate, endDate, page, pageSize);
+        List<MypageTradesDto> tradesList = mypageTradesService.searchTrades(status, title, location, startDate, endDate, page, pageSize);
 
         model.addAttribute("tradesList", tradesList);
         model.addAttribute("status", status);
