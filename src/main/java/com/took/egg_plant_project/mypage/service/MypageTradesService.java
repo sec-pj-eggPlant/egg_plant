@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 public class MypageTradesService {
     private final MypageTradesRepository mypageTradesRepository;
 
-    public List<MypageTradesDto> searchTrades(String status, String title, String location, LocalDateTime startDate, LocalDateTime endDate, int page, int pageSize) {
+    public List<MypageTradesDto> searchTrades(String searchType, String keyword, LocalDateTime startDate, LocalDateTime endDate, int page, int pageSize) {
         int startRow = (page - 1) * pageSize + 1;
         int endRow = page * pageSize;
-        List<Object[]> results = mypageTradesRepository.searchTrades(status, title, location, startDate, endDate, startRow, endRow);
+        List<Object[]> results = mypageTradesRepository.searchTrades(searchType, keyword, startDate, endDate, startRow, endRow);
 
         return results.stream().map(obj -> MypageTradesDto.builder()
                 .tradeId(((Number) obj[0]).intValue())

@@ -48,7 +48,7 @@
           </form>
         </div>
         <a href="" id="profile">
-          <span>김의진</span>
+          <span>더미2</span>
           <span class="img">
             <img src="../images/profile.jpg" alt="" />
           </span>
@@ -70,7 +70,7 @@
         <div class="col-8 contents">
           <div class="mypage-search-wrap">
             <div class="mypage-search">
-              <form action="">
+              <form th:action="@{/my/trades}" method="get">
                 <div class="row mb-2 w-50">
                   <label for="" class="col-3 col-form-label label-100 fw-bold"
                     >검색어</label
@@ -81,16 +81,19 @@
                       aria-label="Default select example"
                     >
                       <option selected>거래상태</option>
-                      <option value="1">거래 ID</option>
+                      <option selected>제목</option>
+                      <option selected>위치</option>
+<!--                      <option value="1">거래 ID</option>-->
                     </select>
+                    <input type="text" name="keyword" class="form-control" th:value="${startDate}">
                   </div>
                 </div>
                 <div class="row mb-2 w-50">
                   <label for="" class="col-3 col-form-label label-100 fw-bold"
-                    >날짜</label
+                    >요청일</label
                   >
                   <div class="col-4">
-                    <input type="date" class="form-control" id="" />
+                    <input type="date" name="startDate" class="form-control" th:value="${startDate}">
                   </div>
                   <div
                     class="col-1 d-flex align-items-center justify-content-center"
@@ -98,13 +101,13 @@
                     ~
                   </div>
                   <div class="col-4">
-                    <input type="date" class="form-control w-100" id="" />
+                    <input type="date" name="endDate" class="form-control w-100" th:value="${endDate}">
                   </div>
                 </div>
 
                 <div class="btn-wrap text-center">
-                  <button class="btn btn-primary btn-lg w-20">검색</button>
-                  <button class="btn btn-secondary btn-lg w-20">초기화</button>
+                  <button class="btn btn-primary btn-lg w-20" type="submit">검색</button>
+                  <button class="btn btn-secondary btn-lg w-20" type="button" onclick="location.href='@{/my/trades}'">초기화</button>
                 </div>
               </form>
             </div>
