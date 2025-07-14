@@ -1,12 +1,10 @@
 package com.took.egg_plant_project.main;
 
-import com.took.egg_plant_project.constant.Role;
 import com.took.egg_plant_project.entity.Member;
 import com.took.egg_plant_project.entity.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -46,10 +44,5 @@ public class MainService {
 
     public List<Post> getPostByStatus(String status) {
         return mainRepository.findByStatus(status);
-    }
-
-    public List<Post> getFilteredPosts(String status, String location, Integer price, Integer area,
-                                       LocalDate startDate, LocalDate endDate, String keyword, Role role) {
-        return mainRepository.findByFilters(status, location, price, area, startDate, endDate, keyword, role);
     }
 }

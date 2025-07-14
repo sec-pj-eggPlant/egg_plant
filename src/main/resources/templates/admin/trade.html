@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/css/admin_globals.css"/>
+    <link rel="stylesheet" href="/css/admin_trades_style.css"/>
+    <link rel="stylesheet" href="/css/admin_trades_styleguide.css"/>
+</head>
+<body>
+<div class="screen">
+    <div class="div">
+        <div class="text-wrapper">Trades</div>
+        <div class="group">
+            <form th:action="@{/admin/trade}" method="get" class="trade-search-form">
+                <div class="search-bar-vertical">
+
+                    <!-- 상단: 조건 + 검색어 + 아이콘 -->
+                    <div class="search-top">
+                        <select name="category" class="select-box">
+                            <option value="">검색 조건</option>
+                            <option value="renter">임차인</option>
+                            <option value="owner">임대인</option>
+                            <option value="status">거래상태</option>
+                        </select>
+
+                        <div class="search-input-group">
+                            <input type="text" name="keyword" placeholder="검색어를 입력해주세요." class="text-input"/>
+<!--                            <button type="submit" class="search-icon">-->
+<!--                                <img src="/img/admin/magnifier.svg" alt="검색"/>-->
+<!--                            </button>-->
+                        </div>
+                    </div>
+
+                    <!-- 날짜 범위 + 검색버튼 -->
+                    <div class="search-bottom">
+                        <input type="date" name="startDate" class="date-input"/>
+                        <span class="date-tilde">~</span>
+                        <input type="date" name="endDate" class="date-input"/>
+
+                        <button type="submit" class="date-search-button">검색</button>
+                    </div>
+
+                </div>
+            </form>
+
+
+        </div>
+        <div class="overlap-wrapper">
+            <div class="overlap-3">
+                <table class="trade-table">
+                    <thead>
+                    <tr>
+                        <th>거래ID</th>
+                        <th>게시글ID</th>
+                        <th>임차인</th>
+                        <th>임대인</th>
+                        <th>거래상태</th>
+                        <th>요청일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="trade : ${tradeList}">
+                        <td th:text="${trade.id}">1</td>
+                        <td th:text="${trade.post?.id}">101</td>
+                        <td th:text="${trade.renter?.userID}">renter01</td>
+                        <td th:text="${trade.owner?.userID}">owner01</td>
+                        <td th:text="${trade.status}">요청</td>
+                        <td th:text="${#temporals.format(trade.createdAt, 'yyyy-MM-dd')}">2025-07-01</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+
+
+        <div class="overlap-9">
+            <!-- Gaji 로고 -->
+            <a href="/admin/dashboard">
+                <img class="layer" src="/img/admin/layer-1.svg" />
+            </a>
+
+            <div class="text-wrapper-13">Logout</div>
+            <div class="text-wrapper-14">Warehouse</div>
+
+            <!-- Trades -->
+            <a href="/admin/trade">
+                <div class="text-wrapper-15">Trades</div>
+                <img class="vector" src="/img/admin/vector-y.svg" />
+            </a>
+
+
+            <img class="design-tools-grid" src="/img/admin/grid.svg"/>
+
+            <!-- Dashboard -->
+            <a href="/admin/dashboard">
+                <div class="text-wrapper-16">Dashboard</div>
+                <img class="monochrome-layer" src="/img/admin/layer-group.svg" />
+            </a>
+
+            <!-- Members -->
+            <a href="/admin/member">
+                <div class="text-wrapper-17">members</div>
+                <img class="users-users" src="/img/admin/users.svg" />
+            </a>
+
+            <img class="img" src="/img/admin/logout.svg"/>
+        </div>
+    </div>
+</div>
+</body>
+</html>
