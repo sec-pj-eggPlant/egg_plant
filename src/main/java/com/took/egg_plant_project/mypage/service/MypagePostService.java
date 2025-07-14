@@ -20,23 +20,18 @@ public class MypagePostService {
         List<Object[]> results = mypagePostDao.findMyPosts(memberId);
         return results.stream()
                 .map(obj -> MypagePostDto.builder()
-                        .id(((Number) obj[0]).intValue())
-                        .title((String) obj[1])
-                        .location((String) obj[2])
+                                .id(((Number) obj[0]).intValue())
+                                .title((String) obj[1])
+                                .location((String) obj[2])
 //                        .price(obj[3] != null ? ((Number) obj[3]).intValue() : 0)
 //                        .area(obj[4] != null ? ((Number) obj[4]).intValue() : 0)
 //                        .startDate(obj[5] != null ? ((java.sql.Date) obj[5]).toLocalDate() : null)
 //                        .endDate(obj[6] != null ? ((java.sql.Date) obj[6]).toLocalDate() : null)
-                        .status((String) obj[3])
-                        .build()
+                                .status((String) obj[3])
+                                .build()
                 ).toList();
 
     }
 
-    public List<MypagePostDto> findAllPosts() {
-        return mypagePostRepository.findAll().stream()
-                .map(MypagePostDto::fromEntity)
-                .collect(Collectors.toList());
-    }
-    }
+}
 

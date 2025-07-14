@@ -70,53 +70,14 @@
         <div class="col-8 contents">
           <div class="list">
             <ul>
-              <li>
-                <a href="">
-                  <span class="no">1</span>
-                  <span class="region">서울 강서구</span>
-                  <span class="con">1일 보관요청</span>
-                  <span class="date">2025-07-05</span>
-                </a>
+              <li th:each="post : ${posts}">
+                <span class="no" th:text="${post.id}">1</span>
+                <span class="region" th:text="${post.location}">지역</span>
+                <span class="con" th:text="${post.title}">제목</span>
+                <span class="date" th:text="${post.status}">상태</span>
               </li>
-              <li>
-                <a href="">
-                  <span class="no">2</span>
-                  <span class="region">서울 강동구</span>
-                  <span class="con">1일 보관요청</span>
-                  <span class="date">2025-07-05</span>
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  <span class="no">3</span>
-                  <span class="region">인천 계양구</span>
-                  <span class="con">1일 보관요청</span>
-                  <span class="date">2025-07-05</span>
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  <span class="no">1</span>
-                  <span class="region">서울 강서구</span>
-                  <span class="con">1일 보관요청</span>
-                  <span class="date">2025-07-05</span>
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  <span class="no">2</span>
-                  <span class="region">서울 강동구</span>
-                  <span class="con">1일 보관요청</span>
-                  <span class="date">2025-07-05</span>
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  <span class="no">3</span>
-                  <span class="region">인천 계양구</span>
-                  <span class="con">1일 보관요청</span>
-                  <span class="date">2025-07-05</span>
-                </a>
+              <li th:if="${#lists.isEmpty(posts)}">
+                <div class="text-center py-4 text-secondary">작성한 게시글이 없습니다.</div>
               </li>
             </ul>
           </div>

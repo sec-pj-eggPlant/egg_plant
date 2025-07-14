@@ -12,7 +12,7 @@ public interface MypagePostRepository extends JpaRepository<Post, Integer> {
             SELECT POSTID,TITLE,LOCATION,STATUS       
             FROM POST
             WHERE WRITERID = :memberId
-            ORDER BY CREATEDATE DESC
+            ORDER BY CREATEDAT DESC
             """, nativeQuery = true)
     List<Object[]> findMyPostsByMemberId(@Param("memberId") Integer memberId);
 }

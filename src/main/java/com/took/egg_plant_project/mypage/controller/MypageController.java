@@ -169,8 +169,12 @@ public class MypageController {
 
     //내가 쓴 게시글 목록
     @GetMapping("/post")
-    public String post(Model model, @AuthenticationPrincipal Member member) {
-        List<MypagePostDto> posts = mypagePostService.findAllPosts();
+    public String post(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        if (customUserDetails == null) {
+            return "redirect:/member/login";
+        }
+        Integer memberId = customUserDetails.getLoggedMember().getId();
+        List<MypagePostDto> posts = mypagePostService.getMyPosts(memberId);
         model.addAttribute("posts", posts);
         return "my/post";
     }
