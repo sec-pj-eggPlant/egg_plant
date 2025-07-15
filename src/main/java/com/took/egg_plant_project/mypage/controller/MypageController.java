@@ -3,6 +3,7 @@ package com.took.egg_plant_project.mypage.controller;
 import com.took.egg_plant_project.communal.CustomUserDetails;
 import com.took.egg_plant_project.entity.Member;
 import com.took.egg_plant_project.member.MemberDto;
+//import com.took.egg_plant_project.mypage.dto.MypageChatDto;
 import com.took.egg_plant_project.mypage.dto.MypagePostDto;
 import com.took.egg_plant_project.mypage.dto.MypageTradesDto;
 import com.took.egg_plant_project.mypage.service.MypagePostService;
@@ -139,20 +140,26 @@ public class MypageController {
 
     //거래 내역 조회
     @GetMapping("/trades")
-    public String trades(@RequestParam(required = false) String searchType,
-                          @RequestParam(required = false) String keyword,
+    public String trades(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                          @RequestParam(required = false) String status,
+                          @RequestParam(required = false) String title,
+                          @RequestParam(required = false) String renterName,
+                          @RequestParam(required = false) String ownerName,
                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
                           @RequestParam(required = false, defaultValue = "1") int page,
                           @RequestParam(required = false, defaultValue = "10") int pageSize,
                           Model model) {
+        int userId = customUserDetails.getLoggedMember().getId();
         //int totalCount = mypageTradesService.countTrades(category, keyword, startDate, endDate, status);
         //model.addAttribute("totalCount", totalCount);
-        List<MypageTradesDto> tradesList = mypageTradesService.searchTrades(searchType, keyword, startDate, endDate, page, pageSize);
+        List<MypageTradesDto> tradesList = mypageTradesService.getTrades(userId, status, title, renterName, ownerName, startDate, endDate, page, pageSize);
 
         model.addAttribute("tradesList", tradesList);
-        model.addAttribute("searchType", searchType);
-        model.addAttribute("keyword", keyword);
+        model.addAttribute("status", status);
+        model.addAttribute("title", title);
+        model.addAttribute("renterName", renterName);
+        model.addAttribute("ownerName", ownerName);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
         model.addAttribute("page", page);
@@ -163,7 +170,11 @@ public class MypageController {
 
     //나의 채팅내역
     @GetMapping("/chat")
-    public String chat() {
+    public String chat(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails)
+    {
+        Integer memberId = customUserDetails.getLoggedMember().getId();
+        //List<MypageChatDto> chatRooms = mypageChatService.findChatRoomsByMemberId(memberId);
+        //model.addAttribute("chatRooms", chatRooms);
         return "my/chat";
     }
 
