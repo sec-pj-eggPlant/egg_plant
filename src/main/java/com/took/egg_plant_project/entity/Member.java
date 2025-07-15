@@ -42,4 +42,10 @@ public class Member extends BaseTime{
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_RENTER;
+
+    public void updateInfo(String userName, String userEmail, String tel) {
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.tel = tel;
+    }
 }

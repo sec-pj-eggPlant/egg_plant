@@ -36,7 +36,7 @@ public class WarehouseService {
                     boolean rented = false;
                     if (startDate != null && endDate != null) {
                         rented = useRepository
-                                .existsByBox_IdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                                .existsByWarehouse_IdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
                                         b.getId(), endDate, startDate);
                     }
                     // 박스 정보는 warehouse에서 가져옴
@@ -82,14 +82,12 @@ public class WarehouseService {
                     .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 박스: " + boxId));
 
             boolean overlap = useRepository
-                    .existsByBox_IdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                    .existsByWarehouse_IdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
                             boxId, end, start);
             if (overlap) {
                 throw new IllegalStateException("이미 대여 중인 기간입니다: 박스ID=" + boxId);
             }
-
-            String status = "예약완료"; // 혹은 "사용중", "종료" 등
-            WarehouseUse use = WarehouseUse.create(box, member, start, end, status);
+            WarehouseUse use = WarehouseUse.create(box, member, start, end);
             useRepository.save(use);
 
             Warehouse w = box.getWarehouse();
@@ -147,8 +145,7 @@ public class WarehouseService {
 
         for (Integer boxId : boxIds) {
             Box box = boxRepository.findById(boxId).orElseThrow();
-            String status = "예약완료"; // 혹은 "사용중", "종료" 등
-            WarehouseUse use = WarehouseUse.create(box, member, start, end, status);
+            WarehouseUse use = WarehouseUse.create(box, member, start, end);
             useRepository.save(use);
         }
         // 결제방식(paymentType)은 기록만 필요하면 DB 기록 등 추가 가능

@@ -40,13 +40,29 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public Member login(String userID, String rawPassword) {
+    public MemberDto login(String userID, String rawPassword) {
         Member member = memberRepository.findByUserID(userID)
                 .orElseThrow(() -> new IllegalArgumentException("아이디가 존재하지 않습니다."));
+
         if (!passwordEncoder.matches(rawPassword, member.getUserPW())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
-        return member;
+
+        return toDto(member);
+    }
+
+    private MemberDto toDto(Member member) {
+        return MemberDto.builder()
+                .id(member.getId())
+                .userID(member.getUserID())
+                .userPW(member.getUserPW())
+                .nickName(member.getNickName())
+                .userName(member.getUserName())
+                .userEmail(member.getUserEmail())
+                .tel(member.getTel())
+                .role(member.getRole())
+                .createdAt(member.getCreatedAt())
+                .build();
     }
 
     public boolean existsByUserID(String userID) {

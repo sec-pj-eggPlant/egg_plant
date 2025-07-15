@@ -23,7 +23,17 @@ public class MypageService {
     @Transactional(readOnly = true)
     public MemberDto findByUserID(String userID) {
         return mypageDao.findByUserID(userID)
-                .map(Member::toMemberDto)
+                .map(member -> MemberDto.builder()
+                        .id(member.getId())
+                        .userID(member.getUserID())
+                        .userPW(member.getUserPW())
+                        .nickName(member.getNickName())
+                        .userName(member.getUserName())
+                        .userEmail(member.getUserEmail())
+                        .tel(member.getTel())
+                        .role(member.getRole())
+                        .createdAt(member.getCreatedAt())
+                        .build())
                 .orElse(null);
     }
 
