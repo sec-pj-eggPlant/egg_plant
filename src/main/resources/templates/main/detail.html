@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>상세 페이지</title>
+</head>
+<body>
+<h2 th:text="${post.title}">제목</h2>
+
+<div>
+    <img th:src="${post.imagePath}" alt="이미지" style="max-width: 300px; max-height: 300px;" />
+</div>
+
+<p th:text="${post.content}">내용</p>
+
+<p>가격: <span th:text="${post.price}">0</span> 원</p>
+<p>면적: <span th:text="${post.area}">0</span> 평</p>
+<p>지역: <span th:text="${post.location}">위치</span></p>
+
+<p>기간:
+    <span th:text="${#temporals.format(post.startDate, 'yyyy년 MM월 dd일')}"></span> ~
+    <span th:text="${#temporals.format(post.endDate, 'yyyy년 MM월 dd일')}"></span>
+</p>
+</body>
+</html>

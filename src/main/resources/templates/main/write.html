@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>거래글 작성</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -21,6 +21,16 @@
     <style>
       :root {
         --bs-primary: #5f328e; /* 예: 보라색으로 변경 */
+      }
+      /* 스핀 버튼 제거 (가격, 면적 input용) */
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      input[type="number"] {
+        -moz-appearance: textfield;
       }
     </style>
     <script
@@ -55,96 +65,74 @@
         </a>
       </div>
     </header>
-    <div class="container min-vh-100 write-wrap">
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6">
-          <form action="">
-            <div class="preview-box">
-              <div class="preview mb-4">
-                <img src="../images/dummy.jpg" alt="" />
-              </div>
-              <div class="mb-4">
-                <input
-                  class="form-control"
-                  type="file"
-                  id="formFileMultiple"
-                  multiple=""
-                />
-              </div>
-              <div class="mb-4">
-                <label for="" class="form-label fw-bold">제목</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id=""
-                  placeholder="subject"
-                />
-              </div>
-              <div class="mb-4">
-                <label for="" class="form-label fw-bold">상세설명</label>
-                <textarea
-                  class="form-control"
-                  id=""
-                  rows="3"
-                  placeholder="상세설명"
-                ></textarea>
-              </div>
-              <div class="mb-4">
-                <label for="" class="form-label fw-bold">가격</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id=""
-                  placeholder="price"
-                />
-              </div>
-              <div class="mb-4">
-                <label for="" class="form-label fw-bold">지역</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id=""
-                  placeholder="region"
-                />
-              </div>
-              <div class="mb-4">
-                <label for="" class="form-label fw-bold">면적</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id=""
-                  placeholder="area"
-                />
-              </div>
-              <div class="mb-4">
-                <label for="" class="form-label fw-bold">기간</label>
-                <div class="row">
-                  <div class="col-md-6">
-                    <input
-                      type="date"
-                      id="startDate"
-                      class="form-control"
-                      placeholder="YYYY-MM-DD"
-                    />
-                  </div>
-                  <div class="col-md-6">
-                    <input
-                      type="date"
-                      id="endDate"
-                      class="form-control"
-                      placeholder="YYYY-MM-DD"
-                    />
-                  </div>
+    <div class="container min-vh-100 py-5 write-wrap">
+      <div class="row justify-content-center">
+        <div class="col-md-6"> <!-- 중앙 정렬과 적절한 너비 설정 -->
+
+          <form method="post" action="/main/write" enctype="multipart/form-data">
+            <!-- 사진 첨부 (임대인만 보이게) -->
+            <div class="mb-4" th:if="${role == 'ROLE_OWNER'}">
+              <label class="form-label fw-bold">사진 첨부</label>
+              <input type="file" class="form-control" name="imageFile" accept="image/*">
+            </div>
+
+            <!-- 제목 -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">제목</label>
+              <input type="text" class="form-control" name="title" required>
+            </div>
+
+            <!-- 상세 설명 -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">상세 설명</label>
+              <textarea class="form-control" name="content" rows="4" required></textarea>
+            </div>
+
+            <!-- 가격 -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">가격 (원)</label>
+              <input type="number" class="form-control" name="price" required>
+            </div>
+
+            <!-- 지역 -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">지역</label>
+              <select class="form-select" name="location" required>
+                <option value="">지역 선택</option>
+                <option value="서울 강남구">서울 강남구</option>
+                <option value="서울 마포구">서울 마포구</option>
+                <option value="부산 해운대구">부산 해운대구</option>
+                <option value="대구 수성구">대구 수성구</option>
+              </select>
+            </div>
+
+            <!-- 면적 -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">면적 (평)</label>
+              <input type="number" class="form-control" name="area" required>
+            </div>
+
+            <!-- 기간 -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">대여 가능 기간</label>
+              <div class="row g-2">
+                <div class="col">
+                  <input type="date" class="form-control" name="startDate" required>
+                </div>
+                <div class="col-auto d-flex align-items-center">-</div>
+                <div class="col">
+                  <input type="date" class="form-control" name="endDate" required>
                 </div>
               </div>
-              <div class="my-5 text-center">
-                <button class="btn btn-primary btn-lg">작성하기</button>
-              </div>
+            </div>
+
+            <!-- 버튼 -->
+            <div class="text-center mt-5">
+              <button type="submit" class="btn btn-primary btn-lg">작성하기</button>
             </div>
           </form>
+
         </div>
-        <div class="col-3"></div>
       </div>
     </div>
     <footer>

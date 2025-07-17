@@ -138,41 +138,47 @@
         <input type="hidden" name="role" th:value="${role}" />
         <div class="mb-4">
           <label class="form-label fw-bold">가격</label>
-          <input type="number" name="price" class="form-control" placeholder="price" />
+          <input type="number" name="price" class="form-control" placeholder="price" th:value="${price}" />
         </div>
         <div class="mb-4">
           <label class="form-label fw-bold">지역</label>
-          <input type="text" name="location" class="form-control" placeholder="region" />
+          <input type="text" name="location" class="form-control" placeholder="region" th:value="${location}" />
         </div>
         <div class="mb-4">
           <label class="form-label fw-bold">면적
-            <span id="areaDisplay" class="ms-2  text-primary">50평</span>
+            <span id="areaDisplay" class="ms-2 text-primary"
+                  th:text="${area != null ? area + '평' : '50평'}"></span>
           </label>
-          <input type="range" class="form-range" name="area" min="0" max="100" value="50" id="areaRange" />
+
+          <input type="range" class="form-range" name="areaDisplay" min="0" max="100"
+                 th:value="${area != null ? area : 50}"
+                 id="areaRange" />
+
+          <input type="hidden" name="area" id="areaHidden"
+                 th:value="${area != null ? area : 50}" />
         </div>
-        <div class="mb-4">
-          <label class="form-label fw-bold">기간</label>
           <div class="row">
-            <div class="col-md-6">
-              <input type="date" name="startDate" class="form-control" />
-            </div>
-            <div class="col-md-6">
-              <input type="date" name="endDate" class="form-control" />
+            <div class="mb-4">
+              <label class="form-label fw-bold">기간</label>
+              <div class="d-flex align-items-center gap-2">
+                <input type="date" name="startDate" class="form-control" th:value="${startDate}" />
+                <span class="mx-2">-</span>
+                <input type="date" name="endDate" class="form-control" th:value="${endDate}" />
+              </div>
             </div>
           </div>
-        </div>
         <div class="mb-4">
           <label class="form-label fw-bold">거래상태</label>
           <select name="status" class="form-select">
-            <option value="">전체</option>
-            <option value="ACTIVE">거래 가능</option>
-            <option value="IN_PROGRESS">거래 중</option>
-            <option value="DONE">거래 완료</option>
+            <option value="" th:selected="${status == null}">전체</option>
+            <option value="ACTIVE" th:selected="${status == 'ACTIVE'}">거래 가능</option>
+            <option value="IN_PROGRESS" th:selected="${status == 'IN_PROGRESS'}">거래 중</option>
+            <option value="DONE" th:selected="${status == 'DONE'}">거래 완료</option>
           </select>
         </div>
         <div class="mb-4">
           <label class="form-label fw-bold">검색어</label>
-          <input type="text" name="keyword" class="form-control" placeholder="제목 검색" />
+          <input type="text" name="keyword" class="form-control" placeholder="검색" th:value="${keyword}" />
         </div>
         <div class="mb-4">
           <button class="btn btn-primary w-100 btn-lg" type="submit">검색</button>
@@ -181,13 +187,14 @@
     </div>
     <div class="col-8">
       <ul class="list">
-        <li th:if="${#lists.isEmpty(posts) and (status != null or location != null or price != null or keyword != null)}"
+        <li th:if="${#lists.isEmpty(posts)
+          and (price != null or location != null or area != null or startDate != null or endDate != null or status != null or keyword != null)}"
             class="text-center text-muted py-5">
           현재 조건에 해당하는 게시글이 없습니다.
         </li>
         <li class="d-flex mb-4" th:each="post : ${posts}" th:onclick="'location.href=\'/main/detail/' + ${post.id} + '\''" style="cursor:pointer;">
           <div class="col-md-4">
-            <img src="/images/dummy.jpg" class="img-fluid thumbnail" alt="썸네일" />
+            <img th:src="@{${post.imagePath}}" class="img-fluid thumbnail" alt="썸네일" />
           </div>
           <div class="col-md-8 p-3">
             <div class="card-body">
@@ -265,13 +272,36 @@
     toast.show();
   }
 
-  const areaRange = document.getElementById('areaRange');
-  const areaDisplay = document.getElementById('areaDisplay');
-  if (areaRange && areaDisplay) {
-    areaRange.addEventListener('input', function () {
-      areaDisplay.textContent = this.value + '평';
-    });
-  }
+  document.addEventListener("DOMContentLoaded", function () {
+    let areaTouched = false;
+
+    const areaRange = document.getElementById('areaRange');
+    const areaDisplay = document.getElementById('areaDisplay');
+    const areaHidden = document.getElementById('areaHidden');
+
+    if (areaRange && areaDisplay && areaHidden) {
+      // 초기 렌더링 시 값 동기화
+      areaDisplay.textContent = areaRange.value + '평';
+      areaHidden.value = areaRange.value;
+
+      // 사용자가 슬라이더 조작했는지 감지
+      areaRange.addEventListener('input', function () {
+        areaDisplay.textContent = this.value + '평';
+        areaHidden.value = this.value;
+        areaTouched = true;
+      });
+
+      // submit 시, 조작 안 했으면 hidden 전송 막기
+      const form = areaRange.closest("form");
+      if (form) {
+        form.addEventListener("submit", function () {
+          if (!areaTouched) {
+            areaHidden.disabled = true;
+          }
+        });
+      }
+    }
+  });
 </script>
 </body>
 </html>

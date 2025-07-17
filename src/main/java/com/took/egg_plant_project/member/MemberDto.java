@@ -21,4 +21,5 @@ public class MemberDto {
     private String tel;
     private LocalDate createdAt;
     private Role role;
+    private String lockerCode;
 }

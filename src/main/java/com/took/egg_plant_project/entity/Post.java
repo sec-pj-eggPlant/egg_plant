@@ -40,4 +40,7 @@ public class Post extends BaseTime {
 
     @Column(length = 20)
     private String status = "ACTIVE";
+
+    @Column(length = 300)
+    private String imagePath;
 }
