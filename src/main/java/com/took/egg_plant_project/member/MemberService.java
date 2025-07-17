@@ -60,4 +60,8 @@ public class MemberService {
     public boolean existsByNickName(String nickName) {
         return memberRepository.existsByNickName(nickName);
     }
+
+    public Member getByUserID(String name) {
+        return memberRepository.getByUserID(name);
+    }
 }

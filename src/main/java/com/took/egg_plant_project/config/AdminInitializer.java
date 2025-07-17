@@ -29,6 +29,7 @@ public class AdminInitializer implements CommandLineRunner {
                     .userEmail("admin@admin.com")
                     .tel("010-8765-4321")
                     .role(Role.ROLE_ADMIN)
+                    .lockerCode("WHS-ADMIN123")
                     .build();
             memberDao.save(admin);
         } else {
@@ -44,6 +45,7 @@ public class AdminInitializer implements CommandLineRunner {
                     .userEmail("owner@naver.com")
                     .tel("010-1234-5678")
                     .role(Role.ROLE_OWNER)
+                    .lockerCode("WHS-OWNER123")
                     .build();
             memberDao.save(owner);
         }
@@ -57,6 +59,7 @@ public class AdminInitializer implements CommandLineRunner {
                     .userEmail("renter@naver.com")
                     .tel("010-9876-5432")
                     .role(Role.ROLE_RENTER)
+                    .lockerCode("WHS-RENTER123")
                     .build();
             memberDao.save(renter);
         }

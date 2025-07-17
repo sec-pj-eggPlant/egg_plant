@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.UUID;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/member")
@@ -42,6 +44,8 @@ public class MemberController {
     @PostMapping("/signup")
     public String signup(MemberDto memberDto, RedirectAttributes redirectAttributes) {
 
+        String lockerCode = "WHS-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+
         Member member = Member.builder()
                 .userID(memberDto.getUserID())
                 .userPW(memberDto.getUserPW())
@@ -50,6 +54,7 @@ public class MemberController {
                 .userEmail(memberDto.getUserEmail())
                 .tel(memberDto.getTel())
                 .role(memberDto.getRole())
+                .lockerCode(lockerCode)
                 .build();
 
         memberService.signup(member);
