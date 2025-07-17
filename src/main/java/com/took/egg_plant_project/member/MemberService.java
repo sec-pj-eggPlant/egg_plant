@@ -6,6 +6,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -27,6 +29,8 @@ public class MemberService {
 
         String encodedPw = passwordEncoder.encode(member.getUserPW());
 
+        String lockerCode = "WHS-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+
         member = Member.builder()
                 .userID(member.getUserID())
                 .userPW(encodedPw)
@@ -35,6 +39,7 @@ public class MemberService {
                 .userEmail(member.getUserEmail())
                 .tel(member.getTel())
                 .role(member.getRole())
+                .lockerCode(lockerCode)
                 .build();
 
         memberRepository.save(member);
