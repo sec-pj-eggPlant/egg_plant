@@ -18,4 +18,5 @@ public class MainDto {
     private LocalDate endDate;
     private String status;
     private String imagePath;
+    private String writerRole;
 }

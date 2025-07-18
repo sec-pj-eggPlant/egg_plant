@@ -7,6 +7,9 @@ import com.took.egg_plant_project.entity.Post;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,7 @@ public class MainController {
 
     @GetMapping("/list")
     public String getList(@RequestParam(value = "role", required = false) String role,
+                          @RequestParam(value = "page", defaultValue = "0") int page,
                           @AuthenticationPrincipal CustomUserDetails userDetails,
                           HttpSession session,
                           Model model) {
@@ -45,10 +49,16 @@ public class MainController {
         }
 
         Role targetRole = Role.valueOf("ROLE_" + role);
-        List<MainDto> posts = mainService.getFilteredPosts(targetRole);
+        Pageable pageable = PageRequest.of(page, 4);
+
+        Page<MainDto> postsPage = mainService.getPagedPosts(targetRole, pageable);
+
+        model.addAttribute("postsPage", postsPage);             // 전체 Page 객체 (페이지네이션 정보 포함)
+        model.addAttribute("posts", postsPage.getContent());    // 실제 게시글 목록
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", postsPage.getTotalPages());
 
         model.addAttribute("role", role);
-        model.addAttribute("posts", posts);
         model.addAttribute("price", null);
         model.addAttribute("location", null);
         model.addAttribute("area", null);
@@ -83,19 +93,26 @@ public class MainController {
                              @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
                              @RequestParam(required = false) String status,
                              @RequestParam(required = false) String keyword,
+                             @RequestParam(value = "page", defaultValue = "0") int page,
                              Model model) {
 
         if (location != null && location.trim().isEmpty()) location = null;
         if (status != null && status.trim().isEmpty()) status = null;
         if (keyword != null && keyword.trim().isEmpty()) keyword = null;
 
-
         Role targetRole = Role.valueOf("ROLE_" + role);
+        Pageable pageable = PageRequest.of(page, 4); // 페이지당 4개
 
-        List<MainDto> posts = mainService.filterPostsByConditions(targetRole, price, location, area, startDate, endDate, status, keyword);
+        Page<MainDto> postsPage = mainService.filterPostsByConditions(
+                targetRole, price, location, area, startDate, endDate, status, keyword, pageable);
 
+        model.addAttribute("posts", postsPage.getContent());
+        model.addAttribute("postsPage", postsPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", postsPage.getTotalPages());
+
+        // 검색 조건 유지
         model.addAttribute("role", role);
-        model.addAttribute("posts", posts);
         model.addAttribute("price", price);
         model.addAttribute("location", location);
         model.addAttribute("area", area);
@@ -103,6 +120,7 @@ public class MainController {
         model.addAttribute("endDate", endDate);
         model.addAttribute("status", status);
         model.addAttribute("keyword", keyword);
+
         return "main/list";
     }
 
@@ -123,14 +141,29 @@ public class MainController {
                            @AuthenticationPrincipal CustomUserDetails userDetails) throws IOException {
         Member writer = userDetails.getLoggedMember();
         mainService.savePostWithImage(dto, writer, imageFile);
-        return "redirect:/main/list";
+
+        String roleParam = writer.getRole() == Role.ROLE_OWNER ? "OWNER" : "RENTER";
+        return "redirect:/main/list?role=" + roleParam;
     }
 
     @GetMapping("/detail/{id}")
-    public String showDetail(@PathVariable Integer id, Model model) {
+    public String goDetailPage(@PathVariable Integer id, Model model) {
         Post post = mainService.getPostById(id);
-        if (post == null) return "redirect:/main/list";
-        model.addAttribute("post", post);
+
+        MainDto dto = new MainDto();
+        dto.setId(post.getId());
+        dto.setTitle(post.getTitle());
+        dto.setContent(post.getContent());
+        dto.setPrice(post.getPrice());
+        dto.setArea(post.getArea());
+        dto.setLocation(post.getLocation());
+        dto.setStartDate(post.getStartDate());
+        dto.setEndDate(post.getEndDate());
+        dto.setStatus(post.getStatus());
+        dto.setImagePath(post.getImagePath());
+        dto.setWriterRole(post.getWriter().getRole().name());
+
+        model.addAttribute("post", dto);
         return "main/detail";
     }
 }

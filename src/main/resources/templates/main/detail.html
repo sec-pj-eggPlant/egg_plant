@@ -7,8 +7,9 @@
 <body>
 <h2 th:text="${post.title}">제목</h2>
 
-<div>
-    <img th:src="${post.imagePath}" alt="이미지" style="max-width: 300px; max-height: 300px;" />
+<div th:if="${post.writerRole == 'ROLE_OWNER'}" class="mb-4">
+    <img th:if="${post.imagePath != null}" th:src="@{${post.imagePath}}" class="img-fluid" alt="게시글 이미지" />
+    <img th:if="${post.imagePath == null}" th:src="@{/images/default.png}" class="img-fluid" alt="기본 이미지" />
 </div>
 
 <p th:text="${post.content}">내용</p>

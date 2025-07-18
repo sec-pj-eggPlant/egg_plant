@@ -193,13 +193,16 @@
           현재 조건에 해당하는 게시글이 없습니다.
         </li>
         <li class="d-flex mb-4" th:each="post : ${posts}" th:onclick="'location.href=\'/main/detail/' + ${post.id} + '\''" style="cursor:pointer;">
-          <div class="col-md-4">
-            <img th:src="@{${post.imagePath}}" class="img-fluid thumbnail" alt="썸네일" />
-          </div>
-          <div class="col-md-8 p-3">
-            <div class="card-body">
-              <h4 class="card-title mb-3" th:text="${post.title}">창고 제목</h4>
-              <div class="card-text">
+
+          <!-- ✅ 임대인 게시글용 (이미지 있음) -->
+          <div th:if="${post.writerRole == 'ROLE_OWNER'}" class="d-flex w-100">
+            <div class="col-md-4">
+              <img th:if="${post.imagePath != null}" th:src="@{${post.imagePath}}" class="img-fluid thumbnail" alt="썸네일" />
+              <img th:if="${post.imagePath == null}" th:src="@{/images/default.png}" class="img-fluid thumbnail" alt="기본 이미지" />
+            </div>
+            <div class="col-md-8 p-3">
+              <div class="card-body">
+                <h4 class="card-title mb-3" th:text="${post.title}"></h4>
                 <dl><dt class="fw-bold">가격</dt><dd th:text="${post.price} + '원'"></dd></dl>
                 <dl><dt class="fw-bold">지역</dt><dd th:text="${post.location}"></dd></dl>
                 <dl><dt class="fw-bold">면적</dt><dd th:text="${post.area} + '평'"></dd></dl>
@@ -208,16 +211,60 @@
                 </dl>
                 <dl><dt class="fw-bold">상태</dt>
                   <dd th:switch="${post.status}">
-                    <span th:case="'ACTIVE'">거래 가능</span>
-                    <span th:case="'IN_PROGRESS'">거래 중</span>
-                    <span th:case="'DONE'">거래 완료</span>
+                    <span th:case="'ACTIVE'" class="on">거래 가능</span>
+                    <span th:case="'IN_PROGRESS'"  class="ing">거래 중</span>
+                    <span th:case="'DONE'"  class="end">거래 완료</span>
                   </dd>
                 </dl>
               </div>
             </div>
           </div>
+
+          <!-- ✅ 임차인 게시글용 (이미지 없음) -->
+          <div th:if="${post.writerRole != 'ROLE_OWNER'}" class="col-md-12 p-3">
+            <div class="card-body">
+              <h4 class="card-title mb-3" th:text="${post.title}"></h4>
+              <dl><dt class="fw-bold">가격</dt><dd th:text="${post.price} + '원'"></dd></dl>
+              <dl><dt class="fw-bold">지역</dt><dd th:text="${post.location}"></dd></dl>
+              <dl><dt class="fw-bold">면적</dt><dd th:text="${post.area} + '평'"></dd></dl>
+              <dl><dt class="fw-bold">기간</dt>
+                <dd th:text="${#temporals.format(post.startDate, 'yyyy-MM-dd')} + ' ~ ' + ${#temporals.format(post.endDate, 'yyyy-MM-dd')}"></dd>
+              </dl>
+              <dl><dt class="fw-bold">상태</dt>
+                <dd th:switch="${post.status}">
+                  <span th:case="'ACTIVE'" class="on">거래 가능</span>
+                  <span th:case="'IN_PROGRESS'"  class="ing">거래 중</span>
+                  <span th:case="'DONE'"  class="end">거래 완료</span>
+                </dd>
+              </dl>
+            </div>
+          </div>
         </li>
       </ul>
+      <div class="d-flex justify-content-center mt-5" th:if="${totalPages > 1}">
+        <nav>
+          <ul class="pagination">
+            <!-- 이전 버튼 -->
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+              <a class="page-link" th:href="@{'/main/list'(role=${role}, page=${currentPage - 1})}"><</a>
+            </li>
+
+            <!-- 페이지 번호 반복 -->
+            <li class="page-item"
+                th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                th:classappend="${i == currentPage} ? 'active'">
+              <a class="page-link"
+                 th:href="@{'/main/list'(role=${role}, page=${i})}"
+                 th:text="${i + 1}">1</a>
+            </li>
+
+            <!-- 다음 버튼 -->
+            <li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? 'disabled'">
+              <a class="page-link" th:href="@{'/main/list'(role=${role}, page=${currentPage + 1})}">></a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </div>
 </div>
