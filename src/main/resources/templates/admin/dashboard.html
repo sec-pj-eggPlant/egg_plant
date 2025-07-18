@@ -108,31 +108,63 @@
             </div>
         </div>
 
-        <div class="overlap-7">
-            <div class="overlap-8">
-                <div class="text-wrapper-36">85</div>
-                <div class="ellipse"></div>
-                <img class="ellipse-2" src="img/ellipse-3.svg"/>
-                <div class="text-wrapper-37">%</div>
-            </div>
-            <div class="overlap-9">
-                <div class="text-wrapper-38">66</div>
-                <div class="ellipse"></div>
-                <img class="ellipse-3" src="img/ellipse-7.svg"/>
-                <div class="text-wrapper-39">%</div>
-            </div>
-            <div class="text-wrapper-40">창고 현황</div>
-            <div class="text-wrapper-41">A창고</div>
-            <div class="text-wrapper-42">B창고</div>
-            <div class="overlap-10">
-                <div class="text-wrapper-43">90</div>
-                <div class="ellipse"></div>
-                <img class="ellipse-4" src="img/ellipse-9.svg"/>
-                <div class="text-wrapper-44">%</div>
-            </div>
-            <div class="text-wrapper-45">C창고</div>
-            <img class="user-interface-menu" src="/img/admin/menu.svg"/></div>
 
+
+<!--        창고 가용률 섹션-->
+
+        <div class="overlap-7">
+            <div class="warehouse-status-section">
+                <div class="text-wrapper-40">창고 현황</div>
+                <a href="/admin/warehouse"><img class="user-interface-menu" src="/img/admin/menu.svg"/></a>
+
+                <div class="warehouse-graph-wrapper">
+                    <!-- A창고 -->
+                    <div class="donut-chart">
+                        <svg viewBox="0 0 36 36" class="donut">
+                            <circle class="donut-bg" cx="18" cy="18" r="15.9155"/>
+                            <circle class="donut-ring a"
+                                    cx="18" cy="18" r="15.9155"
+                                    th:stroke-dasharray="|${aUsage}, ${100 - aUsage}|"/>
+                        </svg>
+                        <div class="donut-center">
+                            <div class="donut-text-top1" th:text="|${aUsage}%|">85%</div>
+                            <div class="donut-text-bottom">A섹터</div>
+                        </div>
+                    </div>
+
+                    <!-- B창고 -->
+                    <div class="donut-chart">
+                        <svg viewBox="0 0 36 36" class="donut">
+                            <circle class="donut-bg" cx="18" cy="18" r="15.9155"/>
+                            <circle class="donut-ring b"
+                                    cx="18" cy="18" r="15.9155"
+                                    th:stroke-dasharray="|${bUsage}, ${100 - bUsage}|"/>
+                        </svg>
+                        <div class="donut-center">
+                            <div class="donut-text-top2" th:text="|${bUsage}%|">66%</div>
+                            <div class="donut-text-bottom">B섹터</div>
+                        </div>
+                    </div>
+
+                    <!-- C창고 -->
+                    <div class="donut-chart">
+                        <svg viewBox="0 0 36 36" class="donut">
+                            <circle class="donut-bg" cx="18" cy="18" r="15.9155"/>
+                            <circle class="donut-ring c"
+                                    cx="18" cy="18" r="15.9155"
+                                    th:stroke-dasharray="|${cUsage}, ${100 - cUsage}|"/>
+                        </svg>
+                        <div class="donut-center">
+                            <div class="donut-text-top3" th:text="|${cUsage}%|">90%</div>
+                            <div class="donut-text-bottom">C섹터</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<!--        회원 정보 섹션-->
 
         <div class="overlap-11">
             <div class="member-box-header">
@@ -188,7 +220,13 @@
                 <img class="layer" src="/img/admin/layer-1.svg"/>
             </a>
             <div class="text-wrapper-53">Logout</div>
-            <div class="text-wrapper-54">Warehouse</div>
+
+            <!-- Warehouse -->
+            <a href="/admin/warehouse">
+                <img class="design-tools-grid" src="/img/admin/grid.svg"/>
+                <div class="text-wrapper-54">Warehouse</div>
+            </a>
+
 
             <!-- Trades -->
             <a href="/admin/trade">
@@ -197,7 +235,8 @@
             </a>
 
 
-            <img class="design-tools-grid" src="/img/admin/grid.svg"/>
+
+
 
             <!-- Dashboard -->
             <a href="/admin/dashboard">

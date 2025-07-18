@@ -72,6 +72,73 @@
                 </table>
 
 
+                <nav th:if="${tradeList.totalPages > 1}" class="pagination-wrapper">
+                    <ul class="pagination">
+
+                        <!-- 이전 -->
+                        <li th:classappend="${tradeList.first} ? 'disabled'" class="page-item">
+                            <th:block th:with="prevPage=${tradeList.number - 1}, prevHref='page=' + ${prevPage} +
+                (${category} != null ? '&category=' + category : '') +
+                (${keyword} != null ? '&keyword=' + keyword : '') +
+                (${startDate} != null ? '&startDate=' + startDate : '') +
+                (${endDate} != null ? '&endDate=' + endDate : '')">
+                                <a class="page-link"
+                                   th:if="${!tradeList.first}"
+                                   th:href="@{'/admin/trade?' + ${prevHref}}">
+                                    이전
+                                </a>
+                                <a class="page-link"
+                                   th:if="${tradeList.first}"
+                                   href="#"
+                                   style="pointer-events: none; color: #aaa;">
+                                    이전
+                                </a>
+                            </th:block>
+                        </li>
+
+                        <!-- 페이지 번호 -->
+                        <li th:each="i : ${#numbers.sequence(0, tradeList.totalPages - 1)}"
+                            th:classappend="${tradeList.number == i} ? 'active'" class="page-item">
+                            <th:block th:with="pageLink='page=' + ${i} +
+                (${category} != null ? '&category=' + category : '') +
+                (${keyword} != null ? '&keyword=' + keyword : '') +
+                (${startDate} != null ? '&startDate=' + startDate : '') +
+                (${endDate} != null ? '&endDate=' + endDate : '')">
+                                <a class="page-link"
+                                   th:href="@{'/admin/trade?' + ${pageLink}}"
+                                   th:text="${i + 1}">
+                                </a>
+                            </th:block>
+                        </li>
+
+                        <!-- 다음 -->
+                        <li th:classappend="${tradeList.last} ? 'disabled'" class="page-item">
+                            <th:block th:with="nextPage=${tradeList.number + 1}, nextHref='page=' + ${nextPage} +
+                (${category} != null ? '&category=' + category : '') +
+                (${keyword} != null ? '&keyword=' + keyword : '') +
+                (${startDate} != null ? '&startDate=' + startDate : '') +
+                (${endDate} != null ? '&endDate=' + endDate : '')">
+                                <a class="page-link"
+                                   th:if="${!tradeList.last}"
+                                   th:href="@{'/admin/trade?' + ${nextHref}}">
+                                    다음
+                                </a>
+                                <a class="page-link"
+                                   th:if="${tradeList.last}"
+                                   href="#"
+                                   style="pointer-events: none; color: #aaa;">
+                                    다음
+                                </a>
+                            </th:block>
+                        </li>
+
+                    </ul>
+                </nav>
+
+
+
+
+
             </div>
         </div>
 
@@ -83,7 +150,13 @@
             </a>
 
             <div class="text-wrapper-13">Logout</div>
-            <div class="text-wrapper-14">Warehouse</div>
+
+
+            <!-- Warehouse -->
+            <a href="/admin/warehouse">
+                <img class="design-tools-grid" src="/img/admin/grid.svg"/>
+                <div class="text-wrapper-14">Warehouse</div>
+            </a>
 
             <!-- Trades -->
             <a href="/admin/trade">
@@ -91,8 +164,6 @@
                 <img class="vector" src="/img/admin/vector-y.svg" />
             </a>
 
-
-            <img class="design-tools-grid" src="/img/admin/grid.svg"/>
 
             <!-- Dashboard -->
             <a href="/admin/dashboard">
