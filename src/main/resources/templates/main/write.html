@@ -65,7 +65,7 @@
         </a>
       </div>
     </header>
-    <div class="container min-vh-100 py-5 write-wrap">
+    <div class="container min-vh-100 write-wrap">
       <div class="row justify-content-center">
         <div class="col-md-6"> <!-- 중앙 정렬과 적절한 너비 설정 -->
 
@@ -73,7 +73,10 @@
             <!-- 사진 첨부 (임대인만 보이게) -->
             <div class="mb-4" th:if="${role == 'ROLE_OWNER'}">
               <label class="form-label fw-bold">사진 첨부</label>
-              <input type="file" class="form-control" name="imageFile" accept="image/*">
+              <input type="file" class="form-control" name="imageFile" accept="image/*" onchange="previewImage(event)">
+              <div id="imagePreviewWrapper" style="margin-top: 10px;">
+                <img id="imagePreview" src="" alt="미리보기" style="max-width: 100%; display: none;" />
+              </div>
             </div>
 
             <!-- 제목 -->
@@ -178,5 +181,22 @@
     rangeInput.addEventListener("input", function () {
       rangeOutput.textContent = this.value;
     });
+
+    function previewImage(event) {
+      const input = event.target;
+      const preview = document.getElementById('imagePreview');
+
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+      } else {
+        preview.src = "";
+        preview.style.display = 'none';
+      }
+    }
   </script>
 </html>
