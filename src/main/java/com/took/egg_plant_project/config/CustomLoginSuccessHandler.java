@@ -32,7 +32,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
             request.getSession().setAttribute("loginSuccessMessage", nickname + "님 환영합니다!");
 
-            response.sendRedirect("/main/list");
+            response.sendRedirect("/member/list");
         }
     }
 }

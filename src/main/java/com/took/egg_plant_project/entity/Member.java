@@ -40,6 +40,9 @@ public class Member extends BaseTime{
     @Column(nullable = false, unique = true, length = 13)
     private String tel;
 
+    @Column(nullable = false, unique = true, length = 50)
+    private String lockerCode;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_RENTER;

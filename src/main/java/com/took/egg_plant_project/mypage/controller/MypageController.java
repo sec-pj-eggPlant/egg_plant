@@ -28,22 +28,25 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/my")
 public class MypageController {
+
     private final MypageService mypageService;
     private final MypageTradesService mypageTradesService;
     private final MypagePostService mypagePostService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-//    @GetMapping("/my")
-//    public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
-//        String userID = customUserDetails.getUsername();
-//        Integer loggedMemberID = customUserDetails.getLoggedMember().getId();
-//        MemberDto loggedMemberDto = mypageService.findByUserID(userID);
-//        log.info("loggedMemberDto: {}", loggedMemberDto);
-//
-//        model.addAttribute("loggedMemberDto", loggedMemberDto);
-//        log.info(loggedMemberDto.toString());
-//        return "my/my";
-//    }
+    @GetMapping("/my")
+    public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+
+        String userID = customUserDetails.getUsername();
+        Integer loggedMemberID = customUserDetails.getLoggedMember().getId();
+        MemberDto loggedMemberDto = mypageService.findByUserID(userID);
+        log.info("loggedMemberDto: {}", loggedMemberDto);
+
+        model.addAttribute("loggedMemberDto", loggedMemberDto);
+        log.info(loggedMemberDto.toString());
+
+        return "my/my";
+    }
 
     //회원 정보 수정
     @GetMapping("/mypage-profile")
