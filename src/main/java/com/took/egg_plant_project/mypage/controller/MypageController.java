@@ -3,7 +3,7 @@ package com.took.egg_plant_project.mypage.controller;
 import com.took.egg_plant_project.communal.CustomUserDetails;
 import com.took.egg_plant_project.entity.Member;
 import com.took.egg_plant_project.member.MemberDto;
-//import com.took.egg_plant_project.mypage.dto.MypageChatDto;
+import com.took.egg_plant_project.mypage.dto.MypageChatDto;
 import com.took.egg_plant_project.mypage.dto.MypagePostDto;
 import com.took.egg_plant_project.mypage.dto.MypageTradesDto;
 import com.took.egg_plant_project.mypage.service.MypagePostService;
