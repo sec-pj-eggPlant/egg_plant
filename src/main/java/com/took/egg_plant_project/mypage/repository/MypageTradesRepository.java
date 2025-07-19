@@ -21,27 +21,13 @@ public interface MypageTradesRepository extends JpaRepository<Trade, Integer> {
     JOIN MEMBER renter ON t.RENTERID = renter.MEMBERID
     JOIN MEMBER owner ON t.OWNERID = owner.MEMBERID
     JOIN POST p ON t.POSTID = p.POSTID
-    WHERE (t.RENTERID = :userId OR t.OWNERID = :userId)
-      AND (:status IS NULL OR t.STATUS = :status)
-      AND (:title IS NULL OR p.TITLE LIKE '%' || :title || '%')
-      AND (:renterName IS NULL OR renter.USERNAME LIKE '%' || :renterName || '%')
-      AND (:ownerName IS NULL OR owner.USERNAME LIKE '%' || :ownerName || '%')
-      AND (:startDate IS NULL OR t.CREATEDAT >= :startDate)
-      AND (:endDate IS NULL OR t.CREATEDAT <= :endDate)
-    ORDER BY t.CREATEDAT DESC
     OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY
   """,
             nativeQuery = true
     )
     List<MypageTradesDto> searchTrades(
-            @Param("userId") int userId,
-            @Param("status") String status,
-            @Param("title") String title,
-            @Param("renterName") String renterName,
-            @Param("ownerName") String ownerName,
-            @Param("startDate") LocalDateTime startDate,
-            @Param("endDate") LocalDateTime endDate,
-            @Param("limit") int limit,
-            @Param("offset") int offset
+            @Param("offset") int offset,
+            @Param("limit") int limit
+
     );
 }

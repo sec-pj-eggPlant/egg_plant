@@ -1,14 +1,10 @@
 package com.took.egg_plant_project.mypage.controller;
 
 import com.took.egg_plant_project.communal.CustomUserDetails;
-import com.took.egg_plant_project.entity.Member;
 import com.took.egg_plant_project.member.MemberDto;
-import com.took.egg_plant_project.mypage.dto.MypageChatDto;
 import com.took.egg_plant_project.mypage.dto.MypagePostDto;
 import com.took.egg_plant_project.mypage.dto.MypageTradesDto;
-import com.took.egg_plant_project.mypage.service.MypagePostService;
-import com.took.egg_plant_project.mypage.service.MypageService;
-import com.took.egg_plant_project.mypage.service.MypageTradesService;
+import com.took.egg_plant_project.mypage.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -33,6 +29,7 @@ public class MypageController {
     private final MypageTradesService mypageTradesService;
     private final MypagePostService mypagePostService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    //private final MyChatService myChatService;
 
     @GetMapping("/my")
     public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
@@ -144,19 +141,19 @@ public class MypageController {
     //거래 내역 조회
     @GetMapping("/trades")
     public String trades(@AuthenticationPrincipal CustomUserDetails customUserDetails,
-                          @RequestParam(required = false) String status,
-                          @RequestParam(required = false) String title,
-                          @RequestParam(required = false) String renterName,
-                          @RequestParam(required = false) String ownerName,
-                          @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-                          @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
-                          @RequestParam(required = false, defaultValue = "1") int page,
-                          @RequestParam(required = false, defaultValue = "10") int pageSize,
-                          Model model) {
+                         @RequestParam(required = false) String status,
+                         @RequestParam(required = false) String title,
+                         @RequestParam(required = false) String renterName,
+                         @RequestParam(required = false) String ownerName,
+                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+                         @RequestParam(required = false, defaultValue = "1") int page,
+                         @RequestParam(required = false, defaultValue = "10") int pageSize,
+                         Model model) {
         int userId = customUserDetails.getLoggedMember().getId();
         //int totalCount = mypageTradesService.countTrades(category, keyword, startDate, endDate, status);
         //model.addAttribute("totalCount", totalCount);
-        List<MypageTradesDto> tradesList = mypageTradesService.getTrades(userId, status, title, renterName, ownerName, startDate, endDate, page, pageSize);
+        List<MypageTradesDto> tradesList = mypageTradesService.getTrades(page, pageSize);
 
         model.addAttribute("tradesList", tradesList);
         model.addAttribute("status", status);
@@ -172,13 +169,20 @@ public class MypageController {
     }
 
     //나의 채팅내역
-    @GetMapping("/chat")
-    public String chat(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails)
-    {
-        Integer memberId = customUserDetails.getLoggedMember().getId();
-        //List<MypageChatDto> chatRooms = mypageChatService.findChatRoomsByMemberId(memberId);
+    @GetMapping("/rooms")
+    public String getChatRooms(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+        Integer userId = customUserDetails.getLoggedMember().getId();
+        //List<ChatRoomDto> chatRooms = myChatService.getChatRoomsByUser(userId);
         //model.addAttribute("chatRooms", chatRooms);
-        return "my/chat";
+        return "chat/chatrooms";
+    }
+
+    //특정 채팅방 메시지 목록
+    @GetMapping("/rooms/{roomId}")
+    public String getMessages(@PathVariable Integer roomId, @AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+        //List<ChatMessageDto> messages = myChatService.getMessagesByRoom(roomId);
+        //model.addAttribute("messages", messages);
+        return "chat/chatDetail";
     }
 
     //내가 쓴 게시글 목록

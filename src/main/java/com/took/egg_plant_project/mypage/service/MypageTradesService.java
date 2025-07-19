@@ -20,21 +20,15 @@ public class MypageTradesService {
 
 
     public List<MypageTradesDto> getTrades(
-            int userId,
-            String status,
-            String title,
-            String renterName,
-            String ownerName,
-            LocalDateTime startDate,
-            LocalDateTime endDate,
             int page,
             int pageSize
     ) {
         int offset = (page - 1) * pageSize;
-        return mypageTradesDao.searchTrades(
-                userId, status, title, renterName, ownerName, startDate, endDate,
-                offset, pageSize
-        );
+//        return mypageTradesDao.searchTrades(
+//                userId, status, title, renterName, ownerName, startDate, endDate,
+//                offset, pageSize
+//        );
+        return mypageTradesDao.searchTrades(offset, pageSize);
     }
 }
 

@@ -71,10 +71,10 @@
           <div class="list">
             <ul>
               <li th:each="post : ${posts}">
-                <span class="no" th:text="${post.id}">1</span>
-                <span class="region" th:text="${post.location}">지역</span>
-                <span class="con" th:text="${post.title}">제목</span>
-                <span class="date" th:text="${post.status}">상태</span>
+                <span class="id" th:text="${post.id}">1</span>
+                <span class="location" th:text="${post.location}">지역</span>
+                <span class="title" th:text="${post.title}">제목</span>
+                <span class="status" th:text="${post.status}">상태</span>
               </li>
               <li th:if="${#lists.isEmpty(posts)}">
                 <div class="text-center py-4 text-secondary">작성한 게시글이 없습니다.</div>

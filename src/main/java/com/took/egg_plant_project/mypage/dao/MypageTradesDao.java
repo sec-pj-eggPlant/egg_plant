@@ -14,8 +14,9 @@ import java.util.List;
 public class MypageTradesDao {
     private final MypageTradesRepository mypageTradesRepository;
 
-    public List<MypageTradesDto> searchTrades(int userId, String status, String title, String renterName, String ownerName, LocalDateTime startDate, LocalDateTime endDate, int offset, int limit) {
-        return mypageTradesRepository.searchTrades(userId, status, title, renterName, ownerName, startDate, endDate, limit, offset);
+    public List<MypageTradesDto> searchTrades(int limit, int offset) {
+        return mypageTradesRepository.searchTrades(limit, offset);
+
     }
 
 }
