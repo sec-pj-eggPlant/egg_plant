@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,17 +19,23 @@ import java.util.stream.Collectors;
 public class MypageTradesService {
     private final MypageTradesDao mypageTradesDao;
 
-
     public List<MypageTradesDto> getTrades(
+//            int userId,
+            String searchType,
+            String keyword,
+//            String status,
+//            String title,
+//            String renterName,
+//            String ownerName,
+            LocalDate startDate,
+            LocalDate endDate,
             int page,
             int pageSize
     ) {
         int offset = (page - 1) * pageSize;
-//        return mypageTradesDao.searchTrades(
-//                userId, status, title, renterName, ownerName, startDate, endDate,
-//                offset, pageSize
-//        );
-        return mypageTradesDao.searchTrades(offset, pageSize);
+        return mypageTradesDao.searchTrades(
+               searchType, keyword, startDate, endDate, offset, pageSize
+        );
     }
 }
 

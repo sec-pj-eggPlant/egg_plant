@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,9 +15,21 @@ import java.util.List;
 public class MypageTradesDao {
     private final MypageTradesRepository mypageTradesRepository;
 
-    public List<MypageTradesDto> searchTrades(int limit, int offset) {
-        return mypageTradesRepository.searchTrades(limit, offset);
-
+    public List<MypageTradesDto> searchTrades(
+//            int userId,
+            String searchType,
+            String keyword,
+//            String status,
+//            String title,
+//            String renterName,
+//            String ownerName,
+            LocalDate startDate,
+            LocalDate endDate,
+            int offset,
+            int limit
+    ) {
+        return mypageTradesRepository.searchTrades(
+             searchType, keyword, startDate, endDate, offset, limit
+        );
     }
-
 }
