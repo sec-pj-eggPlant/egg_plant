@@ -16,13 +16,8 @@ public class MypageTradesDao {
     private final MypageTradesRepository mypageTradesRepository;
 
     public List<MypageTradesDto> searchTrades(
-//            int userId,
             String searchType,
             String keyword,
-//            String status,
-//            String title,
-//            String renterName,
-//            String ownerName,
             LocalDate startDate,
             LocalDate endDate,
             int offset,

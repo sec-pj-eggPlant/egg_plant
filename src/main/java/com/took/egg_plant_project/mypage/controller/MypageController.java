@@ -142,31 +142,20 @@ public class MypageController {
     //거래 내역 조회
     @GetMapping("/trades")
     public String trades(
-            //@AuthenticationPrincipal CustomUserDetails customUserDetails,
                          @RequestParam(required = false) String searchType,
                          @RequestParam(required = false) String keyword,
-//                         @RequestParam(required = false) String status,
-//                         @RequestParam(required = false) String title,
-//                         @RequestParam(required = false) String renterName,
-//                         @RequestParam(required = false) String ownerName,
                          @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                          @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
                          @RequestParam(required = false, defaultValue = "1") int page,
                          @RequestParam(required = false, defaultValue = "10") int pageSize,
                          Model model) {
-//        int userId = customUserDetails.getLoggedMember().getId();
-
-        // (userId로 추가 필터링하려면 repository/쿼리에도 userId 추가 필요)
+        int offset = (page - 1) * pageSize;
         List<MypageTradesDto> tradesList = mypageTradesService.getTrades(
                  searchType, keyword, startDate, endDate, page, pageSize);
 
         model.addAttribute("tradesList", tradesList);
         model.addAttribute("searchType", searchType);
         model.addAttribute("keyword", keyword);
-//        model.addAttribute("status", status);
-//        model.addAttribute("title", title);
-//        model.addAttribute("renterName", renterName);
-//        model.addAttribute("ownerName", ownerName);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
         model.addAttribute("page", page);

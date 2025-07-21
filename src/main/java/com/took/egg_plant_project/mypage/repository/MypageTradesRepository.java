@@ -26,20 +26,19 @@ public interface MypageTradesRepository extends JpaRepository<Trade, Integer> {
                             
                                                              
                 (
-                                                               :searchType IS NULL OR :searchType = '' OR
-                                                               (
-                                                                 (:searchType = 'status' AND (:keyword IS NULL OR t.STATUS = :keyword))
-                                                                 OR (:searchType = 'title' AND (:keyword IS NULL OR p.TITLE LIKE '%' || :keyword || '%'))
-                                                                 OR (:searchType = 'location' AND (:keyword IS NULL OR p.LOCATION LIKE '%' || :keyword || '%'))
-                                                               )
-                                                             )
-                                                             AND (:startDate IS NULL OR t.CREATEDAT >= :startDate)
-                                                             AND (:endDate IS NULL OR t.CREATEDAT <= :endDate)
-                                                           ORDER BY t.CREATEDAT DESC
-                                                           OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY
+               :searchType IS NULL OR :searchType = '' OR
+               (
+                 (:searchType = 'status' AND (:keyword IS NULL OR t.STATUS = :keyword))
+                 OR (:searchType = 'title' AND (:keyword IS NULL OR p.TITLE LIKE '%' || :keyword || '%'))
+                 OR (:searchType = 'location' AND (:keyword IS NULL OR p.LOCATION LIKE '%' || :keyword || '%'))
+               )
+             )
+             AND (:startDate IS NULL OR t.CREATEDAT >= :startDate)
+             AND (:endDate IS NULL OR t.CREATEDAT <= :endDate)
+           ORDER BY t.CREATEDAT DESC
+           OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY
             """, nativeQuery = true)
     List<MypageTradesDto> searchTrades(
-//            @Param("userId") int userId,
             @Param("searchType") String searchType,
             @Param("keyword") String keyword,
             @Param("startDate") LocalDate startDate,

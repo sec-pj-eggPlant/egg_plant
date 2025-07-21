@@ -20,38 +20,16 @@ public class MypageTradesService {
     private final MypageTradesDao mypageTradesDao;
 
     public List<MypageTradesDto> getTrades(
-//            int userId,
             String searchType,
             String keyword,
-//            String status,
-//            String title,
-//            String renterName,
-//            String ownerName,
             LocalDate startDate,
             LocalDate endDate,
-            int page,
+            int offset,
             int pageSize
     ) {
-        int offset = (page - 1) * pageSize;
         return mypageTradesDao.searchTrades(
                searchType, keyword, startDate, endDate, offset, pageSize
         );
     }
 }
-
-//    /**
-//     * 거래내역 전체 건수(검색조건 반영)
-//     */
-//    public int countTrades(
-//            int userId,
-//            String searchType,
-//            String keyword,
-//            LocalDateTime startDate,
-//            LocalDateTime endDate
-//    ) {
-//        return mypageTradesDao.countTrades(
-//                userId, searchType, keyword, startDate, endDate
-//        );
-//    }
-//}
 
