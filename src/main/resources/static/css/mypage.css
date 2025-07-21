@@ -31,9 +31,9 @@
   font-weight: 500;
   position: relative;
 }
-.mypage-wrap .contents .table th {
-  padding-left: 40px;
-}
+/*.mypage-wrap .contents .table th {*/
+/*  padding-left: 40px;*/
+/*}*/
 .mypage-wrap .contents .profile .btn-modify {
   border-radius: 100px;
   background-color: #5f328e;

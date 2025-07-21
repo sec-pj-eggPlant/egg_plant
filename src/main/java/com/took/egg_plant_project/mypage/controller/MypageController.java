@@ -149,7 +149,8 @@ public class MypageController {
                          @RequestParam(required = false, defaultValue = "1") int page,
                          @RequestParam(required = false, defaultValue = "10") int pageSize,
                          Model model) {
-        int offset = (page - 1) * pageSize;
+        int totalCount = mypageTradesService.countTrades(searchType, keyword, startDate, endDate);
+        model.addAttribute("totalCount", totalCount);
         List<MypageTradesDto> tradesList = mypageTradesService.getTrades(
                  searchType, keyword, startDate, endDate, page, pageSize);
 
@@ -189,6 +190,7 @@ public class MypageController {
         }
         Integer memberId = customUserDetails.getLoggedMember().getId();
         List<MypagePostDto> posts = mypagePostService.getMyPosts(memberId);
+
         model.addAttribute("posts", posts);
         return "my/post";
     }

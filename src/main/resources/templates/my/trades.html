@@ -47,7 +47,7 @@
     </a>
   </div>
 </header>
-<div class="container min-vh-100 mypage-wrap">
+<div class="container-fluid min-vh-100 mypage-wrap">
   <div class="row">
     <div class="col-4 px-5">
       <nav class="mypage-link">
@@ -87,7 +87,7 @@
                        th:value="${endDate}">
               </div>
             </div>
-            <div class="btn-wrap text-center">
+            <div class="btn-wrap text-center mb-5">
               <button class="btn btn-primary btn-lg w-20" type="submit">검색</button>
               <button class="btn btn-secondary btn-lg w-20" type="button"
                       th:onclick="|location.href='@{/my/trades}'|">초기화</button>
@@ -109,8 +109,8 @@
             </thead>
             <tbody>
             <tr th:each="trade : ${tradesList}">
-              <td th:text="${trade.tradeId}">1</td>
-              <td th:text="${trade.status}">요청완료</td>
+              <td th:text="${trade.tradeId}"></td>
+              <td th:text="${trade.status}"></td>
               <td th:text="${#dates.format(trade.createDate, 'yyyy-MM-dd')}"></td>
               <td th:text="${trade.renterName}"></td>
               <td th:text="${trade.ownerName}"></td>
@@ -123,6 +123,77 @@
             </tr>
             </tbody>
           </table>
+
+
+          <div id="stock-pagination" class="pagination my-5" th:if="${totalCount > 0}">
+
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" th:if="${page != 1}"
+                                         th:href="@{/my/trades(
+                                page=${page - 1},
+                                pageSize=${pageSize},
+                                searchType=${searchType},
+                                keyword=${keyword},
+                                startDate=${startDate},
+                                endDate=${endDate}
+                            )}">Previous</a></li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(1, (totalCount + pageSize - 1) / pageSize)}"
+                    th:classappend="${i == page} ? 'active' : ''">
+                  <a  class="page-link" th:href="@{/my/trades(
+                                page=${i},
+                                pageSize=${pageSize},
+                                searchType=${searchType},
+                                keyword=${keyword},
+                                startDate=${startDate},
+                                endDate=${endDate}
+                            )}" th:text="${i}"></a>
+                </li>
+
+                <li class="page-item" th:classappend="${page == (totalCount + pageSize - 1) / pageSize ? 'disabled' : ''}">
+                  <a class="page-link" th:if="${page == (totalCount + pageSize - 1) / pageSize}" >Next</a>
+                </li>
+              </ul>
+            </nav>
+            <!--
+
+            <button th:classappend="${page == 1} ? 'disabled' : ''">
+              <a th:if="${page != 1}"
+                 th:href="@{/my/trades(
+                                page=${page - 1},
+                                pageSize=${pageSize},
+                                searchType=${searchType},
+                                keyword=${keyword},
+                                startDate=${startDate},
+                                endDate=${endDate}
+                            )}">◀</a>
+              <a th:if="${page == 1}">◀</a>
+            </button>
+            <button th:each="i : ${#numbers.sequence(1, (totalCount + pageSize - 1) / pageSize)}"
+                    th:classappend="${i == page} ? 'active' : ''">
+              <a th:href="@{/my/trades(
+                                page=${i},
+                                pageSize=${pageSize},
+                                searchType=${searchType},
+                                keyword=${keyword},
+                                startDate=${startDate},
+                                endDate=${endDate}
+                            )}" th:text="${i}"></a>
+            </button>
+            <button th:classappend="${page == (totalCount + pageSize - 1) / pageSize ? 'disabled' : ''}">
+              <a th:if="${page != (totalCount + pageSize - 1) / pageSize}"
+                 th:href="@{/my/trades(
+                                page=${page + 1},
+                                pageSize=${pageSize},
+                                searchType=${searchType},
+                                keyword=${keyword},
+                                startDate=${startDate},
+                                endDate=${endDate}
+                            )}">▶</a>
+              <a th:if="${page == (totalCount + pageSize - 1) / pageSize}">▶</a>
+            </button>
+            -->
+          </div>
         </div>
       </div>
     </div>

@@ -18,18 +18,26 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MypageTradesService {
     private final MypageTradesDao mypageTradesDao;
+    private final MypageTradesRepository mypageTradesRepository;
 
     public List<MypageTradesDto> getTrades(
             String searchType,
             String keyword,
             LocalDate startDate,
             LocalDate endDate,
-            int offset,
+            int page,
             int pageSize
     ) {
+        int startRow = (page - 1) * pageSize;
+        int endRow = page * pageSize;
         return mypageTradesDao.searchTrades(
-               searchType, keyword, startDate, endDate, offset, pageSize
+               searchType, keyword, startDate, endDate, startRow, endRow
         );
+
+    }
+
+    public int countTrades(String searchType, String keyword, LocalDate startDate, LocalDate endDate) {
+        return mypageTradesRepository.countTrades(searchType, keyword, startDate, endDate);
     }
 }
 

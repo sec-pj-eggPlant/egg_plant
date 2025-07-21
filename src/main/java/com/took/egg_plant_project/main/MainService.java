@@ -24,7 +24,7 @@ public class MainService {
                 mainDto.getLocation(),
                 mainDto.getStartDate(),
                 mainDto.getEndDate(),
-                "거래가능"
+                "ACTIVE"
         );
 
         mainRepository.save(post);
