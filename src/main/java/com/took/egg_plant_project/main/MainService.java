@@ -143,9 +143,10 @@ public class MainService {
                 dto.getStartDate(),
                 dto.getEndDate(),
                 "ACTIVE",
-                imagePath
+                imagePath,
+                dto.getLatitude(),
+                dto.getLongitude()
         );
-
         mainRepository.save(post);
     }
 }

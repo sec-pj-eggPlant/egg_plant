@@ -1,0 +1,29 @@
+.detail-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column; /* row도 가능하지만 column이 더 자연스러울 수 있음 */
+  gap: 50px;
+  padding: 150px 20px 100px;
+  min-height: calc(100vh - 158px);
+}
+
+.ing,.end,.on {
+  padding:5px 10px;
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 100px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+.ing {
+  background-color: #21a6de;
+
+}
+.end {
+  background-color: #8e8e8e;
+}
+.on {
+  background-color: #f00;
+  color: #fff;
+}
