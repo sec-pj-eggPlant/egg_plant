@@ -14,8 +14,8 @@ public interface WarehouseUseRepository extends JpaRepository<WarehouseUse, Inte
      * warehouse.id = :warehouseId 이고,
      * startDate ≤ :reqEndDate AND endDate ≥ :reqStartDate
      */
-    boolean existsByBox_IdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-            Integer boxId,
+    boolean existsByWarehouse_IdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+            Integer warehouseId,
             LocalDate reqEndDate,
             LocalDate reqStartDate
     );

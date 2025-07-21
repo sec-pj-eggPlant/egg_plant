@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>상세 페이지</title>
+</head>
+<body>
+<h2 th:text="${post.title}">제목</h2>
+
+<div th:if="${post.writerRole == 'ROLE_OWNER'}" class="mb-4">
+    <img th:if="${post.imagePath != null}" th:src="@{${post.imagePath}}" class="img-fluid" alt="게시글 이미지" />
+    <img th:if="${post.imagePath == null}" th:src="@{/images/default.png}" class="img-fluid" alt="기본 이미지" />
+</div>
+
+<p th:text="${post.content}">내용</p>
+
+<p>가격: <span th:text="${post.price}">0</span> 원</p>
+<p>면적: <span th:text="${post.area}">0</span> 평</p>
+<p>지역: <span th:text="${post.location}">위치</span></p>
+
+<p>기간:
+    <span th:text="${#temporals.format(post.startDate, 'yyyy년 MM월 dd일')}"></span> ~
+    <span th:text="${#temporals.format(post.endDate, 'yyyy년 MM월 dd일')}"></span>
+</p>
+</body>
+</html>

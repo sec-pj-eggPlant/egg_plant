@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class MainDto {
+    private Integer id;
     private String title;
     private String content;
     private Integer price;
@@ -15,4 +16,7 @@ public class MainDto {
     private String location;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String status;
+    private String imagePath;
+    private String writerRole;
 }
