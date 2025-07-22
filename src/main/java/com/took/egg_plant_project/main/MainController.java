@@ -16,10 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
 
 @Controller
 @RequestMapping("/main")
@@ -147,8 +147,11 @@ public class MainController {
     }
 
     @GetMapping("/detail/{id}")
-    public String goDetailPage(@PathVariable Integer id, Model model) {
+    public String goDetailPage(@PathVariable Integer id,
+                               @AuthenticationPrincipal CustomUserDetails userDetails,
+                               Model model) {
         Post post = mainService.getPostById(id);
+        Integer userId = userDetails.getLoggedMember().getId();
 
         MainDto dto = new MainDto();
         dto.setId(post.getId());
@@ -164,9 +167,41 @@ public class MainController {
         dto.setWriterRole(post.getWriter().getRole().name());
         dto.setLatitude(post.getLatitude());
         dto.setLongitude(post.getLongitude());
+        dto.setWriterId(post.getWriter().getId());
 
         model.addAttribute("post", dto);
+        model.addAttribute("userId", userId);
         return "main/detail";
+    }
+
+    @PostMapping("/post/{id}/status")
+    public String updatePostStatus(
+            @PathVariable Integer id,
+            @RequestParam String action,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            RedirectAttributes redirectAttributes
+    ) {
+        Post post = mainService.getPostById(id);
+        boolean isWriter = post.getWriter().getId().equals(userDetails.getLoggedMember().getId());
+        Role writerRole = post.getWriter().getRole();
+
+        String newStatus = post.getStatus(); // 기본값
+
+        if ("apply".equals(action)) {
+            newStatus = "IN_PROGRESS";
+        } else if ("cancel".equals(action)) {
+            newStatus = "ACTIVE";
+        } else if ("complete".equals(action)) {
+            if (!isWriter) {
+                return "redirect:/main/detail/" + id; // 작성자 아니면 차단
+            }
+            newStatus = "DONE";
+        }
+
+        mainService.updatePostStatus(post, newStatus);
+
+        redirectAttributes.addAttribute("role", writerRole == Role.ROLE_OWNER ? "OWNER" : "RENTER");
+        return "redirect:/main/list";
     }
 }
 

@@ -21,4 +21,5 @@ public class MainDto {
     private String writerRole;
     private Double latitude;
     private Double longitude;
+    private Integer writerId;
 }

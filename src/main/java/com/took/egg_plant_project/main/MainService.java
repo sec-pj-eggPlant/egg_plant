@@ -29,26 +29,6 @@ public class MainService {
         return mainRepository.findById(id).orElse(null);
     }
 
-//    public List<MainDto> getFilteredPosts(Role targetRole) {
-//        List<Post> posts = mainRepository.findByRole(targetRole);
-//
-//        return posts.stream().map(post -> {
-//            MainDto dto = new MainDto();
-//            dto.setId(post.getId());
-//            dto.setTitle(post.getTitle());
-//            dto.setContent(post.getContent());
-//            dto.setPrice(post.getPrice());
-//            dto.setArea(post.getArea());
-//            dto.setLocation(post.getLocation());
-//            dto.setStartDate(post.getStartDate());
-//            dto.setEndDate(post.getEndDate());
-//            dto.setStatus(post.getStatus());
-//            dto.setImagePath(post.getImagePath());
-//            dto.setWriterRole(post.getWriter().getRole().name());
-//            return dto;
-//        }).toList();
-//    }
-
     public Page<MainDto> filterPostsByConditions(Role role,
                                                  Integer price,
                                                  String location,
@@ -148,5 +128,24 @@ public class MainService {
                 dto.getLongitude()
         );
         mainRepository.save(post);
+    }
+
+    public void updatePostStatus(Post original, String newStatus) {
+        Post updated = new Post(
+                original.getId(),
+                original.getWriter(),
+                original.getTitle(),
+                original.getContent(),
+                original.getPrice(),
+                original.getArea(),
+                original.getLocation(),
+                original.getStartDate(),
+                original.getEndDate(),
+                newStatus,
+                original.getImagePath(),
+                original.getLatitude(),
+                original.getLongitude()
+        );
+        mainRepository.save(updated);
     }
 }
