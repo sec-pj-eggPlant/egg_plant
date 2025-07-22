@@ -32,6 +32,12 @@ public class MainController {
     @GetMapping("/list")
     public String getList(@RequestParam(value = "role", required = false) String role,
                           @RequestParam(value = "page", defaultValue = "0") int page,
+                          @RequestParam(required = false) Integer price,
+                          @RequestParam(required = false) String location,
+                          @RequestParam(required = false) Integer area,
+                          @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                          @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+                          @RequestParam(required = false) String keyword,
                           @AuthenticationPrincipal CustomUserDetails userDetails,
                           HttpSession session,
                           Model model) {
@@ -51,21 +57,24 @@ public class MainController {
         Role targetRole = Role.valueOf("ROLE_" + role);
         Pageable pageable = PageRequest.of(page, 4);
 
-        Page<MainDto> postsPage = mainService.getPagedPosts(targetRole, pageable);
+        Page<MainDto> postsPage = mainService.filterPostsByConditions(
+                targetRole, price, location, area, startDate, endDate, keyword, pageable);
 
-        model.addAttribute("postsPage", postsPage);             // 전체 Page 객체 (페이지네이션 정보 포함)
-        model.addAttribute("posts", postsPage.getContent());    // 실제 게시글 목록
+        //Page<MainDto> postsPage = mainService.getPagedPosts(targetRole, pageable);
+
+        model.addAttribute("posts", postsPage.getContent());
+        model.addAttribute("postsPage", postsPage);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", postsPage.getTotalPages());
 
+        // ✅ 검색 조건 유지
         model.addAttribute("role", role);
-        model.addAttribute("price", null);
-        model.addAttribute("location", null);
-        model.addAttribute("area", null);
-        model.addAttribute("startDate", null);
-        model.addAttribute("endDate", null);
-        model.addAttribute("status", null);
-        model.addAttribute("keyword", null);
+        model.addAttribute("price", price);
+        model.addAttribute("location", location);
+        model.addAttribute("area", area);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        model.addAttribute("keyword", keyword);
 
         return "main/list";
     }
