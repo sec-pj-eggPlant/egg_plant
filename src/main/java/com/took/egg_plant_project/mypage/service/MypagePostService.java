@@ -17,36 +17,18 @@ public class MypagePostService {
 
     // 1. 내가 쓴 글 목록
     public List<MypagePostDto> getMyPosts(Integer memberId) {
-        List<Object[]> results = mypagePostDao.findMyPosts(memberId);
-        return results.stream()
-                .map(obj -> MypagePostDto.builder()
-                        .id(((Number) obj[0]).intValue())
-                        .title((String) obj[1])
-                        .location((String) obj[2])
-                        .status((String) obj[3])
-                        .build())
-                .collect(Collectors.toList());
+        List<MypagePostDto> results = mypagePostDao.findMyPosts(memberId);
+        return results;
     }
 
     // 2. 게시글 상세
     public MypagePostDto getPostById(Integer postId) {
-        Object[] row = mypagePostDao.findPostDetail(postId);
-
-        if (row == null || row.length < 9) {
+        MypagePostDto row = mypagePostDao.findPostDetail(postId);
+        if (row == null) {
             return null;
         }
 
-        return MypagePostDto.builder()
-                .id(getInt(row[0]))
-                .title((String) row[1])
-                .location((String) row[2])
-                .status((String) row[3])
-                .content((String) row[4])
-                .price(getInt(row[5]))
-                .area(getInt(row[6]))
-                .startDate(getTimestamp(row[7]))
-                .endDate(getTimestamp(row[8]))
-                .build();
+        return row;
     }
 
     // 유틸: 정수형 안전 변환

@@ -80,11 +80,11 @@
                     </thead>
                     <tbody>
                     <tr th:each="post : ${posts}" style="cursor:pointer"
-                        th:onclick="|location.href='@{/my/post/{id}(id=${post.id})}'|">
-                        <td th:text="${post.id}"></td>
+                        th:onclick="|location.href='@{/my/post/{id}(id=${post.postId})}'|">
+                        <td th:text="${post.postId}"></td>
                         <td th:text="${post.location}"></td>
                         <td>
-                            <a th:href="@{/my/post/{id}(id=${post.id})}" th:text="${post.title}"
+                            <a th:href="@{/my/post/{id}(id=${post.postId})}" th:text="${post.title}"
                                class="text-decoration-none text-dark"></a>
                         </td>
                         <td>

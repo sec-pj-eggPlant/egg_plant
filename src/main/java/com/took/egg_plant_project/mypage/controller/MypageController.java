@@ -197,8 +197,10 @@ public class MypageController {
 
     @GetMapping("/post/{id}")
     public String postDetail(@PathVariable Integer id, Model model) {
+        log.info("id===={}",id);
         MypagePostDto post = mypagePostService.getPostById(id);
         model.addAttribute("post", post);
+        log.info("post===={}",post.toString());
         return "my/post-detail";
     }
 
