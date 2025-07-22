@@ -162,6 +162,8 @@ public class MainController {
         dto.setStatus(post.getStatus());
         dto.setImagePath(post.getImagePath());
         dto.setWriterRole(post.getWriter().getRole().name());
+        dto.setLatitude(post.getLatitude());
+        dto.setLongitude(post.getLongitude());
 
         model.addAttribute("post", dto);
         return "main/detail";

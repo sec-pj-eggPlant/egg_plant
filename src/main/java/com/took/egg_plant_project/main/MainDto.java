@@ -19,4 +19,6 @@ public class MainDto {
     private String status;
     private String imagePath;
     private String writerRole;
+    private Double latitude;
+    private Double longitude;
 }

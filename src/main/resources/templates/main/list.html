@@ -1,354 +1,392 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>메인페이지</title>
-  <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
-          crossorigin="anonymous"
-  />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet"
-  />
-  <link rel="stylesheet" href="/css/global.css" />
-  <link rel="stylesheet" href="/css/list.css" />
-  <style>
-    :root {
-      --bs-primary: #5f328e; /* 예: 보라색으로 변경 */
-    }
-    .active-tab {
-      color: #5f328e !important;
-      border-bottom: 2px solid #5f328e;
-    }
-    .inactive-tab {
-      color: #6c757d;
-      border-bottom: 2px solid transparent;
-    }
-    .tab-link:hover {
-      color: #5f328e;
-    }
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>메인페이지</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+            crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/global.css"/>
+    <link rel="stylesheet" href="/css/list.css"/>
+    <style>
+        :root {
+            --bs-primary: #5f328e; /* 예: 보라색으로 변경 */
+        }
 
-    .btn-primary {
-      background-color: #5f328e;
-      border-color: #5f328e;
-    }
+        .active-tab {
+            color: #5f328e !important;
+            border-bottom: 2px solid #5f328e;
+        }
 
-    .btn-primary:hover,
-    .btn-primary:focus,
-    .btn-primary:active {
-      background-color: #4a2670;
-      border-color: #4a2670;
-    }
+        .inactive-tab {
+            color: #6c757d;
+            border-bottom: 2px solid transparent;
+        }
 
-    input[type="range"]::-webkit-slider-thumb {
-      background: #5f328e;
-    }
-    input[type="range"]::-moz-range-thumb {
-      background: #5f328e;
-    }
-    input[type="range"]::-ms-thumb {
-      background: #5f328e;
-    }
+        .tab-link:hover {
+            color: #5f328e;
+        }
 
-    input[type="range"]::-webkit-slider-runnable-track {
-      background: #e9ecef;
-    }
-    input[type="range"]::-moz-range-track {
-      background: #e9ecef;
-    }
-    input[type="range"]::-ms-track {
-      background: #e9ecef;
-    }
+        .btn-primary {
+            background-color: #5f328e;
+            border-color: #5f328e;
+        }
 
-    .text-primary {
-      color: #5f328e !important;
-    }
+        .btn-primary:hover,
+        .btn-primary:focus,
+        .btn-primary:active {
+            background-color: #4a2670;
+            border-color: #4a2670;
+        }
 
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+        input[type="range"]::-webkit-slider-thumb {
+            background: #5f328e;
+        }
 
-    input[type=number] {
-      -moz-appearance: textfield;
-    }
-  </style>
-  <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-          crossorigin="anonymous"
-  ></script>
+        input[type="range"]::-moz-range-thumb {
+            background: #5f328e;
+        }
+
+        input[type="range"]::-ms-thumb {
+            background: #5f328e;
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+            background: #e9ecef;
+        }
+
+        input[type="range"]::-moz-range-track {
+            background: #e9ecef;
+        }
+
+        input[type="range"]::-ms-track {
+            background: #e9ecef;
+        }
+
+        .text-primary {
+            color: #5f328e !important;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+            crossorigin="anonymous"
+    ></script>
 </head>
 <body>
 <header id="header">
-  <div class="container">
-    <h1>
-      <a href="/main/list"><img src="../images/logo.svg" alt="" /></a>
-    </h1>
-    <nav>
-      <ul>
-        <li><a href="">자사창고</a></li>
-        <li><a href="">빌려드림</a></li>
-      </ul>
-    </nav>
-    <div class="search-box">
-      <form action="">
-        <input type="text" class="form-control" placeholder="search" />
-        <button class="btn" type="button">search</button>
-      </form>
-    </div>
-    <a href="../my/mypage-profile" id="profile">
-      <span>김의진</span>
-      <span class="img">
-            <img src="../images/profile.jpg" alt="" />
+    <div class="container">
+        <h1>
+            <a href="/main/list"><img src="/images/logo.svg" alt=""/></a>
+        </h1>
+        <nav>
+            <ul>
+                <li><a href="">자사창고</a></li>
+                <li><a href="">빌려드림</a></li>
+            </ul>
+        </nav>
+        <div class="search-box">
+            <form action="">
+                <input type="text" class="form-control" placeholder="search"/>
+                <button class="btn" type="button">search</button>
+            </form>
+        </div>
+        <a href="" id="profile">
+            <span>김의진</span>
+            <span class="img">
+            <img src="/images/profile.jpg" alt=""/>
           </span>
-    </a>
-  </div>
+        </a>
+    </div>
 </header>
 <div class="container min-vh-100 list-wrap">
-  <div class="d-flex justify-content-center align-items-center my-5">
-    <div class="d-flex align-items-center gap-3">
-      <a href="/main/list?role=OWNER"
-         th:class="${role} == 'OWNER' ? 'tab-link fw-bold px-2 active-tab' : 'tab-link fw-bold px-2 inactive-tab'">
-        임대인 게시판
-      </a>
+    <div class="d-flex justify-content-center align-items-center my-5">
+        <div class="d-flex align-items-center gap-3">
+            <a href="/main/list?role=OWNER"
+               th:class="${role} == 'OWNER' ? 'tab-link fw-bold px-2 active-tab' : 'tab-link fw-bold px-2 inactive-tab'">
+                임대인 게시판
+            </a>
 
-      <span class="text-muted">|</span>
+            <span class="text-muted">|</span>
 
-      <a href="/main/list?role=RENTER"
-         th:class="${role} == 'RENTER' ? 'tab-link fw-bold px-2 active-tab' : 'tab-link fw-bold px-2 inactive-tab'">
-        임차인 게시판
-      </a>
+            <a href="/main/list?role=RENTER"
+               th:class="${role} == 'RENTER' ? 'tab-link fw-bold px-2 active-tab' : 'tab-link fw-bold px-2 inactive-tab'">
+                임차인 게시판
+            </a>
+        </div>
+
+        <div class="ms-4">
+            <a href="/main/write" class="btn btn-primary">거래글 작성</a>
+        </div>
     </div>
+    <div class="row list-box">
+        <div class="col-md-4 px-4">
+            <form method="post" action="/main/list">
+                <input type="hidden" name="role" th:value="${role}"/>
+                <div class="mb-4">
+                    <label class="form-label fw-bold">가격</label>
+                    <input type="number" name="price" class="form-control" placeholder="price" th:value="${price}"/>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-bold">지역</label>
+                    <input type="text" name="location" class="form-control" placeholder="region"
+                           th:value="${location}"/>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-bold">면적
+                        <span id="areaDisplay" class="ms-2 text-primary"
+                              th:text="${area != null ? area + '평' : '50평'}"></span>
+                    </label>
 
-    <div class="ms-4">
-      <a href="/main/write" class="btn btn-primary">거래글 작성</a>
-    </div>
-  </div>
-  <div class="row list-box">
-    <div class="col-4 px-5">
-      <form method="post" action="/main/list">
-        <input type="hidden" name="role" th:value="${role}" />
-        <div class="mb-4">
-          <label class="form-label fw-bold">가격</label>
-          <input type="number" name="price" class="form-control" placeholder="price" th:value="${price}" />
-        </div>
-        <div class="mb-4">
-          <label class="form-label fw-bold">지역</label>
-          <input type="text" name="location" class="form-control" placeholder="region" th:value="${location}" />
-        </div>
-        <div class="mb-4">
-          <label class="form-label fw-bold">면적
-            <span id="areaDisplay" class="ms-2 text-primary"
-                  th:text="${area != null ? area + '평' : '50평'}"></span>
-          </label>
+                    <input type="range" class="form-range" name="areaDisplay" min="0" max="100"
+                           th:value="${area != null ? area : 50}"
+                           id="areaRange"/>
 
-          <input type="range" class="form-range" name="areaDisplay" min="0" max="100"
-                 th:value="${area != null ? area : 50}"
-                 id="areaRange" />
-
-          <input type="hidden" name="area" id="areaHidden"
-                 th:value="${area != null ? area : 50}" />
+                    <input type="hidden" name="area" id="areaHidden"
+                           th:value="${area != null ? area : 50}"/>
+                </div>
+                <div class="row">
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">기간</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="date" name="startDate" class="form-control" th:value="${startDate}"/>
+                            <span class="mx-2">-</span>
+                            <input type="date" name="endDate" class="form-control" th:value="${endDate}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-bold">거래상태</label>
+                    <select name="status" class="form-select">
+                        <option value="" th:selected="${status == null}">전체</option>
+                        <option value="ACTIVE" th:selected="${status == 'ACTIVE'}">거래 가능</option>
+                        <option value="IN_PROGRESS" th:selected="${status == 'IN_PROGRESS'}">거래 중</option>
+                        <option value="DONE" th:selected="${status == 'DONE'}">거래 완료</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-bold">검색어</label>
+                    <input type="text" name="keyword" class="form-control" placeholder="검색" th:value="${keyword}"/>
+                </div>
+                <div class="mb-4">
+                    <button class="btn btn-primary w-100 btn-lg" type="submit">검색</button>
+                </div>
+            </form>
         </div>
-          <div class="row">
-            <div class="mb-4">
-              <label class="form-label fw-bold">기간</label>
-              <div class="d-flex align-items-center gap-2">
-                <input type="date" name="startDate" class="form-control" th:value="${startDate}" />
-                <span class="mx-2">-</span>
-                <input type="date" name="endDate" class="form-control" th:value="${endDate}" />
-              </div>
-            </div>
-          </div>
-        <div class="mb-4">
-          <label class="form-label fw-bold">거래상태</label>
-          <select name="status" class="form-select">
-            <option value="" th:selected="${status == null}">전체</option>
-            <option value="ACTIVE" th:selected="${status == 'ACTIVE'}">거래 가능</option>
-            <option value="IN_PROGRESS" th:selected="${status == 'IN_PROGRESS'}">거래 중</option>
-            <option value="DONE" th:selected="${status == 'DONE'}">거래 완료</option>
-          </select>
-        </div>
-        <div class="mb-4">
-          <label class="form-label fw-bold">검색어</label>
-          <input type="text" name="keyword" class="form-control" placeholder="검색" th:value="${keyword}" />
-        </div>
-        <div class="mb-4">
-          <button class="btn btn-primary w-100 btn-lg" type="submit">검색</button>
-        </div>
-      </form>
-    </div>
-    <div class="col-8">
-      <ul class="list">
-        <li th:if="${#lists.isEmpty(posts)
+        <div class="col-md-7 offset-md-1">
+            <ul class="list">
+                <li th:if="${#lists.isEmpty(posts)
           and (price != null or location != null or area != null or startDate != null or endDate != null or status != null or keyword != null)}"
-            class="text-center text-muted py-5">
-          현재 조건에 해당하는 게시글이 없습니다.
-        </li>
-        <li class="d-flex mb-4" th:each="post : ${posts}" th:onclick="'location.href=\'/main/detail/' + ${post.id} + '\''" style="cursor:pointer;">
+                    class="text-center text-muted py-5">
+                    현재 조건에 해당하는 게시글이 없습니다.
+                </li>
+                <li class="d-flex mb-4" th:each="post : ${posts}"
+                    th:onclick="'location.href=\'/main/detail/' + ${post.id} + '\''" style="cursor:pointer;">
 
-          <!-- ✅ 임대인 게시글용 (이미지 있음) -->
-          <div th:if="${post.writerRole == 'ROLE_OWNER'}" class="d-flex w-100">
-            <div class="col-md-4">
-              <img th:if="${post.imagePath != null}" th:src="@{${post.imagePath}}" class="img-fluid thumbnail" alt="썸네일" />
-              <img th:if="${post.imagePath == null}" th:src="@{/images/default.png}" class="img-fluid thumbnail" alt="기본 이미지" />
-            </div>
-            <div class="col-md-8 p-3">
-              <div class="card-body">
-                <h4 class="card-title mb-3" th:text="${post.title}"></h4>
-                <dl><dt class="fw-bold">가격</dt><dd th:text="${post.price} + '원'"></dd></dl>
-                <dl><dt class="fw-bold">지역</dt><dd th:text="${post.location}"></dd></dl>
-                <dl><dt class="fw-bold">면적</dt><dd th:text="${post.area} + '평'"></dd></dl>
-                <dl><dt class="fw-bold">기간</dt>
-                  <dd th:text="${#temporals.format(post.startDate, 'yyyy-MM-dd')} + ' ~ ' + ${#temporals.format(post.endDate, 'yyyy-MM-dd')}"></dd>
-                </dl>
-                <dl><dt class="fw-bold">상태</dt>
-                  <dd th:switch="${post.status}">
-                    <span th:case="'ACTIVE'" class="on">거래 가능</span>
-                    <span th:case="'IN_PROGRESS'"  class="ing">거래 중</span>
-                    <span th:case="'DONE'"  class="end">거래 완료</span>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
+                    <!-- ✅ 임대인 게시글용 (이미지 있음) -->
+                    <div th:if="${post.writerRole == 'ROLE_OWNER'}" class="d-flex w-100">
+                        <div class="col-md-4">
+                            <img th:if="${post.imagePath != null}" th:src="@{${post.imagePath}}"
+                                 class="img-fluid thumbnail" alt="썸네일"/>
+                            <img th:if="${post.imagePath == null}" th:src="@{/images/default.png}"
+                                 class="img-fluid thumbnail" alt="기본 이미지"/>
+                        </div>
+                        <div class="col-md-8 p-3">
+                            <div class="card-body">
+                                <h4 class="card-title mb-3" th:text="${post.title}"></h4>
+                                <dl>
+                                    <dt class="fw-bold">가격</dt>
+                                    <dd th:text="${post.price} + '원'"></dd>
+                                </dl>
+                                <dl>
+                                    <dt class="fw-bold">지역</dt>
+                                    <dd th:text="${post.location}"></dd>
+                                </dl>
+                                <dl>
+                                    <dt class="fw-bold">면적</dt>
+                                    <dd th:text="${post.area} + '평'"></dd>
+                                </dl>
+                                <dl>
+                                    <dt class="fw-bold">기간</dt>
+                                    <dd th:text="${#temporals.format(post.startDate, 'yyyy-MM-dd')} + ' ~ ' + ${#temporals.format(post.endDate, 'yyyy-MM-dd')}"></dd>
+                                </dl>
+                                <dl>
+                                    <dt class="fw-bold">상태</dt>
+                                    <dd th:switch="${post.status}">
+                                        <span th:case="'ACTIVE'" class="on">거래 가능</span>
+                                        <span th:case="'IN_PROGRESS'" class="ing">거래 중</span>
+                                        <span th:case="'DONE'" class="end">거래 완료</span>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
 
-          <!-- ✅ 임차인 게시글용 (이미지 없음) -->
-          <div th:if="${post.writerRole != 'ROLE_OWNER'}" class="col-md-12 p-3">
-            <div class="card-body">
-              <h4 class="card-title mb-3" th:text="${post.title}"></h4>
-              <dl><dt class="fw-bold">가격</dt><dd th:text="${post.price} + '원'"></dd></dl>
-              <dl><dt class="fw-bold">지역</dt><dd th:text="${post.location}"></dd></dl>
-              <dl><dt class="fw-bold">면적</dt><dd th:text="${post.area} + '평'"></dd></dl>
-              <dl><dt class="fw-bold">기간</dt>
-                <dd th:text="${#temporals.format(post.startDate, 'yyyy-MM-dd')} + ' ~ ' + ${#temporals.format(post.endDate, 'yyyy-MM-dd')}"></dd>
-              </dl>
-              <dl><dt class="fw-bold">상태</dt>
-                <dd th:switch="${post.status}">
-                  <span th:case="'ACTIVE'" class="on">거래 가능</span>
-                  <span th:case="'IN_PROGRESS'"  class="ing">거래 중</span>
-                  <span th:case="'DONE'"  class="end">거래 완료</span>
-                </dd>
-              </dl>
-            </div>
-          </div>
-        </li>
-      </ul>
-      <div class="d-flex justify-content-center mt-5" th:if="${totalPages > 1}">
-        <nav>
-          <ul class="pagination">
-            <!-- 이전 버튼 -->
-            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-              <a class="page-link" th:href="@{'/main/list'(role=${role}, page=${currentPage - 1})}"><</a>
-            </li>
+                    <!-- ✅ 임차인 게시글용 (이미지 없음) -->
+                    <div th:if="${post.writerRole != 'ROLE_OWNER'}" class="col-md-12 p-3">
+                        <div class="card-body">
+                            <h4 class="card-title mb-3" th:text="${post.title}"></h4>
+                            <dl>
+                                <dt class="fw-bold">가격</dt>
+                                <dd th:text="${post.price} + '원'"></dd>
+                            </dl>
+                            <dl>
+                                <dt class="fw-bold">지역</dt>
+                                <dd th:text="${post.location}"></dd>
+                            </dl>
+                            <dl>
+                                <dt class="fw-bold">면적</dt>
+                                <dd th:text="${post.area} + '평'"></dd>
+                            </dl>
+                            <dl>
+                                <dt class="fw-bold">기간</dt>
+                                <dd th:text="${#temporals.format(post.startDate, 'yyyy-MM-dd')} + ' ~ ' + ${#temporals.format(post.endDate, 'yyyy-MM-dd')}"></dd>
+                            </dl>
+                            <dl>
+                                <dt class="fw-bold">상태</dt>
+                                <dd th:switch="${post.status}">
+                                    <span th:case="'ACTIVE'" class="on">거래 가능</span>
+                                    <span th:case="'IN_PROGRESS'" class="ing">거래 중</span>
+                                    <span th:case="'DONE'" class="end">거래 완료</span>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="d-flex justify-content-center mt-5" th:if="${totalPages > 1}">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <!-- 이전 버튼 -->
+                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <a class="page-link" th:href="@{'/main/list'(role=${role}, page=${currentPage - 1})}"><</a>
+                    </li>
 
-            <!-- 페이지 번호 반복 -->
-            <li class="page-item"
-                th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
-                th:classappend="${i == currentPage} ? 'active'">
-              <a class="page-link"
-                 th:href="@{'/main/list'(role=${role}, page=${i})}"
-                 th:text="${i + 1}">1</a>
-            </li>
+                    <!-- 페이지 번호 반복 -->
+                    <li class="page-item"
+                        th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                        th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link"
+                           th:href="@{'/main/list'(role=${role}, page=${i})}"
+                           th:text="${i + 1}">1</a>
+                    </li>
 
-            <!-- 다음 버튼 -->
-            <li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? 'disabled'">
-              <a class="page-link" th:href="@{'/main/list'(role=${role}, page=${currentPage + 1})}">></a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+                    <!-- 다음 버튼 -->
+                    <li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{'/main/list'(role=${role}, page=${currentPage + 1})}">></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
   </div>
 </div>
 
 <footer>
-  <div class="container">
-    <div class="row pt-5">
-      <div class="col-7">
-        <ul class="d-flex gap-3">
-          <li><a href="">이용약관</a></li>
-          <li><a href="">개인정보처리방침</a></li>
-          <li><a href="">위치기반서비스</a></li>
-          <li><a href="">이용약관</a></li>
-          <li><a href="">이메일 무단수집거부</a></li>
-          <li><a href="">법적고지</a></li>
-          <li><a href="">사업자정보</a></li>
-        </ul>
-      </div>
-      <div class="col-5">
-        <p>
-          대표이사 : 이몽룡 | 개인정보보호책임자 : 임춘향 | 사업자등록번호 :
-          8282-82-828282
-        </p>
-        <p>
-          통신판매업종신고 : 제 2025-서울강남구-8282 | 대표이메일 :
-          gagi@gagi.store
-        </p>
-        <p>
-          copyright ⓒ 2021. 가지 : 가장가까운지역창고 Co., Ltd. All rights
-          reserved.
-        </p>
-      </div>
+    <div class="container">
+        <div class="row pt-5">
+            <div class="col-7">
+                <ul class="d-flex gap-3">
+                    <li><a href="">이용약관</a></li>
+                    <li><a href="">개인정보처리방침</a></li>
+                    <li><a href="">위치기반서비스</a></li>
+                    <li><a href="">이용약관</a></li>
+                    <li><a href="">이메일 무단수집거부</a></li>
+                    <li><a href="">법적고지</a></li>
+                    <li><a href="">사업자정보</a></li>
+                </ul>
+            </div>
+            <div class="col-5">
+                <p>
+                    대표이사 : 이몽룡 | 개인정보보호책임자 : 임춘향 | 사업자등록번호 :
+                    8282-82-828282
+                </p>
+                <p>
+                    통신판매업종신고 : 제 2025-서울강남구-8282 | 대표이메일 :
+                    gagi@gagi.store
+                </p>
+                <p>
+                    copyright ⓒ 2021. 가지 : 가장가까운지역창고 Co., Ltd. All rights
+                    reserved.
+                </p>
+            </div>
+        </div>
     </div>
-  </div>
 </footer>
 
 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
-  <div id="loginToast" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
-      <div class="toast-body" id="toastMessage">님 환영합니다!</div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    <div id="loginToast" class="toast align-items-center text-white bg-primary border-0" role="alert"
+         aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="toastMessage">님 환영합니다!</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
     </div>
-  </div>
 </div>
 
 <script th:inline="javascript">
-  const loginSuccess = [[${loginSuccessMessage != null}]] ? '[[${loginSuccessMessage}]]' : null;
-  if (loginSuccess) {
-    document.getElementById("toastMessage").textContent = loginSuccess;
-    const toastEl = document.getElementById("loginToast");
-    const toast = new bootstrap.Toast(toastEl);
-    toast.show();
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    let areaTouched = false;
-
-    const areaRange = document.getElementById('areaRange');
-    const areaDisplay = document.getElementById('areaDisplay');
-    const areaHidden = document.getElementById('areaHidden');
-
-    if (areaRange && areaDisplay && areaHidden) {
-      // 초기 렌더링 시 값 동기화
-      areaDisplay.textContent = areaRange.value + '평';
-      areaHidden.value = areaRange.value;
-
-      // 사용자가 슬라이더 조작했는지 감지
-      areaRange.addEventListener('input', function () {
-        areaDisplay.textContent = this.value + '평';
-        areaHidden.value = this.value;
-        areaTouched = true;
-      });
-
-      // submit 시, 조작 안 했으면 hidden 전송 막기
-      const form = areaRange.closest("form");
-      if (form) {
-        form.addEventListener("submit", function () {
-          if (!areaTouched) {
-            areaHidden.disabled = true;
-          }
-        });
-      }
+    const loginSuccess = [[${loginSuccessMessage != null
+    }]]
+        ? '[[${loginSuccessMessage}]]' : null;
+    if (loginSuccess) {
+        document.getElementById("toastMessage").textContent = loginSuccess;
+        const toastEl = document.getElementById("loginToast");
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
     }
-  });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let areaTouched = false;
+
+        const areaRange = document.getElementById('areaRange');
+        const areaDisplay = document.getElementById('areaDisplay');
+        const areaHidden = document.getElementById('areaHidden');
+
+        if (areaRange && areaDisplay && areaHidden) {
+            // 초기 렌더링 시 값 동기화
+            areaDisplay.textContent = areaRange.value + '평';
+            areaHidden.value = areaRange.value;
+
+            // 사용자가 슬라이더 조작했는지 감지
+            areaRange.addEventListener('input', function () {
+                areaDisplay.textContent = this.value + '평';
+                areaHidden.value = this.value;
+                areaTouched = true;
+            });
+
+            // submit 시, 조작 안 했으면 hidden 전송 막기
+            const form = areaRange.closest("form");
+            if (form) {
+                form.addEventListener("submit", function () {
+                    if (!areaTouched) {
+                        areaHidden.disabled = true;
+                    }
+                });
+            }
+        }
+    });
 </script>
 </body>
 </html>

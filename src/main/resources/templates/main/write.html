@@ -38,12 +38,13 @@
       integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
       crossorigin="anonymous"
     ></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c0d4d53d17d0a3e0254a27b968afe144&libraries=services"></script>
   </head>
   <body>
     <header id="header">
       <div class="container">
         <h1>
-          <a href=""><img src="../images/logo.svg" alt="" /></a>
+          <a href="/main/list"><img src="/images/logo.svg" alt="" /></a>
         </h1>
         <nav>
           <ul>
@@ -60,12 +61,13 @@
         <a href="" id="profile">
           <span>김의진</span>
           <span class="img">
-            <img src="../images/profile.jpg" alt="" />
+            <img src="/images/profile.jpg" alt="" />
           </span>
         </a>
       </div>
     </header>
     <div class="container min-vh-100 write-wrap">
+      <h2 class="mb-4">거래글 작성</h2>
       <div class="row justify-content-center">
         <div class="col-md-6"> <!-- 중앙 정렬과 적절한 너비 설정 -->
 
@@ -100,13 +102,34 @@
             <!-- 지역 -->
             <div class="mb-4">
               <label class="form-label fw-bold">지역</label>
-              <select class="form-select" name="location" required>
+              <select class="form-select" name="location" id="location" required>
                 <option value="">지역 선택</option>
+                <!-- 서울 -->
                 <option value="서울 강남구">서울 강남구</option>
                 <option value="서울 마포구">서울 마포구</option>
-                <option value="부산 해운대구">부산 해운대구</option>
-                <option value="대구 수성구">대구 수성구</option>
+                <option value="서울 송파구">서울 송파구</option>
+                <option value="서울 영등포구">서울 영등포구</option>
+                <option value="서울 종로구">서울 종로구</option>
+
+                <!-- 경기 -->
+                <option value="경기 성남시 분당구">경기 성남시 분당구</option>
+                <option value="경기 수원시 영통구">경기 수원시 영통구</option>
+                <option value="경기 고양시 일산서구">경기 고양시 일산서구</option>
+                <option value="경기 용인시 수지구">경기 용인시 수지구</option>
+                <option value="경기 안양시 동안구">경기 안양시 동안구</option>
+
+                <!-- 인천 -->
+                <option value="인천 연수구">인천 연수구</option>
+                <option value="인천 부평구">인천 부평구</option>
               </select>
+            </div>
+
+            <input type="hidden" name="latitude" id="latitude">
+            <input type="hidden" name="longitude" id="longitude">
+
+            <div class="mb-4" style="opacity: 0; height: 0; overflow: hidden;">
+              <label class="form-label fw-bold">지도</label>
+              <div id="map" style="width: 100%; height: 300px;"></div>
             </div>
 
             <!-- 면적 -->
@@ -134,7 +157,6 @@
               <button type="submit" class="btn btn-primary btn-lg">작성하기</button>
             </div>
           </form>
-
         </div>
       </div>
     </div>
@@ -171,17 +193,6 @@
     </footer>
   </body>
   <script>
-    // This is an example script, please modify as needed
-    const rangeInput = document.querySelector("#range-input");
-    const rangeOutput = document.querySelector("#range-value");
-
-    // Set initial value
-    rangeOutput.textContent = rangeInput.value;
-
-    rangeInput.addEventListener("input", function () {
-      rangeOutput.textContent = this.value;
-    });
-
     function previewImage(event) {
       const input = event.target;
       const preview = document.getElementById('imagePreview');
@@ -197,6 +208,63 @@
         preview.src = "";
         preview.style.display = 'none';
       }
+    }
+
+    let geocoder, latInput, lngInput;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const locationSelect = document.getElementById("location");
+      latInput = document.getElementById("latitude");
+      lngInput = document.getElementById("longitude");
+      const mapContainer = document.getElementById("map");
+      const map = new kakao.maps.Map(mapContainer, {
+        center: new kakao.maps.LatLng(37.5665, 126.9780),
+        level: 5
+      });
+      geocoder = new kakao.maps.services.Geocoder();
+      const marker = new kakao.maps.Marker();
+
+      locationSelect.addEventListener("change", function () {
+        const address = this.value;
+        if (!address) return;
+        geocoder.addressSearch(address, function (result, status) {
+          if (status === kakao.maps.services.Status.OK) {
+            const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+            map.setCenter(coords);
+            marker.setMap(map);
+            marker.setPosition(coords);
+            latInput.value = result[0].y;
+            lngInput.value = result[0].x;
+          }
+        });
+      });
+
+      // 초기값 세팅
+      if (locationSelect.value) {
+        const evt = new Event('change');
+        locationSelect.dispatchEvent(evt);
+      }
+    });
+
+    // ✅ submit 전 위경도 보장
+    function validateFormAndSetCoords(event) {
+      event.preventDefault(); // 기본 제출 막음
+      const address = document.getElementById("location").value;
+      if (!address) {
+        alert("지역을 선택해주세요.");
+        return false;
+      }
+
+      geocoder.addressSearch(address, function (result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          latInput.value = result[0].y;
+          lngInput.value = result[0].x;
+          event.target.submit(); // 정상적 submit
+        } else {
+          alert("주소 좌표를 찾을 수 없습니다.");
+        }
+      });
+      return false;
     }
   </script>
 </html>
