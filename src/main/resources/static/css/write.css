@@ -1,3 +1,8 @@
 .write-wrap {
-  padding-top: 200px;
+  padding-top: 140px; /* 고정된 header 높이 + 약간의 여백 */
+  padding-bottom: 100px; /* footer와 겹치지 않게 */
+  min-height: calc(100vh - 120px); /* 최소 높이: 화면 높이 - header */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

@@ -1,7 +1,6 @@
 package com.took.egg_plant_project.entity;
 
 import com.took.egg_plant_project.constant.Role;
-import com.took.egg_plant_project.member.MemberDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,23 +46,9 @@ public class Member extends BaseTime{
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_RENTER;
 
-    public MemberDto toMemberDto() {
-        return MemberDto.builder()
-                .id(this.id)
-                .userID(this.userID)
-                .userName(this.userName)
-                .nickName(this.nickName)
-                .userEmail(this.userEmail)
-                .tel(this.tel)
-                .role(this.role)
-                .createdAt(this.getCreatedAt())
-                .build();
-    }
-
-    public void updateInfo(String userPW, String userEmail, String tel) {
-        this.userPW = userPW;
+    public void updateInfo(String userName, String userEmail, String tel) {
+        this.userName = userName;
         this.userEmail = userEmail;
         this.tel = tel;
     }
-
 }

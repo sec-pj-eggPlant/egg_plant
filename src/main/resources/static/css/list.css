@@ -21,3 +21,23 @@
 .list-wrap {
   padding-top: 100px;
 }
+
+.ing,.end,.on {
+  padding:5px 10px;
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 100px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+.ing {
+  background-color: #21a6de;
+
+}
+.end {
+  background-color: #8e8e8e;
+}
+.on {
+  background-color: #f00;
+  color: #fff;
+}
