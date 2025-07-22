@@ -91,20 +91,28 @@ public class MainController {
                              @RequestParam(required = false) Integer area,
                              @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                              @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-                             @RequestParam(required = false) String status,
                              @RequestParam(required = false) String keyword,
                              @RequestParam(value = "page", defaultValue = "0") int page,
+                             @RequestParam(value = "reset", required = false) Boolean reset,
                              Model model) {
 
+        if (Boolean.TRUE.equals(reset)) {
+            return "redirect:/main/list?role=" + role;
+        }
+
         if (location != null && location.trim().isEmpty()) location = null;
-        if (status != null && status.trim().isEmpty()) status = null;
         if (keyword != null && keyword.trim().isEmpty()) keyword = null;
+
+        if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+            startDate = null;
+            endDate = null;
+        }
 
         Role targetRole = Role.valueOf("ROLE_" + role);
         Pageable pageable = PageRequest.of(page, 4); // 페이지당 4개
 
         Page<MainDto> postsPage = mainService.filterPostsByConditions(
-                targetRole, price, location, area, startDate, endDate, status, keyword, pageable);
+                targetRole, price, location, area, startDate, endDate, keyword, pageable);
 
         model.addAttribute("posts", postsPage.getContent());
         model.addAttribute("postsPage", postsPage);
@@ -118,7 +126,6 @@ public class MainController {
         model.addAttribute("area", area);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
-        model.addAttribute("status", status);
         model.addAttribute("keyword", keyword);
 
         return "main/list";

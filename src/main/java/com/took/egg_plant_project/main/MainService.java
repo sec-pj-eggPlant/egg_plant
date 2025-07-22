@@ -35,7 +35,6 @@ public class MainService {
                                                  Integer area,
                                                  LocalDate startDate,
                                                  LocalDate endDate,
-                                                 String status,
                                                  String keyword,
                                                  Pageable pageable) {
 
@@ -43,16 +42,20 @@ public class MainService {
 
         List<Post> filtered = posts.stream()
                 .filter(p -> p.getWriter().getRole() == role)
-                .filter(p -> price == null || p.getPrice() <= (price))
+                .filter(p -> price == null || p.getPrice() <= price)
                 .filter(p -> location == null || p.getLocation().contains(location))
                 .filter(p -> area == null || p.getArea() <= area)
-                .filter(p -> startDate == null || !p.getStartDate().isBefore(startDate))
-                .filter(p -> endDate == null || !p.getEndDate().isAfter(endDate))
-                .filter(p -> status == null || p.getStatus().equals(status))
+                .filter(p -> {
+                    if (startDate != null && endDate != null) {
+                        // 사용자가 선택한 기간이 post 기간과 겹치는지 판단
+                        return !(endDate.isBefore(p.getStartDate()) || startDate.isAfter(p.getEndDate()));
+                    }
+                    return true;
+                })
                 .filter(p -> keyword == null
                         || p.getTitle().contains(keyword)
                         || p.getContent().contains(keyword))
-                .sorted((p1, p2) -> p2.getId().compareTo(p1.getId())) // 최신순 정렬
+                .sorted((p1, p2) -> p2.getId().compareTo(p1.getId()))
                 .toList();
 
         // ✅ 페이징 처리 (SubList 잘라내기)

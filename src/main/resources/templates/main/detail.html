@@ -113,7 +113,7 @@
 
                 <!-- ✅ 상태별 버튼 조건 분기 영역 -->
                 <div class="mt-4">
-                    <!-- ✔ 글 작성자 & 상태가 'IN_PROGRESS'일 때만 거래 완료 버튼 노출 -->
+                    <!-- ✔ 글 작성자이고 상태가 'IN_PROGRESS'일 때만 거래 완료 버튼 노출 -->
                     <div th:if="${userId != null and post.writerId == userId and post.status == 'IN_PROGRESS'}">
                         <form th:action="@{'/main/post/' + ${post.id} + '/status'}" method="post" class="d-inline">
                             <input type="hidden" name="action" value="complete"/>
@@ -121,20 +121,17 @@
                         </form>
                     </div>
 
-                    <!-- ✔ 작성자가 아닌 경우만 거래 신청/취소 가능 -->
-                    <div th:if="${userId != null and post.writerId != userId}">
-                        <!-- 거래 가능 상태일 때만 거래 신청 버튼 -->
-                        <form th:if="${post.status == 'ACTIVE'}"
-                              th:action="@{'/main/post/' + ${post.id} + '/status'}"
-                              method="post" class="d-inline">
+                    <!-- ✔ 거래 가능 상태일 때: 작성자가 아닐 경우만 거래 신청 가능 -->
+                    <div th:if="${userId != null and post.writerId != userId and post.status == 'ACTIVE'}">
+                        <form th:action="@{'/main/post/' + ${post.id} + '/status'}" method="post" class="d-inline">
                             <input type="hidden" name="action" value="apply"/>
                             <button type="submit" class="btn btn-primary">거래 신청</button>
                         </form>
+                    </div>
 
-                        <!-- 거래 중 상태일 때만 거래 취소 버튼 -->
-                        <form th:if="${post.status == 'IN_PROGRESS'}"
-                              th:action="@{'/main/post/' + ${post.id} + '/status'}"
-                              method="post" class="d-inline">
+                    <!-- ✔ 거래 중 상태일 때: 누구든지 거래 취소 가능 -->
+                    <div th:if="${userId != null and post.status == 'IN_PROGRESS'}">
+                        <form th:action="@{'/main/post/' + ${post.id} + '/status'}" method="post" class="d-inline">
                             <input type="hidden" name="action" value="cancel"/>
                             <button type="submit" class="btn btn-danger">거래 취소</button>
                         </form>
