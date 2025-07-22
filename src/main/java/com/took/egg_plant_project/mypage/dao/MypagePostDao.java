@@ -15,4 +15,8 @@ public class MypagePostDao {
     public List<Object[]> findMyPosts(Integer memberId) {
         return mypagePostRepository.findMyPostsByMemberId(memberId);
     }
+
+    public Object[] findPostDetail(Integer postId) {
+        return mypagePostRepository.findPostDetailById(postId);
+    }
 }

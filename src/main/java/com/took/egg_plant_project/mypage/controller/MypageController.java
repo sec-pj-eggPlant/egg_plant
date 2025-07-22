@@ -195,5 +195,12 @@ public class MypageController {
         return "my/post";
     }
 
+    @GetMapping("/post/{id}")
+    public String postDetail(@PathVariable Integer id, Model model) {
+        MypagePostDto post = mypagePostService.getPostById(id);
+        model.addAttribute("post", post);
+        return "my/post-detail";
+    }
+
 
 }

@@ -1,37 +1,61 @@
 package com.took.egg_plant_project.mypage.service;
 
-import com.took.egg_plant_project.entity.Post;
 import com.took.egg_plant_project.mypage.dao.MypagePostDao;
 import com.took.egg_plant_project.mypage.dto.MypagePostDto;
-import com.took.egg_plant_project.mypage.repository.MypagePostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class MypagePostService {
-    private final MypagePostDao mypagePostDao;
-    private final MypagePostRepository mypagePostRepository;
 
+    private final MypagePostDao mypagePostDao;
+
+    // 1. 내가 쓴 글 목록
     public List<MypagePostDto> getMyPosts(Integer memberId) {
         List<Object[]> results = mypagePostDao.findMyPosts(memberId);
         return results.stream()
                 .map(obj -> MypagePostDto.builder()
-                                .id(((Number) obj[0]).intValue())
-                                .title((String) obj[1])
-                                .location((String) obj[2])
-//                        .price(obj[3] != null ? ((Number) obj[3]).intValue() : 0)
-//                        .area(obj[4] != null ? ((Number) obj[4]).intValue() : 0)
-//                        .startDate(obj[5] != null ? ((java.sql.Date) obj[5]).toLocalDate() : null)
-//                        .endDate(obj[6] != null ? ((java.sql.Date) obj[6]).toLocalDate() : null)
-                                .status((String) obj[3])
-                                .build()
-                ).toList();
-
+                        .id(((Number) obj[0]).intValue())
+                        .title((String) obj[1])
+                        .location((String) obj[2])
+                        .status((String) obj[3])
+                        .build())
+                .collect(Collectors.toList());
     }
 
-}
+    // 2. 게시글 상세
+    public MypagePostDto getPostById(Integer postId) {
+        Object[] row = mypagePostDao.findPostDetail(postId);
 
+        if (row == null || row.length < 9) {
+            return null;
+        }
+
+        return MypagePostDto.builder()
+                .id(getInt(row[0]))
+                .title((String) row[1])
+                .location((String) row[2])
+                .status((String) row[3])
+                .content((String) row[4])
+                .price(getInt(row[5]))
+                .area(getInt(row[6]))
+                .startDate(getTimestamp(row[7]))
+                .endDate(getTimestamp(row[8]))
+                .build();
+    }
+
+    // 유틸: 정수형 안전 변환
+    private Integer getInt(Object obj) {
+        return obj != null ? ((Number) obj).intValue() : null;
+    }
+
+    // 유틸: Timestamp → LocalDateTime 안전 변환
+    private java.time.LocalDateTime getTimestamp(Object obj) {
+        return obj != null ? ((Timestamp) obj).toLocalDateTime() : null;
+    }
+}

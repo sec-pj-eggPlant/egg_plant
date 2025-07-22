@@ -9,6 +9,14 @@ import java.util.List;
 
 public interface MypagePostRepository extends JpaRepository<Post, Integer> {
     @Query(value = """
+            SELECT POSTID, TITLE, LOCATION, STATUS, CONTENT, PRICE, AREA,
+                        STARTDATE, ENDDATE FROM POST
+                                    WHERE POSTID = :postId
+                                                """, nativeQuery = true)
+    Object[] findPostDetailById(@Param("postId") Integer postId);
+
+
+    @Query(value = """
             SELECT POSTID,TITLE,LOCATION,STATUS       
             FROM POST
             WHERE WRITERID = :memberId

@@ -17,6 +17,11 @@ public class MypagePostDto {
     private String title;                       // POST.TITLE (제목)
     private String location;                    // POST.LOCATION (위치)
     private String status;                      // POST.STATUS (게시글 상태)
+    private String content;
+    private Integer price;
+    private Integer area;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     public static MypagePostDto fromEntity(Post post) {
         return MypagePostDto.builder()
@@ -26,4 +31,6 @@ public class MypagePostDto {
                 .status(post.getStatus())
                 .build();
     }
+
+
 }
