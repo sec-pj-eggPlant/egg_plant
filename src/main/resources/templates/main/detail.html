@@ -113,33 +113,35 @@
 
         <!-- ✅ 임차인 전용 상세 페이지 -->
         <div th:if="${post.writerRole != 'ROLE_OWNER'}">
-            <div class="col-md-6">
-                <dl>
-                    <dt>제목</dt>
-                    <dd th:text="${post.title}"></dd>
-                    <dt>상세 설명</dt>
-                    <dd th:text="${post.content}"></dd>
-                    <dt>거래 희망 가격</dt>
-                    <dd th:text="${post.price} + ' 원'"></dd>
-                    <dt>거래 희망 지역</dt>
-                    <dd th:text="${post.location}"></dd>
-                    <dt>면적</dt>
-                    <dd th:text="${post.area} + ' 평'"></dd>
-                    <dt>희망 대여 기간</dt>
-                    <dd>
-                        <span th:text="${#temporals.format(post.startDate, 'yyyy년 MM월 dd일')}"></span> ~
-                        <span th:text="${#temporals.format(post.endDate, 'yyyy년 MM월 dd일')}"></span>
-                    </dd>
-                    <dt>상태</dt>
-                    <dd th:switch="${post.status}">
-                        <span th:case="'ACTIVE'" class="on">거래 가능</span>
-                        <span th:case="'IN_PROGRESS'" class="ing">거래 중</span>
-                        <span th:case="'DONE'" class="end">거래 완료</span>
-                    </dd>
-                </dl>
-                <div class="mt-4">
-                    <a href="/main/list" class="btn btn-primary me-2">거래신청</a>
-                    <a href="/main/list" class="btn btn-secondary">거래완료</a>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <dl>
+                        <dt>제목</dt>
+                        <dd th:text="${post.title}"></dd>
+                        <dt>상세 설명</dt>
+                        <dd th:text="${post.content}"></dd>
+                        <dt>거래 희망 가격</dt>
+                        <dd th:text="${post.price} + ' 원'"></dd>
+                        <dt>거래 희망 지역</dt>
+                        <dd th:text="${post.location}"></dd>
+                        <dt>면적</dt>
+                        <dd th:text="${post.area} + ' 평'"></dd>
+                        <dt>희망 대여 기간</dt>
+                        <dd>
+                            <span th:text="${#temporals.format(post.startDate, 'yyyy년 MM월 dd일')}"></span> ~
+                            <span th:text="${#temporals.format(post.endDate, 'yyyy년 MM월 dd일')}"></span>
+                        </dd>
+                        <dt>상태</dt>
+                        <dd th:switch="${post.status}">
+                            <span th:case="'ACTIVE'" class="on">거래 가능</span>
+                            <span th:case="'IN_PROGRESS'" class="ing">거래 중</span>
+                            <span th:case="'DONE'" class="end">거래 완료</span>
+                        </dd>
+                    </dl>
+                    <div class="mt-4">
+                        <a href="/main/list" class="btn btn-primary me-2">거래신청</a>
+                        <a href="/main/list" class="btn btn-secondary">거래완료</a>
+                    </div>
                 </div>
             </div>
         </div>
