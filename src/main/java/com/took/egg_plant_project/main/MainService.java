@@ -47,8 +47,7 @@ public class MainService {
                 .filter(p -> area == null || p.getArea() <= area)
                 .filter(p -> {
                     if (startDate != null && endDate != null) {
-                        // 사용자가 선택한 기간이 post 기간과 겹치는지 판단
-                        return !(endDate.isBefore(p.getStartDate()) || startDate.isAfter(p.getEndDate()));
+                        return !p.getStartDate().isAfter(startDate) && !p.getEndDate().isBefore(endDate);
                     }
                     return true;
                 })
