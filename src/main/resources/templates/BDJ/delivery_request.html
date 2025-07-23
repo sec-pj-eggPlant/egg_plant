@@ -18,55 +18,41 @@
         <div class="col-md-6 px-4">
             <h2 class="mb-5">배송대행 신청</h2>
             <form th:action="@{/BDJ/request}" method="post" th:object="${requestDto}">
-
-                <!-- 수령인 이름/연락처는 보여주기만 -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">수령인 이름</label>
                     <input type="text" class="form-control" th:value="${member.userName}" readonly/>
                 </div>
-
                 <div class="mb-3">
                     <label class="form-label fw-bold">연락처</label>
                     <input type="text" class="form-control" th:value="${member.tel}" readonly/>
                 </div>
-
                 <div class="mb-3">
                     <label class="form-label fw-bold">트래킹 번호</label>
                     <input type="text" class="form-control" th:field="*{trackingNumber}" required/>
                 </div>
-
                 <div class="mb-3">
-                    <label class="form-label fw-bold">기본 주소</label>
-                    <input type="text" class="form-control" th:field="*{address}" placeholder="도로명 주소 또는 지번 주소"
+                    <label class="form-label fw-bold">주소</label>
+                    <input type="text" class="form-control" th:field="*{receiverAddress}" placeholder="도로명 주소 또는 지번 주소"
                            required/>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-bold">상세 주소</label>
-                    <input type="text" class="form-control" th:field="*{addressDetail}" placeholder="동/호수 등 상세주소"/>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label fw-bold">우편번호</label>
                     <input type="text" class="form-control" th:field="*{postalCode}" required/>
                 </div>
-
                 <div class="mb-3">
                     <label class="form-label fw-bold">개인통관고유번호</label>
                     <input type="text" class="form-control" th:field="*{clearanceCode}" placeholder="P로 시작하는 번호"
                            required/>
                 </div>
-
                 <div class="mb-3">
                     <label class="form-label fw-bold">상품명</label>
                     <input type="text" class="form-control" th:field="*{itemName}" required/>
                 </div>
-
                 <div class="mb-3">
                     <label class="form-label fw-bold">상품 가격 (원)</label>
                     <input type="number" class="form-control" th:field="*{itemPrice}" required/>
                 </div>
-
                 <button type="submit" class="btn btn-primary w-100">배송대행 신청하기</button>
             </form>
         </div>
