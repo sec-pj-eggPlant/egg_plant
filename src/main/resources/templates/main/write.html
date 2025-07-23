@@ -41,31 +41,33 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c0d4d53d17d0a3e0254a27b968afe144&libraries=services"></script>
   </head>
   <body>
-    <header id="header">
-      <div class="container">
-        <h1>
-          <a href="/main/list"><img src="/images/logo.svg" alt="" /></a>
-        </h1>
-        <nav>
-          <ul>
-            <li><a href="">자사창고</a></li>
-            <li><a href="">빌려드림</a></li>
-          </ul>
-        </nav>
-        <div class="search-box">
-          <form action="">
-            <input type="text" class="form-control" placeholder="search" />
-            <button class="btn" type="button">search</button>
-          </form>
-        </div>
-        <a href="" id="profile">
-          <span>김의진</span>
-          <span class="img">
-            <img src="/images/profile.jpg" alt="" />
-          </span>
-        </a>
+  <header id="header">
+    <div class="container">
+      <h1>
+        <a href=""><img src="/images/logo.svg" alt=""/></a>
+      </h1>
+      <nav>
+        <ul>
+          <li><a href="">자사창고</a></li>
+          <li><a href="">빌려드림</a></li>
+        </ul>
+      </nav>
+      <div class="search-box">
+        <form action="">
+          <input type="text" class="form-control" placeholder="search"/>
+          <button class="btn" type="button">search</button>
+        </form>
       </div>
-    </header>
+      <a href="" id="profile">
+        <span th:text="${#authentication.principal.loggedMember.nickName}">닉네임</span>
+        <span class="img">
+                <img th:src="${#strings.isEmpty(#authentication.principal.loggedMember.profileImagePath)
+                    ? '/images/primary.jpg'
+                    : #authentication.principal.loggedMember.profileImagePath}" alt="profile" />
+            </span>
+      </a>
+    </div>
+  </header>
     <div class="container min-vh-100 write-wrap">
       <h2 class="mb-4">거래글 작성</h2>
       <div class="row justify-content-center">

@@ -43,7 +43,7 @@
 <header id="header">
     <div class="container">
         <h1>
-            <a href="/main/list"><img src="/images/logo.svg" alt=""/></a>
+            <a href=""><img src="/images/logo.svg" alt=""/></a>
         </h1>
         <nav>
             <ul>
@@ -58,10 +58,12 @@
             </form>
         </div>
         <a href="" id="profile">
-            <span>김의진</span>
+            <span th:text="${#authentication.principal.loggedMember.nickName}">닉네임</span>
             <span class="img">
-            <img src="/images/profile.jpg" alt=""/>
-          </span>
+                <img th:src="${#strings.isEmpty(#authentication.principal.loggedMember.profileImagePath)
+                    ? '/images/primary.jpg'
+                    : #authentication.principal.loggedMember.profileImagePath}" alt="profile" />
+            </span>
         </a>
     </div>
 </header>

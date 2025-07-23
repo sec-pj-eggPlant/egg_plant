@@ -97,7 +97,7 @@
 <header id="header">
     <div class="container">
         <h1>
-            <a href="/main/list"><img src="/images/logo.svg" alt=""/></a>
+            <a href=""><img src="/images/logo.svg" alt=""/></a>
         </h1>
         <nav>
             <ul>
@@ -111,13 +111,26 @@
                 <button class="btn" type="button">search</button>
             </form>
         </div>
-        <a href="" id="profile">
-            <span>김의진</span>
-            <span class="img">
-            <img src="/images/profile.jpg" alt=""/>
-          </span>
-        </a>
-    </div>
+        <div class="dropdown" id="profile">
+            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+               aria-expanded="false">
+                <span th:text="${#authentication.principal.loggedMember.nickName}">닉네임</span>
+                <span class="img">
+                    <img th:src="${#strings.isEmpty(#authentication.principal.loggedMember.profileImagePath) ? '/images/primary.jpg' : #authentication.principal.loggedMember.profileImagePath}"
+                        alt="profile"/>
+                </span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                <li>
+                    <a class="dropdown-item" href="/my/mypage-profile">마이페이지</a>
+                </li>
+                <li>
+                    <form action="/main/logout" method="post" class="d-inline">
+                        <button type="submit" class="dropdown-item">로그아웃</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
 </header>
 <div class="container min-vh-100 list-wrap">
     <div class="d-flex justify-content-center align-items-center my-5">
@@ -189,22 +202,22 @@
                         <label class="form-label fw-bold">기간</label>
                         <div class="d-flex align-items-center gap-2">
                             <input type="date" name="startDate" class="form-control"
-                                   th:value="${startDate != null ? #temporals.format(startDate, 'yyyy-MM-dd') : ''}" />
+                                   th:value="${startDate != null ? #temporals.format(startDate, 'yyyy-MM-dd') : ''}"/>
                             <span class="mx-2">-</span>
                             <input type="date" name="endDate" class="form-control"
-                                   th:value="${endDate != null ? #temporals.format(endDate, 'yyyy-MM-dd') : ''}" />
+                                   th:value="${endDate != null ? #temporals.format(endDate, 'yyyy-MM-dd') : ''}"/>
                         </div>
                     </div>
                 </div>
-<!--                <div class="mb-4">-->
-<!--                    <label class="form-label fw-bold">거래상태</label>-->
-<!--                    <select name="status" class="form-select">-->
-<!--                        <option value="" th:selected="${status == null}">전체</option>-->
-<!--                        <option value="ACTIVE" th:selected="${status == 'ACTIVE'}">거래 가능</option>-->
-<!--                        <option value="IN_PROGRESS" th:selected="${status == 'IN_PROGRESS'}">거래 중</option>-->
-<!--                        <option value="DONE" th:selected="${status == 'DONE'}">거래 완료</option>-->
-<!--                    </select>-->
-<!--                </div>-->
+                <!--                <div class="mb-4">-->
+                <!--                    <label class="form-label fw-bold">거래상태</label>-->
+                <!--                    <select name="status" class="form-select">-->
+                <!--                        <option value="" th:selected="${status == null}">전체</option>-->
+                <!--                        <option value="ACTIVE" th:selected="${status == 'ACTIVE'}">거래 가능</option>-->
+                <!--                        <option value="IN_PROGRESS" th:selected="${status == 'IN_PROGRESS'}">거래 중</option>-->
+                <!--                        <option value="DONE" th:selected="${status == 'DONE'}">거래 완료</option>-->
+                <!--                    </select>-->
+                <!--                </div>-->
                 <div class="mb-4">
                     <label class="form-label fw-bold">검색어</label>
                     <input type="text" name="keyword" class="form-control" placeholder="검색" th:value="${keyword}"/>

@@ -39,6 +39,7 @@ public class MemberService {
                 .tel(member.getTel())
                 .role(member.getRole())
                 .lockerCode(lockerCode)
+                .profileImagePath(member.getProfileImagePath())
                 .build();
 
         memberRepository.save(member);

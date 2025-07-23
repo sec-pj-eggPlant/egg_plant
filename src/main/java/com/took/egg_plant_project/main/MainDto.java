@@ -2,6 +2,7 @@ package com.took.egg_plant_project.main;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -22,4 +23,6 @@ public class MainDto {
     private Double latitude;
     private Double longitude;
     private Integer writerId;
+    private MultipartFile profileImageFile;
+    private String profileImagePath;
 }

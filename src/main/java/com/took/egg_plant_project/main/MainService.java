@@ -42,6 +42,7 @@ public class MainService {
 
         List<Post> filtered = posts.stream()
                 .filter(p -> p.getWriter().getRole() == role)
+                .filter(p -> !"DONE".equals(p.getStatus()))
                 .filter(p -> price == null || p.getPrice() <= price)
                 .filter(p -> location == null || p.getLocation().contains(location))
                 .filter(p -> area == null || p.getArea() <= area)
@@ -82,7 +83,7 @@ public class MainService {
     }
 
     public Page<MainDto> getPagedPosts(Role targetRole, Pageable pageable) {
-        return mainRepository.findByWriterRoleOrderByIdDesc(targetRole, pageable)
+        return mainRepository.findByWriterRoleAndStatusNotDone(targetRole, pageable)
                 .map(post -> {
                     MainDto dto = new MainDto();
                     dto.setId(post.getId());
