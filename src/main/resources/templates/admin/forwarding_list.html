@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>관리자 - 입고된 상품 목록</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">입고된 상품 관리</h2>
+    <table class="table table-striped text-center">
+        <thead class="table-dark">
+        <tr>
+            <th>고객명</th><th>연락처</th><th>트래킹번호</th><th>국내송장</th><th>입고일</th><th>액션</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${parcels}">
+            <td th:text="${p.member.userName}">홍길동</td>
+            <td th:text="${p.member.tel}">010-1234-5678</td>
+            <td th:text="${p.trackingNumber}">1Z...</td>
+            <td th:text="${p.domesticTrackingNumber}">CJ...</td>
+            <td th:text="${#temporals.format(p.receivedDate,'yyyy-MM-dd')}">2025-07-22</td>
+            <td>
+                <a th:href="@{/admin/forwarding/inbound/{id}(id=${p.id})}" class="btn btn-sm btn-primary">
+                    입력/수정
+                </a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(parcels)}">
+            <td colspan="6">입고된 상품이 없습니다.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

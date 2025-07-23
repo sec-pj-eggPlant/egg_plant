@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>가지 : 배대지 입고 처리</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/global.css"/>
+</head>
+<body>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="row signup-box w-100" style="max-width: 960px;">
+        <div class="col-md-6 d-flex justify-content-center align-items-center px-4">
+            <img src="/images/logo.svg" alt="logo" class="w-100"/>
+        </div>
+
+        <div class="col-md-6 px-4">
+            <h2 class="mb-5">배대지 입고 처리</h2>
+            <form th:action="@{/admin/forwarding/{id}(id=${forwardingDto.id})}" method="post" th:object="${forwardingDto}">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">고객 이름</label>
+                    <input type="text" class="form-control" th:value="${forwardingDto.memberName}" readonly/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">연락처</label>
+                    <input type="text" class="form-control" th:value="${forwardingDto.memberTel}" readonly/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">트래킹 번호</label>
+                    <input type="text" class="form-control" th:value="${forwardingDto.trackingNumber}" readonly/>
+                </div>
+
+                <!-- 관리자 입력 -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">국내 송장번호</label>
+                    <input type="text" class="form-control" th:field="*{domesticTrackingNumber}" placeholder="예: CJ1234567890" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">입고 날짜</label>
+                    <input type="date" class="form-control" th:field="*{receivedDate}" required/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">상태</label>
+                    <select class="form-select" th:field="*{status}" required>
+                        <option th:each="st : ${T(com.took.egg_plant_project.constant.DeliveryStatus).values()}"
+                                th:value="${st}" th:text="${st.label}"></option>
+                    </select>
+                        <option value="REQUESTED">신청됨</option>
+                        <option value="RECEIVED">입고됨</option>
+                        <option value="SHIPPED">배송 중</option>
+                        <option value="DELIVERED">배송 완료</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">입고/배송 처리</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
