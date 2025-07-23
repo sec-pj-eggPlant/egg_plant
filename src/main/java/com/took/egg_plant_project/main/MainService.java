@@ -3,6 +3,7 @@ package com.took.egg_plant_project.main;
 import com.took.egg_plant_project.constant.Role;
 import com.took.egg_plant_project.entity.Member;
 import com.took.egg_plant_project.entity.Post;
+import com.took.egg_plant_project.entity.Trade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,7 @@ import java.util.UUID;
 public class MainService {
 
     private final MainRepository mainRepository;
+    private final MainTradeRepository mainTradeRepository;
 
     public Post getPostById(Integer id) {
         return mainRepository.findById(id).orElse(null);
@@ -150,5 +152,35 @@ public class MainService {
                 original.getLongitude()
         );
         mainRepository.save(updated);
+    }
+
+    public Trade getTradeByPostId(Integer postId) {
+        return mainTradeRepository.findByPostId(postId).orElse(null);
+    }
+
+    public void applyTrade(Post post, Member requester) {
+        // 이미 거래중이면 중복 방지
+        if (mainTradeRepository.findByPostId(post.getId()).isPresent()) {
+            return; // 혹은 예외 처리
+        }
+
+        Trade trade = new Trade(
+                null,
+                post,
+                requester,
+                post.getWriter(),
+                "IN_PROGRESS"
+        );
+        mainTradeRepository.save(trade);
+        updatePostStatus(post, "IN_PROGRESS");
+    }
+
+    public void cancelTrade(Post post) {
+        mainTradeRepository.deleteByPostId(post.getId());
+        updatePostStatus(post, "ACTIVE");
+    }
+
+    public void completeTrade(Post post) {
+        updatePostStatus(post, "DONE");
     }
 }

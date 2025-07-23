@@ -187,6 +187,11 @@ public class MainController {
 
         model.addAttribute("post", dto);
         model.addAttribute("userId", userId);
+
+        if ("IN_PROGRESS".equals(post.getStatus())) {
+            model.addAttribute("trade", mainService.getTradeByPostId(id));
+        }
+
         return "main/detail";
     }
 
@@ -201,20 +206,29 @@ public class MainController {
         boolean isWriter = post.getWriter().getId().equals(userDetails.getLoggedMember().getId());
         Role writerRole = post.getWriter().getRole();
 
-        String newStatus = post.getStatus(); // 기본값
+        String newStatus = post.getStatus();
 
-        if ("apply".equals(action)) {
-            newStatus = "IN_PROGRESS";
-        } else if ("cancel".equals(action)) {
-            newStatus = "ACTIVE";
-        } else if ("complete".equals(action)) {
-            if (!isWriter) {
-                return "redirect:/main/detail/" + id; // 작성자 아니면 차단
+        Member currentUser = userDetails.getLoggedMember();
+
+        switch (action) {
+            case "apply" -> mainService.applyTrade(post, currentUser);
+
+            case "cancel" -> {
+                var trade = mainService.getTradeByPostId(post.getId());
+                boolean isApplicant = trade != null && trade.getRenter().getId().equals(currentUser.getId());
+
+                if (isWriter || isApplicant) {
+                    mainService.cancelTrade(post);
+                } else {
+                    return "redirect:/main/detail/" + id; // 권한 없음
+                }
             }
-            newStatus = "DONE";
-        }
 
-        mainService.updatePostStatus(post, newStatus);
+            case "complete" -> {
+                if (!isWriter) return "redirect:/main/detail/" + id;
+                mainService.completeTrade(post);
+            }
+        }
 
         redirectAttributes.addAttribute("role", writerRole == Role.ROLE_OWNER ? "OWNER" : "RENTER");
         return "redirect:/main/list";

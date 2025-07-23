@@ -58,14 +58,26 @@
           <button class="btn" type="button">search</button>
         </form>
       </div>
-      <a href="" id="profile">
-        <span th:text="${#authentication.principal.loggedMember.nickName}">닉네임</span>
-        <span class="img">
-                <img th:src="${#strings.isEmpty(#authentication.principal.loggedMember.profileImagePath)
-                    ? '/images/primary.jpg'
-                    : #authentication.principal.loggedMember.profileImagePath}" alt="profile" />
-            </span>
-      </a>
+      <div class="dropdown" id="profile">
+        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+           aria-expanded="false">
+          <span th:text="${#authentication.principal.loggedMember.nickName}">닉네임</span>
+          <span class="img">
+                    <img th:src="${#strings.isEmpty(#authentication.principal.loggedMember.profileImagePath) ? '/images/primary.jpg' : #authentication.principal.loggedMember.profileImagePath}"
+                         alt="profile"/>
+                </span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+          <li>
+            <a class="dropdown-item" href="/my/mypage-profile">마이페이지</a>
+          </li>
+          <li>
+            <form action="/main/logout" method="post" class="d-inline">
+              <button type="submit" class="dropdown-item">로그아웃</button>
+            </form>
+          </li>
+        </ul>
+      </div>
     </div>
   </header>
     <div class="container min-vh-100 write-wrap">
