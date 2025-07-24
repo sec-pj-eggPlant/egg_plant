@@ -166,23 +166,6 @@ public class MypageController {
         return "my/trades";
     }
 
-    //나의 채팅내역
-    @GetMapping("/rooms")
-    public String getChatRooms(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
-        Integer userId = customUserDetails.getLoggedMember().getId();
-        //List<ChatRoomDto> chatRooms = myChatService.getChatRoomsByUser(userId);
-        //model.addAttribute("chatRooms", chatRooms);
-        return "chat/chatrooms";
-    }
-
-    //특정 채팅방 메시지 목록
-    @GetMapping("/rooms/{roomId}")
-    public String getMessages(@PathVariable Integer roomId, @AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
-        //List<ChatMessageDto> messages = myChatService.getMessagesByRoom(roomId);
-        //model.addAttribute("messages", messages);
-        return "chat/chatDetail";
-    }
-
     //내가 쓴 게시글 목록
     @GetMapping("/post")
     public String post(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails,

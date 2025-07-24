@@ -44,4 +44,8 @@ public class MypagePostDto {
         this.status = status;
     }
 
+    public Integer getId() {
+        return postId;
+    }
+
 }

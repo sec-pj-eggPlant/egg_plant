@@ -47,7 +47,7 @@ public interface MypageTradesRepository extends JpaRepository<Trade, Integer> {
                                       JOIN MEMBER renter ON t.RENTERID = renter.MEMBERID
                                       JOIN MEMBER owner ON t.OWNERID = owner.MEMBERID
                                       JOIN POST p ON t.POSTID = p.POSTID
-                                      WHERE\s
+                                      WHERE
                                           (
                                              :searchType IS NULL OR :searchType = '' OR
                                              (

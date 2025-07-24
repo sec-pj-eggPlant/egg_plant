@@ -47,12 +47,26 @@
                 <button class="btn" type="button">search</button>
             </form>
         </div>
-        <a href="" id="profile">
-            <span>김의진</span>
-            <span class="img">
-            <img src="../images/profile.jpg" alt=""/>
-          </span>
-        </a>
+        <div class="dropdown" id="profile">
+            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+               aria-expanded="false">
+                <span th:text="${#authentication.principal.loggedMember.nickName}">닉네임</span>
+                <span class="img">
+                    <img th:src="${#strings.isEmpty(#authentication.principal.loggedMember.profileImagePath) ? '/images/primary.jpg' : #authentication.principal.loggedMember.profileImagePath}"
+                         alt="profile"/>
+                </span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                <li>
+                    <a class="dropdown-item" href="/my/mypage-profile">마이페이지</a>
+                </li>
+                <li>
+                    <form action="/main/logout" method="post" class="d-inline">
+                        <button type="submit" class="dropdown-item">로그아웃</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
     </div>
 </header>
 <div class="container min-vh-100 mypage-wrap">
@@ -60,9 +74,8 @@
         <div class="col-4 px-5">
             <nav class="mypage-link">
                 <ul>
-                    <li><a th:href="@{/my/chat}">채팅장</a></li>
-                    <li class="on"><a th:href="@{/my/post}">게시글</a></li>
-                    <li><a th:href="@{/my/trades}">거래내역</a></li>
+                    <li class="on"><a th:href="@{/my/post}">나의 게시글</a></li>
+                    <li><a th:href="@{/my/trades}">나의 거래내역</a></li>
                     <li><a th:href="@{/my/mypage-profile}">회원정보</a></li>
                 </ul>
             </nav>
@@ -85,7 +98,7 @@
                         <td th:text="${post.postId}">1</td>
                         <td th:text="${post.location}">서울</td>
                         <td>
-                            <a th:href="@{/my/post/{id}(id=${postPage.})}"
+                            <a th:href="@{/my/post/{id}(id=${post.id})}"
                                th:text="${post.title}"
                                class="text-decoration-none text-dark"></a>
                         </td>
