@@ -199,7 +199,7 @@
     left: 120px;
     font-family: "Roboto-SemiBold", Helvetica;
     font-weight: 600;
-    color: #cdcdcd;
+    color: #ffc42a;
     font-size: 24px;
     letter-spacing: 0;
     line-height: normal;
@@ -270,7 +270,7 @@
     left: 120px;
     font-family: "Roboto-SemiBold", Helvetica;
     font-weight: 600;
-    color: #ffc42a;
+    color: #cdcdcd;
     font-size: 24px;
     letter-spacing: 0;
     line-height: normal;
@@ -324,100 +324,206 @@
 
 /*테이블 영역 css*/
 
-/*검색창 영역*/
+/*창고 선택 영역*/
 
-.search-top {
-    position: absolute;
-    display: flex;
-    margin-top: 120px;
-    left: 700px;
-    margin-bottom: 30px;
-}
-
-.search-form {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-}
-
-.select-box {
-    height: 46px;
-    padding: 0 12px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: white;
-    min-width: 120px;
-}
-
-.text-input {
-    width: 260px;
-    min-width: 160px;
-    padding: 0 12px;
-    height: 46px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
-
-.date-search-button {
-    height: 46px;
-    padding: 0 18px;
-    background-color: #442b59;
-    color: #fff;
-    font-size: 15px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    white-space: nowrap;
-}
-
-.date-search-button:hover {
-    background-color: #5a3d75;
-}
-
-
-
-/*검색창 영역*/
-
-
-/* 버튼형 페이지네이션 디자인 */
-/* pagination-wrapper: 전체 영역 정렬 */
-.pagination-wrapper {
-    margin-top: 24px;
+.sector-filter {
+    margin: 20px 0;
     text-align: center;
 }
 
-/* ul 기본 설정 제거 및 가로 정렬 */
+.sector-buttons {
+    position: absolute;
+    top: 120px; /* 적당히 조절 가능 */
+    left: 800px; /* .overlap의 left 값과 동일하게 맞추기 */
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    z-index: 10;
+}
+
+.sector-button {
+    padding: 18px 26px;
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sector-button.active {
+    background-color: #512da8;
+    color: white;
+    font-weight: bold;
+}
+
+.sector-button:hover {
+    background-color: #512da8;
+}
+
+
+
+/*검색창 영역*/
+
+
+/*박스 영역*/
+.box-wrapper {
+    display: inline-block;
+    margin: 8px;
+}
+
+.box-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.box-image:hover {
+    transform: scale(1.05);
+}
+
+/* ✅ 섹터별 색상 */
+.a-box { background-color: #6D9EEB; } /* 파란색 */
+.b-box { background-color: #93C47D; } /* 초록색 */
+.c-box { background-color: #E06666; } /* 빨간색 */
+
+/* ✅ 대여 상태별 투명도 */
+.box-image.rented {
+   background-color: #512da8;
+}
+.box-image.available {
+    opacity: 1.0;
+}
+
+.items-wrapper {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 기준 */
+    width: 100%;
+    margin-top: 20px;
+}
+.items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+}
+
+/*박스영역*/
+
+
+/*디테일 검색창용 css*/
+
+/* 검색어 입력창 (input + icon 포함한 영역) */
+.search-input-group {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 720px;
+    top: 90px;
+    width: 100%;
+    max-width: 900px;
+    border-radius: 10px;
+    padding-left: 12px;
+}
+
+.text-input {
+    width: 150px;
+    height: 40px;
+    padding: 10px;
+    font-size: 14px;
+    margin-right: 10px;
+    border-radius: 8px;
+    border: 1px solid #aaa;
+}
+
+.date-tilde {
+    margin-right: 10px;
+}
+
+/* 날짜 입력 */
+.date-input {
+    width: 150px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #aaa;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+/* 검색 버튼 */
+.date-search-button {
+    padding: 10px 20px;
+    position: absolute;
+    left: 510px;
+    top:1px;
+    background-color: #442b59;
+    color: white;
+    width: 70px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+
+/*디테일 검색창용 css*/
+
+/*뒤로가기 버튼*/
+
+.back-button {
+    display: inline-block;
+    position: absolute;
+    top:95px;
+    left: 520px;
+    margin: 16px 0;
+    padding: 8px 12px;
+    background-color: #eee;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+}
+.back-button:hover {
+    background-color: #ddd;
+}
+
+
+/* 버튼형 페이지네이션 디자인 */
+.pagination-wrapper {
+    margin-top: 16px;
+    text-align: center;
+}
+
 .pagination {
     display: inline-flex;
     list-style: none;
-    padding: 0;
+    padding-left: 0;
     margin: 0 auto;
     gap: 8px;
 }
 
-/* 일반 페이지 버튼 스타일 */
 .page-item a.page-link {
     display: inline-block;
-    padding: 8px 14px;
-    color: #fff;
-    background-color: #6c3483; /* 보라색 */
+    padding: 6px 12px;
+    color: white;
+    background-color: #6c3483;
     border-radius: 6px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 14px;
     transition: background-color 0.2s ease;
 }
 
-/* 현재 페이지 강조 */
 .page-item.active a.page-link {
-    background-color: #4a235a; /* 더 진한 보라 */
+    background-color: #4a235a;
 }
 
-/* 비활성 버튼 (첫 페이지/마지막 페이지 등) */
 .page-item.disabled a.page-link {
     background-color: #ccc;
     color: #888;
@@ -425,10 +531,6 @@
     pointer-events: none;
 }
 
-/* 마우스 오버 효과 */
 .page-item a.page-link:hover:not(.disabled) {
     background-color: #512e5f;
 }
-
-/*페이지네이션 영역*/
-

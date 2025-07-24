@@ -45,12 +45,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="member : ${memberList}">
-                            <td th:text="${member.id}">1</td>
+                        <tr th:each="member, stat : ${memberList}">
+                            <td th:text="${memberList.totalElements - (memberList.number * memberList.size + stat.index)}">1</td>
                             <td th:text="${member.userID}">admin</td>
                             <td th:text="${member.nickName}">관리자</td>
                             <td th:text="${member.userName}">관리자이름</td>
-                            <td th:text="${member.role}">ROLE_ADMIN</td>
+                            <td th:text="${member.role.label}">관리자</td>
                             <td th:text="${member.tel}">010-1234-5678</td>
                             <td th:text="${member.userEmail}">admin@example.com</td>
                             <td th:text="${#temporals.format(member.createdAt, 'yyyy-MM-dd')}">2025-07-03</td>
@@ -58,6 +58,69 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- 페이지네이션 -->
+                <nav th:if="${memberList.totalPages > 1}" class="pagination-wrapper">
+                    <ul class="pagination">
+
+                        <!-- 이전 -->
+                        <li th:classappend="${memberList.first} ? 'disabled'" class="page-item">
+                            <th:block th:with="
+                prevPage=${memberList.number - 1},
+                prevHref='page=' + ${prevPage} +
+                    (${category} != null ? '&category=' + category : '') +
+                    (${keyword} != null ? '&keyword=' + keyword : '')">
+                                <a class="page-link"
+                                   th:if="${!memberList.first}"
+                                   th:href="@{'/admin/member?' + ${prevHref}}">
+                                    이전
+                                </a>
+                                <a class="page-link"
+                                   th:if="${memberList.first}"
+                                   href="#"
+                                   style="pointer-events: none; color: #aaa;">
+                                    이전
+                                </a>
+                            </th:block>
+                        </li>
+
+                        <!-- 페이지 번호 -->
+                        <li th:each="i : ${#numbers.sequence(0, memberList.totalPages - 1)}"
+                            th:classappend="${memberList.number == i} ? 'active'" class="page-item">
+                            <th:block th:with="
+                pageLink='page=' + ${i} +
+                    (${category} != null ? '&category=' + category : '') +
+                    (${keyword} != null ? '&keyword=' + keyword : '')">
+                                <a class="page-link"
+                                   th:href="@{'/admin/member?' + ${pageLink}}"
+                                   th:text="${i + 1}">
+                                </a>
+                            </th:block>
+                        </li>
+
+                        <!-- 다음 -->
+                        <li th:classappend="${memberList.last} ? 'disabled'" class="page-item">
+                            <th:block th:with="
+                nextPage=${memberList.number + 1},
+                nextHref='page=' + ${nextPage} +
+                    (${category} != null ? '&category=' + category : '') +
+                    (${keyword} != null ? '&keyword=' + keyword : '')">
+                                <a class="page-link"
+                                   th:if="${!memberList.last}"
+                                   th:href="@{'/admin/member?' + ${nextHref}}">
+                                    다음
+                                </a>
+                                <a class="page-link"
+                                   th:if="${memberList.last}"
+                                   href="#"
+                                   style="pointer-events: none; color: #aaa;">
+                                    다음
+                                </a>
+                            </th:block>
+                        </li>
+
+                    </ul>
+                </nav>
 
 
             </div>
@@ -69,8 +132,13 @@
             <a href="/admin/dashboard">
                 <img class="layer" src="/img/admin/layer-1.svg"/>
             </a>
-            <div class="text-wrapper-11">Logout</div>
-            <div class="text-wrapper-12">Warehouse</div>
+
+
+            <!-- Warehouse -->
+            <a href="/admin/warehouse">
+                <img class="design-tools-grid" src="/img/admin/grid.svg"/>
+                <div class="text-wrapper-12">Warehouse</div>
+            </a>
 
             <!-- Trades -->
             <a href="/admin/trade">
@@ -78,7 +146,7 @@
                 <img class="vector" src="/img/admin/vector.svg"/>
             </a>
 
-            <img class="design-tools-grid" src="/img/admin/grid.svg"/>
+
 
             <!-- Dashboard -->
             <a href="/admin/dashboard">
@@ -93,6 +161,13 @@
             </a>
 
             <img class="img" src="/img/admin/logout.svg"/>
+
+            <!-- 로그아웃 버튼 -->
+            <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">
+                <div class="text-wrapper-11">Logout</div>
+            </a>
+            <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
+            <img class="user-interface" src="/img/admin/logout.svg"/>
         </div>
     </div>
 </div>
