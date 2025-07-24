@@ -182,5 +182,16 @@ public class MainService {
 
     public void completeTrade(Post post) {
         updatePostStatus(post, "DONE");
+
+        mainTradeRepository.findByPostId(post.getId()).ifPresent(trade -> {
+            Trade updated = new Trade(
+                    trade.getId(),         // 기존 ID 유지
+                    trade.getPost(),
+                    trade.getRenter(),
+                    trade.getOwner(),
+                    "DONE"                 // ✅ 상태만 바꿔서 새 객체 생성
+            );
+            mainTradeRepository.save(updated);
+        });
     }
 }
