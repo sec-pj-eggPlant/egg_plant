@@ -3,6 +3,8 @@ package com.took.egg_plant_project.admin.service;
 import com.took.egg_plant_project.admin.repository.AdminTradeRepository;
 import com.took.egg_plant_project.entity.Trade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,7 +18,7 @@ public class AdminTradeService {
 
     private final AdminTradeRepository adminTradeRepository;
 
-    public List<Trade> searchByCondition(String category, String keyword, LocalDate startDate, LocalDate endDate) {
+    public Page<Trade> searchByCondition(String category, String keyword, LocalDate startDate, LocalDate endDate, Pageable pageable) {
         LocalDateTime start = (startDate != null) ? startDate.atStartOfDay() : null;
         LocalDateTime end = (endDate != null) ? endDate.atTime(LocalTime.MAX) : null;
 
@@ -32,7 +34,7 @@ public class AdminTradeService {
             }
         }
 
-        return adminTradeRepository.findFilteredTrades(status, renterId, ownerId, start, end);
+        return adminTradeRepository.findFilteredTrades(status, renterId, ownerId, start, end, pageable);
     }
 
 
