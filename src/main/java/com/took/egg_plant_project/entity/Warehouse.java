@@ -10,7 +10,9 @@ import java.util.List;
 @Getter
 @Table(name = "warehouse")
 public class Warehouse {
+
     @Id
+    @Column(name = "WAREHOUSEID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
