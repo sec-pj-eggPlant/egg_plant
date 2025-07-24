@@ -3,6 +3,9 @@ package com.took.egg_plant_project.mypage.service;
 import com.took.egg_plant_project.mypage.dao.MypagePostDao;
 import com.took.egg_plant_project.mypage.dto.MypagePostDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -39,5 +42,10 @@ public class MypagePostService {
     // 유틸: Timestamp → LocalDateTime 안전 변환
     private java.time.LocalDateTime getTimestamp(Object obj) {
         return obj != null ? ((Timestamp) obj).toLocalDateTime() : null;
+    }
+
+    public Page<MypagePostDto> getMyPosts(Integer memberId, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        return mypagePostDao.findMyPosts(memberId, pageable);
     }
 }

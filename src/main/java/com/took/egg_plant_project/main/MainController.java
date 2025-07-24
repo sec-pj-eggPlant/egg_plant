@@ -16,10 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
 
 @Controller
 @RequestMapping("/main")
@@ -32,6 +32,12 @@ public class MainController {
     @GetMapping("/list")
     public String getList(@RequestParam(value = "role", required = false) String role,
                           @RequestParam(value = "page", defaultValue = "0") int page,
+                          @RequestParam(required = false) Integer price,
+                          @RequestParam(required = false) String location,
+                          @RequestParam(required = false) Integer area,
+                          @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                          @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+                          @RequestParam(required = false) String keyword,
                           @AuthenticationPrincipal CustomUserDetails userDetails,
                           HttpSession session,
                           Model model) {
@@ -51,21 +57,24 @@ public class MainController {
         Role targetRole = Role.valueOf("ROLE_" + role);
         Pageable pageable = PageRequest.of(page, 4);
 
-        Page<MainDto> postsPage = mainService.getPagedPosts(targetRole, pageable);
+        Page<MainDto> postsPage = mainService.filterPostsByConditions(
+                targetRole, price, location, area, startDate, endDate, keyword, pageable);
 
-        model.addAttribute("postsPage", postsPage);             // 전체 Page 객체 (페이지네이션 정보 포함)
-        model.addAttribute("posts", postsPage.getContent());    // 실제 게시글 목록
+        //Page<MainDto> postsPage = mainService.getPagedPosts(targetRole, pageable);
+
+        model.addAttribute("posts", postsPage.getContent());
+        model.addAttribute("postsPage", postsPage);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", postsPage.getTotalPages());
 
+        // ✅ 검색 조건 유지
         model.addAttribute("role", role);
-        model.addAttribute("price", null);
-        model.addAttribute("location", null);
-        model.addAttribute("area", null);
-        model.addAttribute("startDate", null);
-        model.addAttribute("endDate", null);
-        model.addAttribute("status", null);
-        model.addAttribute("keyword", null);
+        model.addAttribute("price", price);
+        model.addAttribute("location", location);
+        model.addAttribute("area", area);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        model.addAttribute("keyword", keyword);
 
         return "main/list";
     }
@@ -91,20 +100,28 @@ public class MainController {
                              @RequestParam(required = false) Integer area,
                              @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                              @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-                             @RequestParam(required = false) String status,
                              @RequestParam(required = false) String keyword,
                              @RequestParam(value = "page", defaultValue = "0") int page,
+                             @RequestParam(value = "reset", required = false) Boolean reset,
                              Model model) {
 
+        if (Boolean.TRUE.equals(reset)) {
+            return "redirect:/main/list?role=" + role;
+        }
+
         if (location != null && location.trim().isEmpty()) location = null;
-        if (status != null && status.trim().isEmpty()) status = null;
         if (keyword != null && keyword.trim().isEmpty()) keyword = null;
+
+        if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+            startDate = null;
+            endDate = null;
+        }
 
         Role targetRole = Role.valueOf("ROLE_" + role);
         Pageable pageable = PageRequest.of(page, 4); // 페이지당 4개
 
         Page<MainDto> postsPage = mainService.filterPostsByConditions(
-                targetRole, price, location, area, startDate, endDate, status, keyword, pageable);
+                targetRole, price, location, area, startDate, endDate, keyword, pageable);
 
         model.addAttribute("posts", postsPage.getContent());
         model.addAttribute("postsPage", postsPage);
@@ -118,7 +135,6 @@ public class MainController {
         model.addAttribute("area", area);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
-        model.addAttribute("status", status);
         model.addAttribute("keyword", keyword);
 
         return "main/list";
@@ -147,8 +163,11 @@ public class MainController {
     }
 
     @GetMapping("/detail/{id}")
-    public String goDetailPage(@PathVariable Integer id, Model model) {
+    public String goDetailPage(@PathVariable Integer id,
+                               @AuthenticationPrincipal CustomUserDetails userDetails,
+                               Model model) {
         Post post = mainService.getPostById(id);
+        Integer userId = userDetails.getLoggedMember().getId();
 
         MainDto dto = new MainDto();
         dto.setId(post.getId());
@@ -164,9 +183,55 @@ public class MainController {
         dto.setWriterRole(post.getWriter().getRole().name());
         dto.setLatitude(post.getLatitude());
         dto.setLongitude(post.getLongitude());
+        dto.setWriterId(post.getWriter().getId());
 
         model.addAttribute("post", dto);
+        model.addAttribute("userId", userId);
+
+        if ("IN_PROGRESS".equals(post.getStatus())) {
+            model.addAttribute("trade", mainService.getTradeByPostId(id));
+        }
+
         return "main/detail";
+    }
+
+    @PostMapping("/post/{id}/status")
+    public String updatePostStatus(
+            @PathVariable Integer id,
+            @RequestParam String action,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            RedirectAttributes redirectAttributes
+    ) {
+        Post post = mainService.getPostById(id);
+        boolean isWriter = post.getWriter().getId().equals(userDetails.getLoggedMember().getId());
+        Role writerRole = post.getWriter().getRole();
+
+        String newStatus = post.getStatus();
+
+        Member currentUser = userDetails.getLoggedMember();
+
+        switch (action) {
+            case "apply" -> mainService.applyTrade(post, currentUser);
+
+            case "cancel" -> {
+                var trade = mainService.getTradeByPostId(post.getId());
+                boolean isApplicant = trade != null && trade.getRenter().getId().equals(currentUser.getId());
+
+                if (isWriter || isApplicant) {
+                    mainService.cancelTrade(post);
+                } else {
+                    return "redirect:/main/detail/" + id; // 권한 없음
+                }
+            }
+
+            case "complete" -> {
+                if (!isWriter) return "redirect:/main/detail/" + id;
+                mainService.completeTrade(post);
+            }
+        }
+
+        redirectAttributes.addAttribute("role", writerRole == Role.ROLE_OWNER ? "OWNER" : "RENTER");
+        return "redirect:/main/list";
     }
 }
 

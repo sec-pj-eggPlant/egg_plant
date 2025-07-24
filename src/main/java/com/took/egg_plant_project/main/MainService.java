@@ -3,6 +3,7 @@ package com.took.egg_plant_project.main;
 import com.took.egg_plant_project.constant.Role;
 import com.took.egg_plant_project.entity.Member;
 import com.took.egg_plant_project.entity.Post;
+import com.took.egg_plant_project.entity.Trade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -24,30 +25,11 @@ import java.util.UUID;
 public class MainService {
 
     private final MainRepository mainRepository;
+    private final MainTradeRepository mainTradeRepository;
 
     public Post getPostById(Integer id) {
         return mainRepository.findById(id).orElse(null);
     }
-
-//    public List<MainDto> getFilteredPosts(Role targetRole) {
-//        List<Post> posts = mainRepository.findByRole(targetRole);
-//
-//        return posts.stream().map(post -> {
-//            MainDto dto = new MainDto();
-//            dto.setId(post.getId());
-//            dto.setTitle(post.getTitle());
-//            dto.setContent(post.getContent());
-//            dto.setPrice(post.getPrice());
-//            dto.setArea(post.getArea());
-//            dto.setLocation(post.getLocation());
-//            dto.setStartDate(post.getStartDate());
-//            dto.setEndDate(post.getEndDate());
-//            dto.setStatus(post.getStatus());
-//            dto.setImagePath(post.getImagePath());
-//            dto.setWriterRole(post.getWriter().getRole().name());
-//            return dto;
-//        }).toList();
-//    }
 
     public Page<MainDto> filterPostsByConditions(Role role,
                                                  Integer price,
@@ -55,7 +37,6 @@ public class MainService {
                                                  Integer area,
                                                  LocalDate startDate,
                                                  LocalDate endDate,
-                                                 String status,
                                                  String keyword,
                                                  Pageable pageable) {
 
@@ -63,16 +44,20 @@ public class MainService {
 
         List<Post> filtered = posts.stream()
                 .filter(p -> p.getWriter().getRole() == role)
-                .filter(p -> price == null || p.getPrice() <= (price))
+                .filter(p -> !"DONE".equals(p.getStatus()))
+                .filter(p -> price == null || p.getPrice() <= price)
                 .filter(p -> location == null || p.getLocation().contains(location))
                 .filter(p -> area == null || p.getArea() <= area)
-                .filter(p -> startDate == null || !p.getStartDate().isBefore(startDate))
-                .filter(p -> endDate == null || !p.getEndDate().isAfter(endDate))
-                .filter(p -> status == null || p.getStatus().equals(status))
+                .filter(p -> {
+                    if (startDate != null && endDate != null) {
+                        return !p.getStartDate().isAfter(startDate) && !p.getEndDate().isBefore(endDate);
+                    }
+                    return true;
+                })
                 .filter(p -> keyword == null
                         || p.getTitle().contains(keyword)
                         || p.getContent().contains(keyword))
-                .sorted((p1, p2) -> p2.getId().compareTo(p1.getId())) // 최신순 정렬
+                .sorted((p1, p2) -> p2.getId().compareTo(p1.getId()))
                 .toList();
 
         // ✅ 페이징 처리 (SubList 잘라내기)
@@ -100,7 +85,7 @@ public class MainService {
     }
 
     public Page<MainDto> getPagedPosts(Role targetRole, Pageable pageable) {
-        return mainRepository.findByWriterRoleOrderByIdDesc(targetRole, pageable)
+        return mainRepository.findByWriterRoleAndStatusNotDone(targetRole, pageable)
                 .map(post -> {
                     MainDto dto = new MainDto();
                     dto.setId(post.getId());
@@ -148,5 +133,54 @@ public class MainService {
                 dto.getLongitude()
         );
         mainRepository.save(post);
+    }
+
+    public void updatePostStatus(Post original, String newStatus) {
+        Post updated = new Post(
+                original.getId(),
+                original.getWriter(),
+                original.getTitle(),
+                original.getContent(),
+                original.getPrice(),
+                original.getArea(),
+                original.getLocation(),
+                original.getStartDate(),
+                original.getEndDate(),
+                newStatus,
+                original.getImagePath(),
+                original.getLatitude(),
+                original.getLongitude()
+        );
+        mainRepository.save(updated);
+    }
+
+    public Trade getTradeByPostId(Integer postId) {
+        return mainTradeRepository.findByPostId(postId).orElse(null);
+    }
+
+    public void applyTrade(Post post, Member requester) {
+        // 이미 거래중이면 중복 방지
+        if (mainTradeRepository.findByPostId(post.getId()).isPresent()) {
+            return; // 혹은 예외 처리
+        }
+
+        Trade trade = new Trade(
+                null,
+                post,
+                requester,
+                post.getWriter(),
+                "IN_PROGRESS"
+        );
+        mainTradeRepository.save(trade);
+        updatePostStatus(post, "IN_PROGRESS");
+    }
+
+    public void cancelTrade(Post post) {
+        mainTradeRepository.deleteByPostId(post.getId());
+        updatePostStatus(post, "ACTIVE");
+    }
+
+    public void completeTrade(Post post) {
+        updatePostStatus(post, "DONE");
     }
 }

@@ -7,6 +7,7 @@ import com.took.egg_plant_project.mypage.dto.MypageTradesDto;
 import com.took.egg_plant_project.mypage.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -184,14 +185,18 @@ public class MypageController {
 
     //내가 쓴 게시글 목록
     @GetMapping("/post")
-    public String post(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public String post(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails,
+                       @RequestParam(defaultValue = "1") int page,
+                       @RequestParam(defaultValue = "10") int pageSize) {
         if (customUserDetails == null) {
             return "redirect:/member/login";
         }
         Integer memberId = customUserDetails.getLoggedMember().getId();
-        List<MypagePostDto> posts = mypagePostService.getMyPosts(memberId);
+        Page<MypagePostDto> postPage = mypagePostService.getMyPosts(memberId,  page, pageSize);
 
-        model.addAttribute("posts", posts);
+        model.addAttribute("postPage", postPage);
+        model.addAttribute("page", page);
+        model.addAttribute("pageSize", pageSize);
         return "my/post";
     }
 
