@@ -1,13 +1,13 @@
 package com.took.egg_plant_project.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
-@AllArgsConstructor
 @Table(name = "warehouse")
 public class Warehouse {
     @Id
@@ -19,4 +19,6 @@ public class Warehouse {
     private Integer area;
     private Integer pricePerDay;
 
+    @OneToMany(mappedBy = "warehouse")
+    private List<Box> boxes = new ArrayList<>();
 }

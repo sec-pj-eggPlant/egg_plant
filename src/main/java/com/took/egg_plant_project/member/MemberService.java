@@ -30,8 +30,6 @@ public class MemberService {
         String encodedPw = passwordEncoder.encode(member.getUserPW());
         String lockerCode = "WHS-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 
-        String lockerCode = "WHS-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-
         member = Member.builder()
                 .userID(member.getUserID())
                 .userPW(encodedPw)
