@@ -6,8 +6,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @Controller
@@ -42,9 +47,21 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public String signup(MemberDto memberDto, RedirectAttributes redirectAttributes) {
+    public String signup(@ModelAttribute MemberDto memberDto,
+                         @RequestParam(value = "profileImageFile", required = false) MultipartFile profileImageFile,
+                         RedirectAttributes redirectAttributes) throws IOException {
 
         String lockerCode = "WHS-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        String uploadDir = "C:/upload/profile/";
+        String imagePath = "/images/primary.jpg";
+
+        if (profileImageFile != null && !profileImageFile.isEmpty()) {
+            String filename = UUID.randomUUID() + "_" + profileImageFile.getOriginalFilename();
+            Path path = Paths.get(uploadDir + filename);
+            Files.createDirectories(path.getParent());
+            Files.copy(profileImageFile.getInputStream(), path);
+            imagePath = "/upload/profile/" + filename;
+        }
 
         Member member = Member.builder()
                 .userID(memberDto.getUserID())
@@ -55,10 +72,10 @@ public class MemberController {
                 .tel(memberDto.getTel())
                 .role(memberDto.getRole())
                 .lockerCode(lockerCode)
+                .profileImagePath(imagePath)
                 .build();
 
         memberService.signup(member);
-
         redirectAttributes.addFlashAttribute("signupSuccess", "회원가입이 완료되었습니다!");
         return "redirect:/member/login";
     }

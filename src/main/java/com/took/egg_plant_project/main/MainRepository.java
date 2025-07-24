@@ -14,6 +14,10 @@ public interface MainRepository extends JpaRepository<Post, Integer> {
 
     Page<Post> findByWriterRoleOrderByIdDesc(Role role, Pageable pageable);
 
+    @Query("SELECT p FROM Post p WHERE p.writer.role = :role AND p.status <> 'DONE' ORDER BY p.id DESC")
+    Page<Post> findByWriterRoleAndStatusNotDone(@Param("role") Role role, Pageable pageable);
+
+
 //    List<Post> findByWriterRoleOrderByCreatedAtDesc(Role role);
 
 //    @Query("SELECT p FROM Post p WHERE p.writer.role = :role ORDER BY p.createdAt DESC")

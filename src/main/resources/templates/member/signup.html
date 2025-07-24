@@ -32,7 +32,7 @@
     </div>
     <div class="col-6 px-5">
       <h2 class="mb-5">회원가입</h2>
-      <form action="/member/signup" method="post" id="signupForm">
+      <form action="/member/signup" method="post" id="signupForm" enctype="multipart/form-data">
         <div class="mb-3">
           <label class="form-label fw-bold">회원 유형</label>
           <select name="role" class="form-select" id="role" required>
@@ -78,7 +78,18 @@
           <input type="hidden" name="userEmail" id="userEmail" />
           <div id="userEmailCheckMsg" class="text-danger mt-1"></div>
         </div>
-
+        <div class="mb-3">
+          <label class="form-label fw-bold">프로필 이미지</label>
+          <input type="file" class="form-control" name="profileImageFile" accept="image/*" id="profileImageInput" />
+          <!-- 미리보기 이미지 -->
+          <div class="mt-2">
+            <img id="profilePreview"
+                 src="/images/primary.jpg"
+                 alt="미리보기"
+                 class="rounded-circle"
+            />
+          </div>
+        </div>
         <div class="mb-3">
           <label class="form-label fw-bold">이름</label>
           <input type="text" class="form-control" id="userName" name="userName" required />
@@ -93,7 +104,7 @@
         <div class="mb-3">
           <label class="form-label fw-bold">전화번호</label>
           <div class="d-flex gap-2">
-            <select class="form-select w-25" id="tel1" required>
+            <select class="form-select flex-grow-1" id="tel1" required>
               <option value="">선택</option>
               <option value="010">010</option>
               <option value="011">011</option>
@@ -102,9 +113,9 @@
               <option value="019">019</option>
             </select>
             <span class="align-self-center">-</span>
-            <input type="text" class="form-control w-25" id="tel2" maxlength="4" required />
+            <input type="text" class="form-control flex-grow-1" id="tel2" maxlength="4" required />
             <span class="align-self-center">-</span>
-            <input type="text" class="form-control w-25" id="tel3" maxlength="4" required />
+            <input type="text" class="form-control flex-grow-1" id="tel3" maxlength="4" required />
           </div>
           <input type="hidden" name="tel" id="tel" />
           <div id="telCheckMsg" class="text-danger mt-1"></div>
@@ -211,6 +222,22 @@
       updateEmail();
       checkFormValid();
     });
+  });
+
+  const profileInput = document.getElementById('profileImageInput');
+  const profilePreview = document.getElementById('profilePreview');
+
+  profileInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        profilePreview.src = e.target.result;
+      }
+      reader.readAsDataURL(file);
+    } else {
+      profilePreview.src = "/images/primary.jpg"; // 기본 이미지로 복구
+    }
   });
 
   // 전화번호 조합 및 유효성 검사
