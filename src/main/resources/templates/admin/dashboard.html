@@ -109,8 +109,7 @@
         </div>
 
 
-
-<!--        창고 가용률 섹션-->
+        <!--        창고 가용률 섹션-->
 
         <div class="overlap-7">
             <div class="warehouse-status-section">
@@ -164,7 +163,7 @@
         </div>
 
 
-<!--        회원 정보 섹션-->
+        <!--        회원 정보 섹션-->
 
         <div class="overlap-11">
             <div class="member-box-header">
@@ -219,7 +218,7 @@
             <a href="/admin/dashboard">
                 <img class="layer" src="/img/admin/layer-1.svg"/>
             </a>
-            <div class="text-wrapper-53">Logout</div>
+
 
             <!-- Warehouse -->
             <a href="/admin/warehouse">
@@ -235,9 +234,6 @@
             </a>
 
 
-
-
-
             <!-- Dashboard -->
             <a href="/admin/dashboard">
                 <div class="text-wrapper-56">Dashboard</div>
@@ -249,7 +245,14 @@
                 <div class="text-wrapper-57">members</div>
                 <img class="users-users" src="/img/admin/users.svg"/>
             </a>
-            <img class="user-interface" src="/img/admin/logout.svg"/></div>
+
+            <!-- 로그아웃 버튼 -->
+            <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">
+                <div class="text-wrapper-53">Logout</div>
+            </a>
+            <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
+            <img class="user-interface" src="/img/admin/logout.svg"/>
+        </div>
     </div>
 </div>
 </body>

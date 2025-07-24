@@ -45,8 +45,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="member, iterStat : ${memberList}">
-                            <td th:text="${iterStat.index + 51}">51</td>
+                        <tr th:each="member, stat : ${memberList}">
+                            <td th:text="${memberList.totalElements - (memberList.number * memberList.size + stat.index)}">1</td>
                             <td th:text="${member.userID}">admin</td>
                             <td th:text="${member.nickName}">관리자</td>
                             <td th:text="${member.userName}">관리자이름</td>
@@ -132,7 +132,6 @@
             <a href="/admin/dashboard">
                 <img class="layer" src="/img/admin/layer-1.svg"/>
             </a>
-            <div class="text-wrapper-11">Logout</div>
 
 
             <!-- Warehouse -->
@@ -161,7 +160,12 @@
                 <div class="text-wrapper-15">members</div>
             </a>
 
-            <img class="img" src="/img/admin/logout.svg"/>
+            <!-- 로그아웃 버튼 -->
+            <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">
+                <div class="text-wrapper-11">Logout</div>
+            </a>
+            <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
+            <img class="user-interface" src="/img/admin/logout.svg"/>
         </div>
     </div>
 </div>

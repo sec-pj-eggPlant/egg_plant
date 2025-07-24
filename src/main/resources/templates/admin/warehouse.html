@@ -52,7 +52,6 @@
             <a href="/admin/dashboard">
                 <img class="layer" src="/img/admin/layer-1.svg"/>
             </a>
-            <div class="text-wrapper-11">Logout</div>
 
             <!-- Warehouse -->
             <a href="/admin/warehouse">
@@ -79,7 +78,12 @@
                 <div class="text-wrapper-15">members</div>
             </a>
 
-            <img class="img" src="/img/admin/logout.svg"/>
+            <!-- 로그아웃 버튼 -->
+            <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">
+                <div class="text-wrapper-53">Logout</div>
+            </a>
+            <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
+            <img class="user-interface" src="/img/admin/logout.svg"/>
         </div>
     </div>
 </div>
