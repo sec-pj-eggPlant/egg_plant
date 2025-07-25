@@ -48,6 +48,10 @@ public class DeliveryRequest {
     @Column(name = "requested_at", nullable = false, updatable = false)
     private LocalDateTime requestedAt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 50)
+    private DeliveryStatus status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
@@ -70,6 +74,7 @@ public class DeliveryRequest {
                 .itemPrice(itemPrice)
                 .member(member)
                 .requestedAt(LocalDateTime.now())  // ★ 이 한 줄 추가
+                .status(DeliveryStatus.REQUESTED)
                 .build();
     }
 

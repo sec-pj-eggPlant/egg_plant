@@ -1,6 +1,7 @@
 package com.took.egg_plant_project.admin.service;
 
 import com.took.egg_plant_project.admin.repository.AdminMemberRepository;
+import com.took.egg_plant_project.admin.repository.AdminTradeRepository;
 import com.took.egg_plant_project.constant.Role;
 import com.took.egg_plant_project.member.MemberDao;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.Map;
 public class AdminDashboardService {
 
     private final AdminMemberRepository adminMemberRepository;
+    private final AdminTradeRepository adminTradeRepository;
 
     public Map<String, Long> getRoleStatistics() {
         long owner = adminMemberRepository.countByRole(Role.ROLE_OWNER);
@@ -30,6 +32,9 @@ public class AdminDashboardService {
         result.put("total", total);
 
         return result;
+    }
+    public long getTotalTradeCount() {
+        return adminTradeRepository.countByStatusDone();
     }
 
     public long getTotalMemberCount() {

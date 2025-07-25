@@ -2,23 +2,52 @@ package com.took.egg_plant_project.mypage.dto;
 
 import lombok.*;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class MypageTradesDto {
-    private int tradeId;                // TRADE.TRADEID(거래ID)
-    private String status;              // TRADE.STATUS(거래상태)
-    private LocalDateTime createDate;  // TRADE.CREATEDATE (요청일)
-    private String renterName;          // MEMBER.USERNAME (임차인)
-    private String ownerName;           // MEMBER.USERNAME (임대인)
-    private String postTitle;           // POST.TITLE(게시글/창고명)
-    private String location;            // POST.LOCATION(위치)
-    private int price;                  // POST.PRICE(금액)
-    private LocalDateTime startDate;    // WAREHOUSE_USE.STARTDATE(이용 시작일)
-    private LocalDateTime endDate;      // WAREHOUSE_USE.ENDDATE(이용 종료일)
+    private int tradeId;
+    private String status;
+    private Timestamp createDate;
+    private String renterName;
+    private String ownerName;
+    private String postTitle;
+    private String location;
+    private int price;
+
+    public MypageTradesDto(int tradeId, String status, Timestamp createDate,
+                           String renterName, String ownerName, String postTitle,
+                           String location, int price) {
+        this.tradeId = tradeId;
+        this.status = status;
+        this.createDate = createDate;
+        this.renterName = renterName;
+        this.ownerName = ownerName;
+        this.postTitle = postTitle;
+        this.location = location;
+        this.price = price;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getStatusKorean() {
+        return switch (status) {
+            case "IN_PROGRESS" -> "거래중";
+            case "ACTIVE" -> "거래가능";
+            case "DONE" -> "거래완료";
+            default -> "알 수 없음";
+        };
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 }

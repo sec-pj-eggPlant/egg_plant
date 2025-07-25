@@ -1,45 +1,144 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title>신청 상세/입고처리</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/css/admin_globals.css"/>
+    <link rel="stylesheet" href="/css/admin_member_style.css"/>
+    <link rel="stylesheet" href="/css/admin_member_styleguide.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <title>신청 상세/입고처리</title>
 </head>
 <body>
-<div class="container mt-5" style="max-width: 700px;">
-    <h2 class="mb-4">신청 상세 정보</h2>
-    <div class="card p-4 mb-4 shadow-sm">
-        <dl class="row mb-0">
-            <dt class="col-4">고객명</dt>
-            <dd class="col-8" th:text="${requestDto.memberName}">홍길동</dd>
-            <dt class="col-4">연락처</dt>
-            <dd class="col-8" th:text="${requestDto.memberTel}">010-1234-5678</dd>
-            <dt class="col-4">트래킹번호</dt>
-            <dd class="col-8" th:text="${requestDto.trackingNumber}">1Z999...</dd>
-            <dt class="col-4">상품명</dt>
-            <dd class="col-8" th:text="${requestDto.itemName}">운동화</dd>
-            <dt class="col-4">가격</dt>
-            <dd class="col-8" th:text="${#numbers.formatInteger(requestDto.itemPrice,3,'COMMA')+' 원'}">99,000 원</dd>
-            <dt class="col-4">신청주소</dt>
-            <dd class="col-8" th:text="${requestDto.receiverAddress}">서울시 ...</dd>
-            <dt class="col-4">신청일시</dt>
-            <dd class="col-8" th:text="${#temporals.format(requestDto.requestedAt,'yyyy-MM-dd HH:mm')}">2025-07-22 15:32</dd>
-        </dl>
-    </div>
+<div class="screen">
+    <div class="div">
+        <div class="text-wrapper">신청 상세/입고처리</div>
 
-    <!-- 입고처리(ForwardingParcel 등록) 폼 -->
-    <form th:action="@{/admin/forwarding/request_detail/{id}(id=${requestDto.id})}" method="post">
-        <div class="mb-3">
-            <label class="form-label fw-bold">입고 구역 (Zone)</label>
-            <input type="text" class="form-control" name="zone" placeholder="예: X17" required/>
+        <!-- 검색창 및 조건 영역 -->
+        <!--        <div class="search-top">-->
+        <!--            <form th:action="@{/admin/member}" method="get" class="search-form">-->
+        <!--                <select name="category" class="select-box">-->
+        <!--                    <option value="">검색 조건</option>-->
+        <!--                    <option value="userName">이름</option>-->
+        <!--                    <option value="userID">아이디</option>-->
+        <!--                </select>-->
+        <!--                <input type="text" name="keyword" placeholder="검색어를 입력해주세요." class="text-input"/>-->
+        <!--                <button type="submit" class="date-search-button">검색</button>-->
+        <!--            </form>-->
+        <!--        </div>-->
+
+
+        <!-- 데이터 테이블 -->
+        <div class="overlap">
+            <div class="group">
+                <div class="member-table-wrapper2">
+
+
+                    <div class="card p-4 mb-4 shadow-sm member-info-box">
+                        <dl class="row mb-0">
+                            <dt class="col-4">고객명</dt>
+                            <dd class="col-8" th:text="${requestDto.memberName}">홍길동</dd>
+                            <dt class="col-4">연락처</dt>
+                            <dd class="col-8" th:text="${requestDto.memberTel}">010-1234-5678</dd>
+                            <dt class="col-4">트래킹번호</dt>
+                            <dd class="col-8" th:text="${requestDto.trackingNumber}">1Z999...</dd>
+                            <dt class="col-4">상품명</dt>
+                            <dd class="col-8" th:text="${requestDto.itemName}">운동화</dd>
+                            <dt class="col-4">가격</dt>
+                            <dd class="col-8" th:text="${#numbers.formatInteger(requestDto.itemPrice,3,'COMMA')+' 원'}">99,000 원</dd>
+                            <dt class="col-4">신청주소</dt>
+                            <dd class="col-8" th:text="${requestDto.receiverAddress}">서울시 ...</dd>
+                            <dt class="col-4">신청일시</dt>
+                            <dd class="col-8" th:text="${#temporals.format(requestDto.requestedAt,'yyyy-MM-dd HH:mm')}">2025-07-22 15:32</dd>
+                        </dl>
+                    </div>
+
+                    <!-- 입고처리(ForwardingParcel 등록) 폼 -->
+                    <form th:action="@{/admin/forwarding/request_detail/{id}(id=${requestDto.id})}" method="post" class="stock-process-form">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">입고 구역 (Zone)</label>
+                            <input type="text" class="form-control" name="zone" placeholder="예: X17" required/>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">입고처리</button>
+                    </form>
+
+
+                    <div class="mt-3">
+                        <a th:href="@{/admin/forwarding/list}" class="btn btn-outline-secondary w-100">목록으로</a>
+                    </div>
+
+
+
+
+                </div>
+            </div>
         </div>
-        <button type="submit" class="btn btn-success w-100">입고처리</button>
-    </form>
+
+        <!-- 사이드바 -->
+        <div class="overlap-9">
+            <!-- Gaji 로고 -->
+            <a href="/admin/dashboard">
+                <img class="layer" src="/img/admin/layer-1.svg"/>
+            </a>
+
+            <!-- Warehouse -->
+            <a href="/admin/warehouse">
+                <img class="design-tools-grid" src="/img/admin/grid.svg"/>
+                <div class="text-wrapper-12">Warehouse</div>
+            </a>
+
+            <!-- Trades -->
+            <a href="/admin/trade">
+                <div class="text-wrapper-13">Trades</div>
+                <img class="vector" src="/img/admin/vector.svg"/>
+            </a>
+
+            <!-- Dashboard -->
+            <a href="/admin/dashboard">
+                <div class="text-wrapper-14">Dashboard</div>
+                <img class="monochrome-layer" src="/img/admin/layer-group.svg"/>
+            </a>
+
+            <!-- Members -->
+            <a href="/admin/member">
+                <img class="users-users" src="/img/admin/users.svg"/>
+                <div class="text-wrapper-119">members</div>
+            </a>
+
+            <!-- Forwarding -->
+
+            <a href="/admin/forwarding/inbound">
+                <img class="users-users2" src="/img/admin/forward.svg"/>
+                <div class="text-wrapper-115">forwarding</div>
+            </a>
+
+            <!-- Request -->
+
+            <a href="/admin/forwarding/list">
+                <img class="users-users3" src="/img/admin/request-y.svg"/>
+                <div class="text-wrapper-116">Request</div>
+            </a>
 
 
-    <div class="mt-3">
-        <a th:href="@{/admin/forwarding/list}" class="btn btn-outline-secondary">목록으로</a>
+            <!-- 로그아웃 버튼 -->
+            <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">
+                <div class="text-wrapper-11">Logout</div>
+            </a>
+            <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
+            <img class="img" src="/img/admin/logout.svg"/>
+        </div>
     </div>
 </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+

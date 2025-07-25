@@ -31,7 +31,16 @@ public class ForwardingAdminController {
         return "admin/forwarding_list";
     }
 
-    @PostMapping("/admin/forwarding/inbound")
+    @PostMapping("/domestic")
+    public String inputDomesticTrackingNumber(
+            @RequestParam("forwardingParcelId") Integer id,
+            @RequestParam("domesticTrackingNumber") String domesticTrackingNumber
+    ) {
+        forwardingParcelService.updateDomesticTrackingNumber(id, domesticTrackingNumber);
+        return "redirect:/admin/forwarding"; // 다시 리스트 페이지로 리다이렉트
+    }
+
+    @PostMapping("/inbound")
     public String createForwardingParcel(@RequestParam Integer deliveryRequestId,
                                          @RequestParam String zone) {
         forwardingParcelService.createFromRequest(deliveryRequestId, zone);
@@ -60,6 +69,13 @@ public class ForwardingAdminController {
     public String inbound(@PathVariable Integer id, @RequestParam String zone) {
         forwardingParcelService.createFromRequest(id, zone);
         return "redirect:/admin/forwarding/list";
+    }
+
+    @GetMapping
+    public String showForwardingList(Model model) {
+        List<ForwardingParcelDto> parcels = forwardingParcelService.getAllParcels();
+        model.addAttribute("parcels", parcels);
+        return "admin/forwarding_list";
     }
 }
 
