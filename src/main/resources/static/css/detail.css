@@ -1,0 +1,40 @@
+.detail-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 150px 20px 100px;  /* header 높이 + 여유 + footer 고려 */
+  min-height: calc(100vh - 158px);
+}
+
+.detail-wrap > .container {
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 15px;
+}
+
+.detail-wrap .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+.ing,.end,.on {
+  padding:5px 10px;
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 100px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+.ing {
+  background-color: #21a6de;
+
+}
+.end {
+  background-color: #8e8e8e;
+}
+.on {
+  background-color: #f00;
+  color: #fff;
+}

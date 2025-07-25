@@ -1,9 +1,7 @@
 package com.took.egg_plant_project.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -53,5 +51,4 @@ public class WarehouseUse {
         use.warehouse = box.getWarehouse();
         return use;
     }
-
 }

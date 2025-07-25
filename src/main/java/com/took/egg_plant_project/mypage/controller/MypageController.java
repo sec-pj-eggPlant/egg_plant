@@ -2,11 +2,12 @@ package com.took.egg_plant_project.mypage.controller;
 
 import com.took.egg_plant_project.communal.CustomUserDetails;
 import com.took.egg_plant_project.member.MemberDto;
+import com.took.egg_plant_project.mypage.dto.MypagePostDto;
 import com.took.egg_plant_project.mypage.dto.MypageTradesDto;
-import com.took.egg_plant_project.mypage.service.MypageService;
-import com.took.egg_plant_project.mypage.service.MypageTradesService;
+import com.took.egg_plant_project.mypage.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -24,12 +26,16 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/my")
 public class MypageController {
+
     private final MypageService mypageService;
     private final MypageTradesService mypageTradesService;
+    private final MypagePostService mypagePostService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    //private final MyChatService myChatService;
 
     @GetMapping("/my")
     public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+
         String userID = customUserDetails.getUsername();
         Integer loggedMemberID = customUserDetails.getLoggedMember().getId();
         MemberDto loggedMemberDto = mypageService.findByUserID(userID);
@@ -37,6 +43,7 @@ public class MypageController {
 
         model.addAttribute("loggedMemberDto", loggedMemberDto);
         log.info(loggedMemberDto.toString());
+
         return "my/my";
     }
 
@@ -45,7 +52,7 @@ public class MypageController {
     public String modifyPage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
         if (customUserDetails == null) {
             log.warn("로그인 정보가 없습니다. 로그인 페이지로 이동합니다.");
-            return "redirect:/main/login"; // 로그인 페이지 경로
+            return "redirect:/member/login"; // 로그인 페이지 경로
         }
 
         String userID = customUserDetails.getUsername();
@@ -80,7 +87,7 @@ public class MypageController {
                                       @RequestBody Map<String, String> data) {
         Map<String, String> result = new HashMap<>();
 
-        String currentPasssword = data.get("currentPassword");
+        String currentPassword = data.get("currentPassword");
         String password = data.get("password");
         String password2 = data.get("password2");
         String newEmail = data.get("userEmail");
@@ -90,9 +97,22 @@ public class MypageController {
         MemberDto loggedMemberDto = mypageService.findByUserID(userID);
 
         log.info("loggedMemberDto: {}", loggedMemberDto);
-
-        if (password != null && !password.isBlank()) {
-            if (!bCryptPasswordEncoder.matches(currentPasssword, loggedMemberDto.getUserPW())) {
+        log.info("currentPassword: {}", currentPassword);
+        log.info("data: {}", newEmail);
+        log.info("data: {}", newTel);
+        log.info("data: {}", userID);
+        log.info("password: {}", password);
+        log.info("password2: {}", password2);
+        log.info("currentPassword != null: {}", currentPassword != null);
+        log.info("currentPassword.isBlank(): {}", !currentPassword.isBlank());
+        if (currentPassword == null || currentPassword.isBlank()) {
+            result.put("isModify", "false");
+            result.put("error", "비밀번호를 입력해주세요");
+            return result;
+        }
+        if (currentPassword != null && !currentPassword.isBlank()) {
+            if (!bCryptPasswordEncoder.matches(currentPassword, loggedMemberDto.getUserPW())) {
+                log.info("첫번째");
                 result.put("isModify", "false");
                 result.put("error", "현재 비밃번호가 올바르지 않습니다.");
                 return result;
@@ -107,6 +127,7 @@ public class MypageController {
             String encodeUserPW = bCryptPasswordEncoder.encode(password);
             loggedMemberDto.setUserPW(encodeUserPW);
         } else {
+            log.info("두번째");
             // 비밀번호 변경 안 하는 경우 기존 비밀번호 유지
             loggedMemberDto.setUserPW(customUserDetails.getPassword());
         }
@@ -120,37 +141,63 @@ public class MypageController {
     }
 
     //거래 내역 조회
-    @GetMapping("/trades2")
-    public String trades(@RequestParam(required = false) String status,
-                          @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-                          @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
-                          @RequestParam(required = false, defaultValue = "1") int page,
-                          @RequestParam(required = false, defaultValue = "10") int pageSize,
-                          Model model) {
-        //int totalCount = mypageTradesService.countTrades(category, keyword, startDate, endDate, status);
-        //model.addAttribute("totalCount", totalCount);
-        List<MypageTradesDto> tradesList = mypageTradesService.searchTrades(status, startDate, endDate, page, pageSize);
+    @GetMapping("/trades")
+    public String trades(
+                        @AuthenticationPrincipal CustomUserDetails customUserDetails,
+                         @RequestParam(required = false) String searchType,
+                         @RequestParam(required = false) String keyword,
+                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+                         @RequestParam(required = false, defaultValue = "1") int page,
+                         @RequestParam(required = false, defaultValue = "10") int pageSize,
+                         Model model) {
+        if (customUserDetails == null) {
+            return "redirect:/member/login"; // 로그인 안된 경우 로그인 페이지로
+        }
+
+        Integer memberId = customUserDetails.getLoggedMember().getId();
+
+        int totalCount = mypageTradesService.countTrades(memberId, searchType, keyword, startDate, endDate);
+        model.addAttribute("totalCount", totalCount);
+
+        List<MypageTradesDto> tradesList = mypageTradesService.getTrades(
+                 memberId, searchType, keyword, startDate, endDate, page, pageSize);
 
         model.addAttribute("tradesList", tradesList);
-        model.addAttribute("status", status);
+        model.addAttribute("searchType", searchType);
+        model.addAttribute("keyword", keyword);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
         model.addAttribute("page", page);
         model.addAttribute("pageSize", pageSize);
 
-        return "my/trades2";
-    }
-
-    //나의 채팅내역
-    @GetMapping("/chat")
-    public String chat() {
-        return "my/chat";
+        return "my/trades";
     }
 
     //내가 쓴 게시글 목록
-    @GetMapping("/mywrite-list")
-    public String myWriteList() {
-        return "my/mywrite-list";
+    @GetMapping("/post")
+    public String post(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails,
+                       @RequestParam(defaultValue = "1") int page,
+                       @RequestParam(defaultValue = "10") int pageSize) {
+        if (customUserDetails == null) {
+            return "redirect:/member/login";
+        }
+        Integer memberId = customUserDetails.getLoggedMember().getId();
+        Page<MypagePostDto> postPage = mypagePostService.getMyPosts(memberId,  page, pageSize);
+
+        model.addAttribute("postPage", postPage);
+        model.addAttribute("page", page);
+        model.addAttribute("pageSize", pageSize);
+        return "my/post";
+    }
+
+    @GetMapping("/post/{id}")
+    public String postDetail(@PathVariable Integer id, Model model) {
+        log.info("id===={}",id);
+        MypagePostDto post = mypagePostService.getPostById(id);
+        model.addAttribute("post", post);
+        log.info("post===={}",post.toString());
+        return "my/post-detail";
     }
 
 

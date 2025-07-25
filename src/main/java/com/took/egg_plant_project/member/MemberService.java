@@ -6,6 +6,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -26,6 +28,7 @@ public class MemberService {
         }
 
         String encodedPw = passwordEncoder.encode(member.getUserPW());
+        String lockerCode = "WHS-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 
         member = Member.builder()
                 .userID(member.getUserID())
@@ -35,18 +38,36 @@ public class MemberService {
                 .userEmail(member.getUserEmail())
                 .tel(member.getTel())
                 .role(member.getRole())
+                .lockerCode(lockerCode)
+                .profileImagePath(member.getProfileImagePath())
                 .build();
 
         memberRepository.save(member);
     }
 
-    public Member login(String userID, String rawPassword) {
+    public MemberDto login(String userID, String rawPassword) {
         Member member = memberRepository.findByUserID(userID)
                 .orElseThrow(() -> new IllegalArgumentException("아이디가 존재하지 않습니다."));
+
         if (!passwordEncoder.matches(rawPassword, member.getUserPW())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
-        return member;
+
+        return toDto(member);
+    }
+
+    private MemberDto toDto(Member member) {
+        return MemberDto.builder()
+                .id(member.getId())
+                .userID(member.getUserID())
+                .userPW(member.getUserPW())
+                .nickName(member.getNickName())
+                .userName(member.getUserName())
+                .userEmail(member.getUserEmail())
+                .tel(member.getTel())
+                .role(member.getRole())
+                .createdAt(member.getCreatedAt())
+                .build();
     }
 
     public boolean existsByUserID(String userID) {
@@ -59,5 +80,9 @@ public class MemberService {
 
     public boolean existsByNickName(String nickName) {
         return memberRepository.existsByNickName(nickName);
+    }
+
+    public Member getByUserID(String name) {
+        return memberRepository.getByUserID(name);
     }
 }

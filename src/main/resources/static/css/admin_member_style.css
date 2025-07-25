@@ -383,3 +383,52 @@
 /*검색창 영역*/
 
 
+/* 버튼형 페이지네이션 디자인 */
+/* pagination-wrapper: 전체 영역 정렬 */
+.pagination-wrapper {
+    margin-top: 24px;
+    text-align: center;
+}
+
+/* ul 기본 설정 제거 및 가로 정렬 */
+.pagination {
+    display: inline-flex;
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    gap: 8px;
+}
+
+/* 일반 페이지 버튼 스타일 */
+.page-item a.page-link {
+    display: inline-block;
+    padding: 8px 14px;
+    color: #fff;
+    background-color: #6c3483; /* 보라색 */
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+/* 현재 페이지 강조 */
+.page-item.active a.page-link {
+    background-color: #4a235a; /* 더 진한 보라 */
+}
+
+/* 비활성 버튼 (첫 페이지/마지막 페이지 등) */
+.page-item.disabled a.page-link {
+    background-color: #ccc;
+    color: #888;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* 마우스 오버 효과 */
+.page-item a.page-link:hover:not(.disabled) {
+    background-color: #512e5f;
+}
+
+/*페이지네이션 영역*/
+

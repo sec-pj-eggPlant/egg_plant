@@ -33,7 +33,7 @@
   <header id="header">
     <div class="container">
       <h1>
-        <a th:href="@{/}">
+        <a th:href="@{main/list}">
           <img src="../images/logo.svg" alt="로고" />
         </a>
       </h1>
@@ -49,12 +49,26 @@
           <button class="btn" type="submit">search</button>
         </form>
       </div>
-      <a th:href="@{/my/mypage-profile}" id="profile">
-        <span th:text="${user.userName}">이름</span>
-        <span class="img">
-<!--            <img th:src="@{${user.profileImageUrl}}" alt="프로필 이미지" />-->
-          </span>
-      </a>
+      <div class="dropdown" id="profile">
+        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+           aria-expanded="false">
+          <span th:text="${#authentication.principal.loggedMember.nickName}">닉네임</span>
+          <span class="img">
+                    <img th:src="${#strings.isEmpty(#authentication.principal.loggedMember.profileImagePath) ? '/images/primary.jpg' : #authentication.principal.loggedMember.profileImagePath}"
+                         alt="profile"/>
+                </span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+          <li>
+            <a class="dropdown-item" href="/my/mypage-profile">마이페이지</a>
+          </li>
+          <li>
+            <form action="/main/logout" method="post" class="d-inline">
+              <button type="submit" class="dropdown-item">로그아웃</button>
+            </form>
+          </li>
+        </ul>
+      </div>
     </div>
   </header>
   <div class="container min-vh-100 mypage-wrap">
@@ -62,9 +76,8 @@
       <div class="col-4 px-5">
         <nav class="mypage-link">
           <ul>
-            <li><a th:href="@{/my/chat}">채팅장</a></li>
-            <li><a th:href="@{/my/mywrite-list}">게시글</a></li>
-            <li><a th:href="@{/my/trades2}">거래내역</a></li>
+            <li><a th:href="@{/my/post}">나의 게시글</a></li>
+            <li><a th:href="@{/my/trades}">나의 거래내역</a></li>
             <li class="on"><a th:href="@{/my/mypage-profile}">회원정보</a></li>
           </ul>
         </nav>

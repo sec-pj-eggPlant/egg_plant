@@ -23,16 +23,27 @@ public class MypageService {
     @Transactional(readOnly = true)
     public MemberDto findByUserID(String userID) {
         return mypageDao.findByUserID(userID)
-                .map(Member::toMemberDto)
+                .map(member -> MemberDto.builder()
+                        .id(member.getId())
+                        .userID(member.getUserID())
+                        .userPW(member.getUserPW())
+                        .nickName(member.getNickName())
+                        .userName(member.getUserName())
+                        .userEmail(member.getUserEmail())
+                        .tel(member.getTel())
+                        .role(member.getRole())
+                        .createdAt(member.getCreatedAt())
+                        .build())
                 .orElse(null);
     }
 
     public void updateInfo(MemberDto memberDto) {
+        log.info("updateInfo: {}", memberDto);
         Member member = mypageDao.findById(memberDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다."));
 
         member.updateInfo(
-                memberDto.getUserPW(),
+                memberDto.getUserName(),
                 memberDto.getUserEmail(),
                 memberDto.getTel()
         );

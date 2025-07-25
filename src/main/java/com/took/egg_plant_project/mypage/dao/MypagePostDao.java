@@ -1,8 +1,11 @@
 package com.took.egg_plant_project.mypage.dao;
 
 import com.took.egg_plant_project.entity.Post;
+import com.took.egg_plant_project.mypage.dto.MypagePostDto;
 import com.took.egg_plant_project.mypage.repository.MypagePostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,7 +15,15 @@ import java.util.List;
 public class MypagePostDao {
     private final MypagePostRepository mypagePostRepository;
 
-    public List<Object[]> findMyPosts(Integer memberId) {
+    public List<MypagePostDto> findMyPosts(Integer memberId) {
         return mypagePostRepository.findMyPostsByMemberId(memberId);
+    }
+
+    public MypagePostDto findPostDetail(Integer postId) {
+        return mypagePostRepository.findPostDetailById(postId);
+    }
+
+    public Page<MypagePostDto> findMyPosts(Integer memberId, Pageable pageable) {
+        return mypagePostRepository.findMyPostPageByMemberId(memberId, pageable);
     }
 }

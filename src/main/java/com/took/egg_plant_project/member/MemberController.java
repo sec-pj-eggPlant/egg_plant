@@ -6,7 +6,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,9 +32,9 @@ public class MemberController {
     public String login(MemberDto memberDto, HttpSession session, RedirectAttributes redirectAttributes) {
         log.info("로그인 시도: {}", memberDto.getUserID());
         try {
-            Member member = memberService.login(memberDto.getUserID(), memberDto.getUserPW());
-            session.setAttribute("loginID", member.getUserID());
-            redirectAttributes.addFlashAttribute("loginSuccess", member.getNickName() + "님 환영합니다!");;
+            MemberDto loginMember = memberService.login(memberDto.getUserID(), memberDto.getUserPW());
+            session.setAttribute("loginID", loginMember.getUserID());
+            redirectAttributes.addFlashAttribute("loginSuccess", loginMember.getNickName() + "님 환영합니다!");
             return "redirect:/main/list";
         } catch (IllegalArgumentException e) {
             return "redirect:/member/login?error=" + e.getMessage();
@@ -40,7 +47,21 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public String signup(MemberDto memberDto, RedirectAttributes redirectAttributes) {
+    public String signup(@ModelAttribute MemberDto memberDto,
+                         @RequestParam(value = "profileImageFile", required = false) MultipartFile profileImageFile,
+                         RedirectAttributes redirectAttributes) throws IOException {
+
+        String lockerCode = "WHS-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        String uploadDir = "C:/upload/profile/";
+        String imagePath = "/images/primary.jpg";
+
+        if (profileImageFile != null && !profileImageFile.isEmpty()) {
+            String filename = UUID.randomUUID() + "_" + profileImageFile.getOriginalFilename();
+            Path path = Paths.get(uploadDir + filename);
+            Files.createDirectories(path.getParent());
+            Files.copy(profileImageFile.getInputStream(), path);
+            imagePath = "/upload/profile/" + filename;
+        }
 
         Member member = Member.builder()
                 .userID(memberDto.getUserID())
@@ -50,10 +71,11 @@ public class MemberController {
                 .userEmail(memberDto.getUserEmail())
                 .tel(memberDto.getTel())
                 .role(memberDto.getRole())
+                .lockerCode(lockerCode)
+                .profileImagePath(imagePath)
                 .build();
 
         memberService.signup(member);
-
         redirectAttributes.addFlashAttribute("signupSuccess", "회원가입이 완료되었습니다!");
         return "redirect:/member/login";
     }

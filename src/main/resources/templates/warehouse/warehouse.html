@@ -85,7 +85,6 @@
             </div>
 
             <div class="mb-4">
-                <!--                        <div>기간: <input type="text" id="period"> 일</div>-->
                 <label for="" class="form-label fw-bold">기간</label>
                 <div class="row">
                     <div class="col-md-6">
@@ -96,71 +95,20 @@
                     </div>
                 </div>
             </div>
-            <div class="mb-2">
-                <button class="btn btn-secondary w-100" id="search-button">조회</button>
+            <div id="info-message" style="color:#ca2; margin-bottom:10px;">
+                기간을 입력하시면 <b>자동으로 조회</b>되고 그 후 <b>신청 가능</b>합니다.
             </div>
             <div class="mb-4">
                 <button class="btn btn-outline-secondary w-100" id="reset-button">초기화</button>
             </div>
-
-
             <div class="mb-4">
                 <button class="apply-button btn btn-primary w-100 btn-lg" id="apply-button" onclick="apply()">신청</button>
             </div>
-            <div id="info-message" style="color:#ca2; margin-bottom:10px;">
-                기간을 입력하시면 <b>자동으로 조회</b>되고 그 후 <b>신청 가능</b>합니다.
-            </div>
+
 
         </div>
         <div class="other-products col-8">
-            <!--                        &lt;!&ndash; JS로 박스가 생성됩니다 &ndash;&gt;-->
-            <div class="items custom-check-wrap" id="tab-content">
-                <!--                <label class="custom-check">-->
-                <!--                    <input type="checkbox" name="" id=""/>-->
-                <!--                    <span>A1</span>-->
-                <!--                </label>-->
-
-                <!--                <label class="custom-check">-->
-                <!--                    <input type="checkbox" name="" id=""/>-->
-                <!--                    <span>A2</span>-->
-                <!--                </label>-->
-
-                <!--                <label class="custom-check">-->
-                <!--                    <input type="checkbox" name="" id=""/>-->
-                <!--                    <span>A3</span>-->
-                <!--                </label>-->
-
-                <!--                <label class="custom-check">-->
-                <!--                    <input type="checkbox" name="" id=""/>-->
-                <!--                    <span>A4</span>-->
-                <!--                </label>-->
-
-                <!--                <label class="custom-check">-->
-                <!--                    <input type="checkbox" name="" id=""/>-->
-                <!--                    <span>A5</span>-->
-                <!--                </label>-->
-
-                <!--                <label class="custom-check">-->
-                <!--                    <input type="checkbox" name="" id=""/>-->
-                <!--                    <span>A6</span>-->
-                <!--                </label>-->
-
-                <!--                <label class="custom-check">-->
-                <!--                    <input type="checkbox" name="" id=""/>-->
-                <!--                    <span>A7</span>-->
-                <!--                </label>-->
-
-                <!--                <label class="custom-check">-->
-                <!--                    <input type="checkbox" name="" id=""/>-->
-                <!--                    <span>A8</span>-->
-                <!--                </label>-->
-
-                <!--                <label class="custom-check">-->
-                <!--                    <input type="checkbox" name="" id=""/>-->
-                <!--                    <span>A9</span>-->
-                <!--                </label>-->
-
-            </div>
+            <div class="items custom-check-wrap" id="tab-content"></div>
         </div>
     </div>
 </div>
@@ -247,76 +195,22 @@
         document.getElementById('total-area').value = totalArea + ' m²';
     }
 
-    function updateApplyButtonState() {
-        const startDate = document.getElementById('startDate').value;
-        const endDate = document.getElementById('endDate').value;
-        const applyBtn = document.getElementById('apply-button');
-        if (applyBtn) {
-            applyBtn.disabled = !(startDate && endDate);
-        }
-    }
-
-    function apply() {
-        const startDate = document.getElementById('startDate').value;
-        const endDate = document.getElementById('endDate').value;
-
-        if (!startDate || !endDate) {
-            alert("기간을 입력해주세요!");
-            return;
-        }
-        if (new Date(startDate) > new Date(endDate)) {
-            alert("시작일은 종료일보다 이전이어야 합니다.");
-            return;
-        }
-
-        if (selectedBoxes.size === 0) {
-            alert("박스를 선택해주세요!");
-            return;
-        }
-
-        const boxIds = Array.from(selectedBoxes).map(k => k.split('_')[1]);
-        const data = {boxes: boxIds, startDate, endDate};
-
-        fetch('/warehouse/apply-boxes', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data)
-        })
-            .then(res => {
-                if (!res.ok) throw new Error("신청 실패");
-                return res.json();
-            })
-            .then(updatedBoxes => {
-                alert("신청 완료!");
-                updatedBoxes.forEach(box => {
-                    const el = document.querySelector(`[data-warehouse-use-id='${box.id}']`);
-                    if (el && box.status === 'RENTED') el.classList.add('disabled');
-                });
-                selectedBoxes.clear();
-                document.querySelectorAll('.box.selected').forEach(b => b.classList.remove('selected'));
-                updateTotals();
-                document.getElementById('startDate').value = "";
-                document.getElementById('endDate').value = "";
-                loadTab(getActiveSector());
-                updateApplyButtonState();
-            })
-            .catch(err => {
-                console.error(err);
-                alert(err.message || "오류 발생!");
-            });
-    }
-
-
     function loadTab(type) {
+        // 1. 탭 UI에서 'on' 클래스 처리
+        document.querySelectorAll('.sector ul li').forEach(li => li.classList.remove('on'));
+        // 버튼의 텍스트로 type 찾기 (A, B, C)
+        const button = document.querySelector(`.sector ul li button[onclick="handleTabClick('${type}')"]`);
+        if (button) {
+            button.parentElement.classList.add('on');
+        }
+
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
 
-        // 기존 DOM 초기화
         const tabContent = document.getElementById('tab-content');
         tabContent.innerHTML = '';
         tabContent.classList.remove('a-grid', 'b-grid', 'c-grid');
 
-        // 가격 정보 갱신
         fetch(`/warehouse/get-sector-pricing?sector=${type}`)
             .then(res => {
                 if (!res.ok) throw new Error("가격 정보 로딩 실패");
@@ -342,7 +236,6 @@
                 document.getElementById('sector-area').value = "";
             });
 
-        // 박스 상태 로드
         fetch(`/warehouse/tab-content-json?type=${type}&startDate=${startDate}&endDate=${endDate}`)
             .then(res => res.json())
             .then(data => {
@@ -388,23 +281,50 @@
             .catch(err => console.error("탭 로딩 실패:", err));
     }
 
-    function tryAutoSearch() {
-        const startDate = document.getElementById('startDate').value;
-        const endDate = document.getElementById('endDate').value;
-        if (startDate && endDate) {
-            loadTab(getActiveSector());
+    function isValidDateRange(startDate, endDate) {
+        if (!startDate || !endDate) return false;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        if (start < today || start > end) return false;
+        return true;
+    }
+
+    function showDateAlertIfInvalid(startDate, endDate) {
+        if (!startDate || !endDate) return;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        if (start < today) {
+            alert("오늘 이전의 날짜를 고를 수 없습니다.");
+            document.getElementById('startDate').value = "";
+            document.getElementById('endDate').value = "";
+            return;
+        }
+        if (start > end) {
+            alert("종료일이 시작일보다 빠를 수 없습니다.");
+            document.getElementById('startDate').value = "";
+            document.getElementById('endDate').value = "";
         }
     }
 
-    // 날짜 입력 시마다 자동 조회
-    document.getElementById('startDate').addEventListener('input', tryAutoSearch);
-    document.getElementById('endDate').addEventListener('input', tryAutoSearch);
-
     document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('startDate').addEventListener('input', () => {
+            autoSearchAndAlert();
+            updateApplyButtonState();
+        });
+        document.getElementById('endDate').addEventListener('input', () => {
+            autoSearchAndAlert();
+            updateApplyButtonState();
+        });
+
         const searchButton = document.getElementById('search-button');
         if (searchButton) {
             searchButton.addEventListener('click', () => {
-                loadTab(getActiveSector());
+                autoSearchAndAlert(true);
             });
         }
 
@@ -416,19 +336,69 @@
                 selectedBoxes.clear();
                 loadTab(getActiveSector());
                 updateTotals();
-                updateApplyButtonState(); // 리셋할 때 버튼 비활성화
+                updateApplyButtonState();
             });
         }
 
-        // 날짜 입력 시마다 신청 버튼 활성/비활성 갱신
-        document.getElementById('startDate').addEventListener('input', updateApplyButtonState);
-        document.getElementById('endDate').addEventListener('input', updateApplyButtonState);
+        const applyButton = document.getElementById('apply-button');
+        if (applyButton) {
+            applyButton.addEventListener('click', function() {
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                if (!isValidDateRange(startDate, endDate)) {
+                    showDateAlertIfInvalid(startDate, endDate);
+                    return;
+                }
+                if (selectedBoxes.size === 0) {
+                    alert("박스를 선택해주세요!");
+                    return;
+                }
+                const boxIds = Array.from(selectedBoxes).map(k => k.split('_')[1]);
+                const form = document.createElement('form');
+                form.method = 'post';
+                form.action = '/warehouse/payment';
+                boxIds.forEach(id => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'boxIds';
+                    input.value = id;
+                    form.appendChild(input);
+                });
+                ['startDate', 'endDate'].forEach(name => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = name;
+                    input.value = (name === 'startDate' ? startDate : endDate);
+                    form.appendChild(input);
+                });
+                document.body.appendChild(form);
+                form.submit();
+            });
+        }
 
-        // 페이지 최초 진입시 버튼 비활성화
         updateApplyButtonState();
-
         loadTab('A');
     });
+
+    function autoSearchAndAlert(forceSearch = false) {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        if (!startDate || !endDate) return;
+        if (isValidDateRange(startDate, endDate) || forceSearch) {
+            loadTab(getActiveSector());
+        } else {
+            showDateAlertIfInvalid(startDate, endDate);
+        }
+    }
+
+    function updateApplyButtonState() {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        const applyBtn = document.getElementById('apply-button');
+        if (applyBtn) {
+            applyBtn.disabled = !(isValidDateRange(startDate, endDate));
+        }
+    }
 </script>
 
 </body>

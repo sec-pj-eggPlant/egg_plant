@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>거래글 작성</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -22,129 +22,156 @@
       :root {
         --bs-primary: #5f328e; /* 예: 보라색으로 변경 */
       }
+      /* 스핀 버튼 제거 (가격, 면적 input용) */
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
     </style>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
       crossorigin="anonymous"
     ></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c0d4d53d17d0a3e0254a27b968afe144&libraries=services"></script>
   </head>
   <body>
-    <header id="header">
-      <div class="container">
-        <h1>
-          <a href=""><img src="../images/logo.svg" alt="" /></a>
-        </h1>
-        <nav>
-          <ul>
-            <li><a href="">자사창고</a></li>
-            <li><a href="">빌려드림</a></li>
-          </ul>
-        </nav>
-        <div class="search-box">
-          <form action="">
-            <input type="text" class="form-control" placeholder="search" />
-            <button class="btn" type="button">search</button>
-          </form>
-        </div>
-        <a href="" id="profile">
-          <span>김의진</span>
-          <span class="img">
-            <img src="../images/profile.jpg" alt="" />
-          </span>
-        </a>
+  <header id="header">
+    <div class="container">
+      <h1>
+        <a th:href="@{/main}"><img src="/images/logo.svg" alt="메인 페이지"/></a>
+      </h1>
+      <nav>
+        <ul>
+          <li><a href="">자사창고</a></li>
+          <li><a href="">빌려드림</a></li>
+        </ul>
+      </nav>
+      <div class="search-box">
+        <form action="">
+          <input type="text" class="form-control" placeholder="search"/>
+          <button class="btn" type="button">search</button>
+        </form>
       </div>
-    </header>
+      <div class="dropdown" id="profile">
+        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+           aria-expanded="false">
+          <span th:text="${#authentication.principal.loggedMember.nickName}">닉네임</span>
+          <span class="img">
+                    <img th:src="${#strings.isEmpty(#authentication.principal.loggedMember.profileImagePath) ? '/images/primary.jpg' : #authentication.principal.loggedMember.profileImagePath}"
+                         alt="profile"/>
+                </span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+          <li>
+            <a class="dropdown-item" href="/my/mypage-profile">마이페이지</a>
+          </li>
+          <li>
+            <form action="/logout" method="post" class="d-inline">
+              <button type="submit" class="dropdown-item">로그아웃</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
     <div class="container min-vh-100 write-wrap">
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6">
-          <form action="">
-            <div class="preview-box">
-              <div class="preview mb-4">
-                <img src="../images/dummy.jpg" alt="" />
+      <h2 class="mb-4">거래글 작성</h2>
+      <div class="row justify-content-center">
+        <div class="col-md-6"> <!-- 중앙 정렬과 적절한 너비 설정 -->
+
+          <form method="post" action="/main/write" enctype="multipart/form-data">
+            <!-- 사진 첨부 (임대인만 보이게) -->
+            <div class="mb-4" th:if="${role == 'ROLE_OWNER'}">
+              <label class="form-label fw-bold">사진 첨부</label>
+              <input type="file" class="form-control" name="imageFile" accept="image/*" onchange="previewImage(event)">
+              <div id="imagePreviewWrapper" style="margin-top: 10px;">
+                <img id="imagePreview" src="" alt="미리보기" style="max-width: 100%; display: none;" />
               </div>
-              <div class="mb-4">
-                <input
-                  class="form-control"
-                  type="file"
-                  id="formFileMultiple"
-                  multiple=""
-                />
-              </div>
-              <div class="mb-4">
-                <label for="" class="form-label fw-bold">제목</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id=""
-                  placeholder="subject"
-                />
-              </div>
-              <div class="mb-4">
-                <label for="" class="form-label fw-bold">상세설명</label>
-                <textarea
-                  class="form-control"
-                  id=""
-                  rows="3"
-                  placeholder="상세설명"
-                ></textarea>
-              </div>
-              <div class="mb-4">
-                <label for="" class="form-label fw-bold">가격</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id=""
-                  placeholder="price"
-                />
-              </div>
-              <div class="mb-4">
-                <label for="" class="form-label fw-bold">지역</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id=""
-                  placeholder="region"
-                />
-              </div>
-              <div class="mb-4">
-                <label for="" class="form-label fw-bold">면적</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id=""
-                  placeholder="area"
-                />
-              </div>
-              <div class="mb-4">
-                <label for="" class="form-label fw-bold">기간</label>
-                <div class="row">
-                  <div class="col-md-6">
-                    <input
-                      type="date"
-                      id="startDate"
-                      class="form-control"
-                      placeholder="YYYY-MM-DD"
-                    />
-                  </div>
-                  <div class="col-md-6">
-                    <input
-                      type="date"
-                      id="endDate"
-                      class="form-control"
-                      placeholder="YYYY-MM-DD"
-                    />
-                  </div>
+            </div>
+
+            <!-- 제목 -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">제목</label>
+              <input type="text" class="form-control" name="title" required>
+            </div>
+
+            <!-- 상세 설명 -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">상세 설명</label>
+              <textarea class="form-control" name="content" rows="4" required></textarea>
+            </div>
+
+            <!-- 가격 -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">가격 (원)</label>
+              <input type="number" class="form-control" name="price" required>
+            </div>
+
+            <!-- 지역 -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">지역</label>
+              <select class="form-select" name="location" id="location" required>
+                <option value="">지역 선택</option>
+                <!-- 서울 -->
+                <option value="서울 강남구">서울 강남구</option>
+                <option value="서울 마포구">서울 마포구</option>
+                <option value="서울 송파구">서울 송파구</option>
+                <option value="서울 영등포구">서울 영등포구</option>
+                <option value="서울 종로구">서울 종로구</option>
+
+                <!-- 경기 -->
+                <option value="경기 성남시 분당구">경기 성남시 분당구</option>
+                <option value="경기 수원시 영통구">경기 수원시 영통구</option>
+                <option value="경기 고양시 일산서구">경기 고양시 일산서구</option>
+                <option value="경기 용인시 수지구">경기 용인시 수지구</option>
+                <option value="경기 안양시 동안구">경기 안양시 동안구</option>
+
+                <!-- 인천 -->
+                <option value="인천 연수구">인천 연수구</option>
+                <option value="인천 부평구">인천 부평구</option>
+              </select>
+            </div>
+
+            <input type="hidden" name="latitude" id="latitude">
+            <input type="hidden" name="longitude" id="longitude">
+
+            <div class="mb-4" style="opacity: 0; height: 0; overflow: hidden;">
+              <label class="form-label fw-bold">지도</label>
+              <div id="map" style="width: 100%; height: 300px;"></div>
+            </div>
+
+            <!-- 면적 -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">면적 (평)</label>
+              <input type="number" class="form-control" name="area" required>
+            </div>
+
+            <!-- 기간 -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">대여 가능 기간</label>
+              <div class="row g-2">
+                <div class="col">
+                  <input type="date" class="form-control" name="startDate" required>
+                </div>
+                <div class="col-auto d-flex align-items-center">-</div>
+                <div class="col">
+                  <input type="date" class="form-control" name="endDate" required>
                 </div>
               </div>
-              <div class="my-5 text-center">
-                <button class="btn btn-primary btn-lg">작성하기</button>
-              </div>
+            </div>
+
+            <!-- 버튼 -->
+            <div class="text-center mt-5">
+              <button type="submit" class="btn btn-primary btn-lg">작성하기</button>
             </div>
           </form>
         </div>
-        <div class="col-3"></div>
       </div>
     </div>
     <footer>
@@ -180,15 +207,78 @@
     </footer>
   </body>
   <script>
-    // This is an example script, please modify as needed
-    const rangeInput = document.querySelector("#range-input");
-    const rangeOutput = document.querySelector("#range-value");
+    function previewImage(event) {
+      const input = event.target;
+      const preview = document.getElementById('imagePreview');
 
-    // Set initial value
-    rangeOutput.textContent = rangeInput.value;
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+      } else {
+        preview.src = "";
+        preview.style.display = 'none';
+      }
+    }
 
-    rangeInput.addEventListener("input", function () {
-      rangeOutput.textContent = this.value;
+    let geocoder, latInput, lngInput;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const locationSelect = document.getElementById("location");
+      latInput = document.getElementById("latitude");
+      lngInput = document.getElementById("longitude");
+      const mapContainer = document.getElementById("map");
+      const map = new kakao.maps.Map(mapContainer, {
+        center: new kakao.maps.LatLng(37.5665, 126.9780),
+        level: 5
+      });
+      geocoder = new kakao.maps.services.Geocoder();
+      const marker = new kakao.maps.Marker();
+
+      locationSelect.addEventListener("change", function () {
+        const address = this.value;
+        if (!address) return;
+        geocoder.addressSearch(address, function (result, status) {
+          if (status === kakao.maps.services.Status.OK) {
+            const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+            map.setCenter(coords);
+            marker.setMap(map);
+            marker.setPosition(coords);
+            latInput.value = result[0].y;
+            lngInput.value = result[0].x;
+          }
+        });
+      });
+
+      // 초기값 세팅
+      if (locationSelect.value) {
+        const evt = new Event('change');
+        locationSelect.dispatchEvent(evt);
+      }
     });
+
+    // ✅ submit 전 위경도 보장
+    function validateFormAndSetCoords(event) {
+      event.preventDefault(); // 기본 제출 막음
+      const address = document.getElementById("location").value;
+      if (!address) {
+        alert("지역을 선택해주세요.");
+        return false;
+      }
+
+      geocoder.addressSearch(address, function (result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          latInput.value = result[0].y;
+          lngInput.value = result[0].x;
+          event.target.submit(); // 정상적 submit
+        } else {
+          alert("주소 좌표를 찾을 수 없습니다.");
+        }
+      });
+      return false;
+    }
   </script>
 </html>
