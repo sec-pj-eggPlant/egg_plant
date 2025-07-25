@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/css/admin_globals.css"/>
+    <link rel="stylesheet" href="/css/admin_warehouse_style.css"/>
+    <link rel="stylesheet" href="/css/admin_warehouse_styleguide.css"/>
+    <title>Warehouse</title>
+</head>
+<body>
+<div class="screen">
+    <div class="div">
+        <div class="text-wrapper">Warehouse</div>
+
+        <!-- 섹터 선택 버튼 영역 -->
+        <div class="sector-buttons">
+            <button type="button" class="sector-button"
+                    th:classappend="${sector} == 'A' ? ' active' : ''"
+                    onclick="location.href='?sector=A'">A 섹터</button>
+            <button type="button" class="sector-button"
+                    th:classappend="${sector} == 'B' ? ' active' : ''"
+                    onclick="location.href='?sector=B'">B 섹터</button>
+            <button type="button" class="sector-button"
+                    th:classappend="${sector} == 'C' ? ' active' : ''"
+                    onclick="location.href='?sector=C'">C 섹터</button>
+        </div>
+
+
+        <!-- 데이터 테이블 -->
+        <div class="overlap">
+            <div class="group">
+                <div class="items-wrapper">
+                    <div class="items custom-check-wrap">
+                        <div th:each="box : ${boxList}" class="box-wrapper">
+                            <div th:class="'box-image '
+                     + ${box.sector.toLowerCase()}
+                     + '-box '
+                     + (${box.status} == 'RENTED' ? 'rented' : 'available')"
+                                 th:onclick="|location.href='/admin/warehouse/detail/${box.id}'|">
+                                <span th:text="${box.boxNumber}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 사이드바 -->
+        <div class="overlap-9">
+            <!-- Gaji 로고 -->
+            <a href="/admin/dashboard">
+                <img class="layer" src="/img/admin/layer-1.svg"/>
+            </a>
+
+            <!-- Warehouse -->
+            <a href="/admin/warehouse">
+                <img class="design-tools-grid" src="/img/admin/grid-y.svg"/>
+                <div class="text-wrapper-12">Warehouse</div>
+            </a>
+
+            <!-- Trades -->
+            <a href="/admin/trade">
+                <div class="text-wrapper-13">Trades</div>
+                <img class="vector" src="/img/admin/vector.svg"/>
+            </a>
+
+
+            <!-- Dashboard -->
+            <a href="/admin/dashboard">
+                <div class="text-wrapper-14">Dashboard</div>
+                <img class="monochrome-layer" src="/img/admin/layer-group.svg"/>
+            </a>
+
+            <!-- Members -->
+            <a href="/admin/member">
+                <img class="users-users" src="/img/admin/users.svg"/>
+                <div class="text-wrapper-15">members</div>
+            </a>
+
+            <!-- 로그아웃 버튼 -->
+            <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">
+                <div class="text-wrapper-11">Logout</div>
+            </a>
+            <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
+            <img class="img" src="/img/admin/logout.svg"/>
+        </div>
+    </div>
+</div>
+</body>
+</html>

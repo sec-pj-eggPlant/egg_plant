@@ -1,5 +1,7 @@
-package com.took.egg_plant_project.BDJ;
+package com.took.egg_plant_project.BDJ.controller;
 
+import com.took.egg_plant_project.BDJ.dto.DeliveryRequestDto;
+import com.took.egg_plant_project.BDJ.DeliveryRequestService;
 import com.took.egg_plant_project.entity.Member;
 import com.took.egg_plant_project.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,7 @@ public class BDJController {
     private final MemberService memberService;
 
     @GetMapping("/request")
-    public String showRequestForm(Model model, Principal principal) {
+    public String request(Model model, Principal principal) {
         DeliveryRequestDto dto = deliveryRequestService.prepareRequestForm(principal.getName());
         Member member = memberService.getByUserID(principal.getName());
         model.addAttribute("requestDto", dto);

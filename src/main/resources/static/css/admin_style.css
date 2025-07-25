@@ -928,25 +928,6 @@
     line-height: normal;
 }
 
-.screen .overlap-7 {
-    position: absolute;
-    width: 328px;
-    height: 515px;
-    top: 74px;
-    left: 1273px;
-    background-color: #ffffff;
-    border-radius: 30px;
-    box-shadow: 0px 4px 4px #00000040;
-}
-
-.screen .overlap-8 {
-    position: absolute;
-    width: 115px;
-    height: 115px;
-    top: 102px;
-    left: 26px;
-    border-radius: 57.5px;
-}
 
 .screen .text-wrapper-36 {
     position: absolute;
@@ -1526,3 +1507,112 @@
 }
 
 /*회원정보 css*/
+
+
+/*우측상단 원형그래프*/
+
+.screen .overlap-7 {
+    position: absolute;
+    width: 328px;
+    height: 515px;
+    top: 74px;
+    left: 1273px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    box-shadow: 0px 4px 4px #00000040;
+}
+
+.warehouse-status-section {
+    padding: 20px 20px 40px 20px;
+    position: relative;
+}
+
+.text-wrapper-40 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.user-interface-menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.warehouse-graph-wrapper {
+    position: absolute;
+    top:110px;
+    left:15px;
+    display: flex;
+    margin:0 auto;
+    max-width: 300px;
+    /*justify-content: space-between;*/
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.donut-chart {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    text-align: center;
+}
+
+.donut {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+}
+
+.donut-bg {
+    fill: none;
+    stroke: #eee;
+    stroke-width: 3;
+}
+
+.donut-ring {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.3s ease;
+}
+
+.donut-ring.a { stroke: rebeccapurple; }
+.donut-ring.b { stroke: #ff9800; }
+.donut-ring.c { stroke: #ff5722; }
+
+.donut-center {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1.2;
+    font-weight: bold;
+}
+
+/*.donut-center div:first-child {*/
+/*    font-size: 20px;*/
+/*    color: inherit;*/
+/*}*/
+
+.donut-text-top1 {
+    color : rebeccapurple;
+    font-size: 20pt;
+}
+
+.donut-text-top2 {
+    color : #ff9800;
+    font-size: 20pt;
+}
+
+.donut-text-top3 {
+    color : #ff5722;
+    font-size: 20pt;
+}
+
+.donut-text-bottom{
+    margin-top: 52px;
+}
+
+/*우측상단 원형그래프*/
