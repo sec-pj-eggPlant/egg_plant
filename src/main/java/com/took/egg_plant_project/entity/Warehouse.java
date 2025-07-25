@@ -26,8 +26,7 @@ public class Warehouse {
     private Integer area;
     private Integer pricePerDay;
 
-    // 필요시
-    @OneToMany(mappedBy = "warehouse")
+      @OneToMany(mappedBy = "warehouse")
     private List<Box> boxes = new ArrayList<>();
 }
 
