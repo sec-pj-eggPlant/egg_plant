@@ -607,3 +607,48 @@
 }
 
 /*페이지네이션 영역*/
+
+
+/*포워딩 영역*/
+.users-users2 {
+    position: absolute;
+    width: 33px;
+    height: 32px;
+    top: 662px;
+    left: 75px;
+}
+
+.text-wrapper-115 {
+    position: absolute;
+    width: 113px;
+    top: 663px;
+    left: 120px;
+    font-family: "Roboto-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #cdcdcd;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+/*리퀘스트 영역*/
+.users-users3 {
+    position: absolute;
+    width: 33px;
+    height: 32px;
+    top: 602px;
+    left: 75px;
+}
+
+.text-wrapper-116 {
+    position: absolute;
+    width: 113px;
+    top: 603px;
+    left: 120px;
+    font-family: "Roboto-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #cdcdcd;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+}

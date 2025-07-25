@@ -1,51 +1,136 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title>입고 전 신청 목록</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/css/admin_globals.css"/>
+    <link rel="stylesheet" href="/css/admin_member_style.css"/>
+    <link rel="stylesheet" href="/css/admin_member_styleguide.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <title>입고 전 신청 목록</title>
 </head>
 <body>
-<div class="container mt-5">
-    <h2 class="mb-4">입고 전 신청 목록</h2>
-    <table class="table table-striped text-center">
-        <thead class="table-dark">
-        <tr>
-            <th>신청 ID</th>
-            <th>고객명</th>
-            <th>연락처</th>
-            <th>트래킹번호</th>
-            <th>상품명</th>
-            <th>신청일시</th>
-            <th>액션</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="r : ${requests}">
-            <td th:text="${r.id}">1</td>
-            <td th:text="${r.memberName}">홍길동</td>
-            <td th:text="${r.memberTel}">010-1234-5678</td>
-            <td th:text="${r.trackingNumber}">1Z...</td>
-            <td th:text="${r.itemName}">신발</td>
-            <td th:text="${#temporals.format(r.requestedAt,'yyyy-MM-dd HH:mm')}">2025-07-22 10:00</td>
-            <td>
-                <!-- 입고처리 안된 건만 버튼 표시 -->
-                <span th:if="${!inboundedIds.contains(r.id)}">
+<div class="screen">
+    <div class="div">
+        <div class="text-wrapper">입고 전 신청 목록</div>
+
+        <!-- 검색창 및 조건 영역 -->
+        <!--        <div class="search-top">-->
+        <!--            <form th:action="@{/admin/member}" method="get" class="search-form">-->
+        <!--                <select name="category" class="select-box">-->
+        <!--                    <option value="">검색 조건</option>-->
+        <!--                    <option value="userName">이름</option>-->
+        <!--                    <option value="userID">아이디</option>-->
+        <!--                </select>-->
+        <!--                <input type="text" name="keyword" placeholder="검색어를 입력해주세요." class="text-input"/>-->
+        <!--                <button type="submit" class="date-search-button">검색</button>-->
+        <!--            </form>-->
+        <!--        </div>-->
+
+
+        <!-- 데이터 테이블 -->
+        <div class="overlap">
+            <div class="group">
+                <div class="member-table-wrapper">
+
+                    <table class="member-table">
+                        <thead class="table-dark">
+                        <tr>
+                            <th>신청 ID</th>
+                            <th>고객명</th>
+                            <th>연락처</th>
+                            <th>트래킹번호</th>
+                            <th>상품명</th>
+                            <th>신청일시</th>
+                            <th>액션</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="r : ${requests}">
+                            <td th:text="${r.id}">1</td>
+                            <td th:text="${r.memberName}">홍길동</td>
+                            <td th:text="${r.memberTel}">010-1234-5678</td>
+                            <td th:text="${r.trackingNumber}">1Z...</td>
+                            <td th:text="${r.itemName}">신발</td>
+                            <td th:text="${#temporals.format(r.requestedAt,'yyyy-MM-dd HH:mm')}">2025-07-22 10:00</td>
+                            <td>
+                                <!-- 입고처리 안된 건만 버튼 표시 -->
+                                <span th:if="${!inboundedIds.contains(r.id)}">
             <a th:href="@{/admin/forwarding/request_detail/{id}(id=${r.id})}" class="btn btn-sm btn-primary">
                 입고처리
             </a>
         </span>
-                <span th:if="${inboundedIds.contains(r.id)}">
+                                <span th:if="${inboundedIds.contains(r.id)}">
             <span class="badge bg-secondary">입고완료</span>
         </span>
-            </td>
-        </tr>
+                            </td>
+                        </tr>
 
-        <tr th:if="${#lists.isEmpty(requests)}">
-            <td colspan="8">아직 입고 전 신청 내역이 없습니다.</td>
-        </tr>
-        </tbody>
-    </table>
+                        <tr th:if="${#lists.isEmpty(requests)}">
+                            <td colspan="8">아직 입고 전 신청 내역이 없습니다.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 사이드바 -->
+        <div class="overlap-9">
+            <!-- Gaji 로고 -->
+            <a href="/admin/dashboard">
+                <img class="layer" src="/img/admin/layer-1.svg"/>
+            </a>
+
+            <!-- Warehouse -->
+            <a href="/admin/warehouse">
+                <img class="design-tools-grid" src="/img/admin/grid.svg"/>
+                <div class="text-wrapper-12">Warehouse</div>
+            </a>
+
+            <!-- Trades -->
+            <a href="/admin/trade">
+                <div class="text-wrapper-13">Trades</div>
+                <img class="vector" src="/img/admin/vector.svg"/>
+            </a>
+
+            <!-- Dashboard -->
+            <a href="/admin/dashboard">
+                <div class="text-wrapper-14">Dashboard</div>
+                <img class="monochrome-layer" src="/img/admin/layer-group.svg"/>
+            </a>
+
+            <!-- Members -->
+            <a href="/admin/member">
+                <img class="users-users" src="/img/admin/users.svg"/>
+                <div class="text-wrapper-119">members</div>
+            </a>
+
+            <!-- Forwarding -->
+
+            <a href="/admin/forwarding/inbound">
+                <img class="users-users2" src="/img/admin/forward.svg"/>
+                <div class="text-wrapper-115">forwarding</div>
+            </a>
+
+            <!-- Request -->
+
+            <a href="/admin/forwarding/list">
+                <img class="users-users3" src="/img/admin/request-y.svg"/>
+                <div class="text-wrapper-116">Request</div>
+            </a>
+
+
+            <!-- 로그아웃 버튼 -->
+            <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">
+                <div class="text-wrapper-11">Logout</div>
+            </a>
+            <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
+            <img class="img" src="/img/admin/logout.svg"/>
+        </div>
+    </div>
 </div>
 </body>
 </html>
