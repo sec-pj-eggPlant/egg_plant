@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta charset="utf-8"/>
@@ -12,87 +14,15 @@
     <div class="div">
         <div class="overlap">
             <div class="group">
-                <div class="group-2">
-                    <div class="rectangle"></div>
-                    <div class="rectangle-2"></div>
-                    <div class="text-wrapper-2">2,654</div>
-                    <div class="text-wrapper-3">거래 성사 내역</div>
-                    <div class="rectangle-3"></div>
-                    <div class="rectangle-4"></div>
-                    <div class="rectangle-5"></div>
-                    <div class="rectangle-6"></div>
-                    <div class="rectangle-7"></div>
-                    <div class="rectangle-8"></div>
-                    <div class="rectangle-9"></div>
-                    <div class="rectangle-10"></div>
-                    <div class="rectangle-11"></div>
-                    <div class="rectangle-12"></div>
-                    <div class="rectangle-13"></div>
-                    <div class="rectangle-14"></div>
-                    <div class="rectangle-15"></div>
-                    <div class="rectangle-16"></div>
-                    <div class="rectangle-17"></div>
-                    <div class="rectangle-18"></div>
-                    <div class="rectangle-19"></div>
-                    <div class="rectangle-20"></div>
-                    <div class="rectangle-21"></div>
-                    <div class="rectangle-22"></div>
-                    <div class="rectangle-23"></div>
-                    <div class="text-wrapper-4">Jan</div>
-                    <div class="text-wrapper-5">Feb</div>
-                    <div class="overlap-group">
-                        <div class="text-wrapper-6">Mar</div>
-                        <div class="text-wrapper-6">Mar</div>
+                <div class="chart-section">
+                    <div class="chart-header">
+                        <div class="title" th:text="|${currentYear} 거래 성사 내역 ${totalDoneTrades}|">
+                            2025 거래 성사 내역 0
+                        </div>
+                        <a href="/admin/trade"><img class="user-interface-menu-6" src="/img/admin/menu.svg"/></a>
                     </div>
-                    <div class="text-wrapper-7">Apr</div>
-                    <div class="text-wrapper-8">May</div>
-                    <div class="text-wrapper-9">Jun</div>
-                    <div class="text-wrapper-10">Jul</div>
-                    <div class="text-wrapper-11">Aug</div>
-                    <div class="text-wrapper-12">Sep</div>
-                    <div class="text-wrapper-13">Oct</div>
-                    <div class="text-wrapper-14">Nov</div>
-                    <div class="text-wrapper-15">Dec</div>
-                    <div class="overlap-2">
-                        <div class="text-wrapper-16">THIS YEAR</div>
-                        <img class="polygon" src="/img/admin/polygon-1.svg"/></div>
-                </div>
-            </div>
-            <div class="group">
-                <div class="group-3">
-                    <div class="rectangle"></div>
-                    <div class="text-wrapper-17">2,654</div>
-                    <div class="text-wrapper-18">거래 성사 내역</div>
-                    <div class="rectangle-3"></div>
-                    <div class="rectangle-24"></div>
-                    <div class="rectangle-25"></div>
-                    <div class="rectangle-8"></div>
-                    <div class="rectangle-26"></div>
-                    <img class="img" src="img/rectangle-31.svg"/>
-                    <div class="rectangle-12"></div>
-                    <div class="rectangle-14"></div>
-                    <div class="rectangle-16"></div>
-                    <div class="rectangle-18"></div>
-                    <div class="rectangle-27"></div>
-                    <div class="rectangle-28"></div>
-                    <div class="text-wrapper-19">Jan</div>
-                    <div class="text-wrapper-20">Feb</div>
-                    <div class="overlap-3">
-                        <div class="text-wrapper-21">Mar</div>
-                        <div class="text-wrapper-21">Mar</div>
-                    </div>
-                    <div class="text-wrapper-22">Apr</div>
-                    <div class="text-wrapper-23">May</div>
-                    <div class="text-wrapper-24">Jun</div>
-                    <div class="text-wrapper-25">Jul</div>
-                    <div class="text-wrapper-26">Aug</div>
-                    <div class="text-wrapper-27">Sep</div>
-                    <div class="text-wrapper-28">Oct</div>
-                    <div class="text-wrapper-29">Nov</div>
-                    <div class="text-wrapper-30">Dec</div>
-                    <div class="overlap-group-2">
-                        <div class="text-wrapper-31">THIS YEAR</div>
-                        <img class="polygon-2" src="img/image.svg"/></div>
+
+                    <canvas id="doneChart" width="700" height="320"></canvas>
                 </div>
             </div>
         </div>
@@ -100,7 +30,7 @@
         <div class="overlap-4">
             <div class="overlap-5">
                 <div class="text-wrapper-32">Total Trades</div>
-                <div class="text-wrapper-33">100,345</div>
+                <div class="text-wrapper-33" th:text="${totalTradeCount}">100,345</div>
                 <img class="vector" src="/img/admin/total_trade.svg"/></div>
             <div class="overlap-6"><img class="group-4" src="/img/admin/total_member.svg"/>
                 <div class="text-wrapper-34">Total Members</div>
@@ -246,6 +176,20 @@
                 <img class="users-users" src="/img/admin/users.svg"/>
             </a>
 
+            <!-- Forwarding -->
+
+            <a href="/admin/forwarding/inbound">
+                <img class="users-users2" src="/img/admin/forward.svg"/>
+                <div class="text-wrapper-115">forwarding</div>
+            </a>
+
+            <!-- Request -->
+
+            <a href="/admin/forwarding/list">
+                <img class="users-users3" src="/img/admin/request.svg"/>
+                <div class="text-wrapper-116">Request</div>
+            </a>
+
             <!-- 로그아웃 버튼 -->
             <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">
                 <div class="text-wrapper-53">Logout</div>
@@ -255,5 +199,43 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script th:inline="javascript">
+    const doneData = [[${doneCounts}]]; // 서버에서 전달된 12개월 DONE 거래 수
+    const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    const ctx = document.getElementById('doneChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'DONE 거래 수',
+                data: doneData,
+                backgroundColor: '#ffc107',
+                borderRadius: 10,
+                barThickness: 20 // <-- bar의 절대 너비(px) 설정
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+</script>
+
 </body>
 </html>

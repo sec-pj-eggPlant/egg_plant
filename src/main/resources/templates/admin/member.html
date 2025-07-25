@@ -47,7 +47,10 @@
                         <tbody>
                         <tr th:each="member, stat : ${memberList}">
                             <td th:text="${memberList.totalElements - (memberList.number * memberList.size + stat.index)}">1</td>
-                            <td th:text="${member.userID}">admin</td>
+                            <td>
+                                <a th:href="@{'/admin/member/detail?userId=' + ${member.userID}}"
+                                   th:text="${member.userID}">아이디</a>
+                            </td>
                             <td th:text="${member.nickName}">관리자</td>
                             <td th:text="${member.userName}">관리자이름</td>
                             <td th:text="${member.role.label}">관리자</td>
@@ -118,7 +121,6 @@
                                 </a>
                             </th:block>
                         </li>
-
                     </ul>
                 </nav>
 
@@ -160,14 +162,28 @@
                 <div class="text-wrapper-15">members</div>
             </a>
 
-            <img class="img" src="/img/admin/logout.svg"/>
+            <!-- Forwarding -->
+
+            <a href="/admin/forwarding/inbound">
+                <img class="users-users4" src="/img/admin/forward.svg"/>
+                <div class="text-wrapper-115">forwarding</div>
+            </a>
+
+            <!-- Request -->
+
+            <a href="/admin/forwarding/list">
+                <img class="users-users5" src="/img/admin/request.svg"/>
+                <div class="text-wrapper-118">Request</div>
+            </a>
+
+
 
             <!-- 로그아웃 버튼 -->
             <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">
                 <div class="text-wrapper-11">Logout</div>
             </a>
             <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
-            <img class="user-interface" src="/img/admin/logout.svg"/>
+            <img class="img" src="/img/admin/logout.svg"/>
         </div>
     </div>
 </div>

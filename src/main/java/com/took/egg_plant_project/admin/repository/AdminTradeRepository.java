@@ -14,12 +14,13 @@ import java.util.List;
 public interface AdminTradeRepository extends JpaRepository<Trade, Integer> {
 
     @Query("""
-    SELECT t FROM Trade t
-    WHERE (:status IS NULL OR t.status = :status)
-      AND (:renterId IS NULL OR t.renter.userID LIKE %:renterId%)
-      AND (:ownerId IS NULL OR t.owner.userID LIKE %:ownerId%)
-      AND (:start IS NULL OR t.createdAt >= :start)
-      AND (:end IS NULL OR t.createdAt <= :end)
+SELECT t FROM Trade t
+WHERE (:status IS NULL OR t.status = :status)
+  AND (:renterId IS NULL OR t.renter.userID LIKE %:renterId%)
+  AND (:ownerId IS NULL OR t.owner.userID LIKE %:ownerId%)
+  AND (:start IS NULL OR t.createdAt >= :start)
+  AND (:end IS NULL OR t.createdAt <= :end)
+ORDER BY t.createdAt DESC
 """)
     Page<Trade> findFilteredTrades(
             @Param("status") String status,
@@ -29,4 +30,17 @@ public interface AdminTradeRepository extends JpaRepository<Trade, Integer> {
             @Param("end") LocalDateTime end,
             Pageable pageable
     );
+
+    @Query("SELECT COUNT(t) FROM Trade t WHERE UPPER(t.status) = 'DONE'")
+    long countByStatusDone();
+
+    @Query(value = """
+    SELECT TO_NUMBER(TO_CHAR(t.createdAt, 'MM')) AS month,
+           COUNT(*) AS count
+    FROM trade t
+    WHERE t.status = 'DONE'
+    GROUP BY TO_NUMBER(TO_CHAR(t.createdAt, 'MM'))
+    ORDER BY month
+    """, nativeQuery = true)
+    List<Object[]> countDoneTradesByMonth();
 }

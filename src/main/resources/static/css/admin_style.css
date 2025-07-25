@@ -55,26 +55,6 @@
     left: 39px;
 }
 
-.screen .rectangle {
-    position: absolute;
-    width: 22px;
-    height: 70px;
-    top: 322px;
-    left: 731px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-2 {
-    position: absolute;
-    width: 22px;
-    height: 41px;
-    top: 352px;
-    left: 709px;
-    background-color: #ededed;
-    border-radius: 13px 13px 0px 0px;
-}
-
 .screen .text-wrapper-2 {
     width: 79px;
     top: 31px;
@@ -101,216 +81,6 @@
     position: absolute;
     letter-spacing: 0;
     line-height: normal;
-}
-
-.screen .rectangle-3 {
-    position: absolute;
-    width: 22px;
-    height: 143px;
-    top: 250px;
-    left: 4px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-4 {
-    position: absolute;
-    width: 22px;
-    height: 189px;
-    top: 204px;
-    left: 70px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-5 {
-    position: absolute;
-    width: 22px;
-    height: 158px;
-    top: 235px;
-    left: 48px;
-    background-color: #ededed;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-6 {
-    position: absolute;
-    width: 22px;
-    height: 189px;
-    top: 204px;
-    left: 533px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-7 {
-    position: absolute;
-    width: 22px;
-    height: 157px;
-    top: 236px;
-    left: 511px;
-    background-color: #ededed;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-8 {
-    position: absolute;
-    width: 22px;
-    height: 226px;
-    top: 165px;
-    left: 335px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-9 {
-    position: absolute;
-    width: 22px;
-    height: 176px;
-    top: 215px;
-    left: 313px;
-    background-color: #ededed;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-10 {
-    position: absolute;
-    width: 22px;
-    height: 172px;
-    top: 221px;
-    left: 203px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-11 {
-    position: absolute;
-    width: 22px;
-    height: 135px;
-    top: 258px;
-    left: 181px;
-    background-color: #ededed;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-12 {
-    position: absolute;
-    width: 22px;
-    height: 172px;
-    top: 221px;
-    left: 401px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-13 {
-    position: absolute;
-    width: 22px;
-    height: 136px;
-    top: 257px;
-    left: 379px;
-    background-color: #ededed;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-14 {
-    position: absolute;
-    width: 22px;
-    height: 143px;
-    top: 250px;
-    left: 467px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-15 {
-    position: absolute;
-    width: 22px;
-    height: 115px;
-    top: 278px;
-    left: 445px;
-    background-color: #ededed;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-16 {
-    position: absolute;
-    width: 22px;
-    height: 123px;
-    top: 270px;
-    left: 599px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-17 {
-    position: absolute;
-    width: 22px;
-    height: 89px;
-    top: 304px;
-    left: 577px;
-    background-color: #ededed;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-18 {
-    position: absolute;
-    width: 22px;
-    height: 89px;
-    top: 304px;
-    left: 665px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-19 {
-    position: absolute;
-    width: 22px;
-    height: 61px;
-    top: 332px;
-    left: 643px;
-    background-color: #ededed;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-20 {
-    position: absolute;
-    width: 22px;
-    height: 255px;
-    top: 137px;
-    left: 137px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-21 {
-    position: absolute;
-    width: 22px;
-    height: 228px;
-    top: 165px;
-    left: 115px;
-    background-color: #ededed;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-22 {
-    position: absolute;
-    width: 22px;
-    height: 302px;
-    top: 91px;
-    left: 269px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-23 {
-    position: absolute;
-    width: 22px;
-    height: 247px;
-    top: 146px;
-    left: 247px;
-    background-color: #ededed;
-    border-radius: 13px 13px 0px 0px;
 }
 
 .screen .text-wrapper-4 {
@@ -558,35 +328,6 @@
     line-height: normal;
 }
 
-.screen .rectangle-24 {
-    position: absolute;
-    width: 22px;
-    height: 189px;
-    top: 203px;
-    left: 70px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-25 {
-    position: absolute;
-    width: 22px;
-    height: 189px;
-    top: 203px;
-    left: 533px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-26 {
-    position: absolute;
-    width: 22px;
-    height: 172px;
-    top: 221px;
-    left: 202px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
 
 .screen .img {
     position: absolute;
@@ -594,26 +335,6 @@
     height: 135px;
     top: 4097px;
     left: 519px;
-}
-
-.screen .rectangle-27 {
-    position: absolute;
-    width: 22px;
-    height: 255px;
-    top: 137px;
-    left: 136px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
-}
-
-.screen .rectangle-28 {
-    position: absolute;
-    width: 22px;
-    height: 302px;
-    top: 91px;
-    left: 268px;
-    background-color: #ffc029;
-    border-radius: 13px 13px 0px 0px;
 }
 
 .screen .text-wrapper-19 {
@@ -1616,3 +1337,97 @@
 }
 
 /*우측상단 원형그래프*/
+
+
+/*좌측상단 챠트제이에스*/
+.chart-section {
+    background: white;
+    padding: 24px;
+    border-radius: 30px;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.chart-header .title {
+    font-family: "Roboto-Bold", Helvetica;
+    font-weight: 700;
+    color: #525252;
+    font-size: 30px;
+    white-space: nowrap;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+.chart-header .total-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #222;
+}
+
+.chart-header .filter-label {
+    background: #ffe9b5;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #f5a623;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.group .user-interface-menu-6 {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    top: 22px;
+    left: 775px;
+}
+/*좌측상단 챠트 js*/
+
+/*포워딩 영역*/
+.users-users2 {
+    position: absolute;
+    width: 33px;
+    height: 32px;
+    top: 662px;
+    left: 75px;
+}
+
+.text-wrapper-115 {
+    position: absolute;
+    width: 113px;
+    top: 663px;
+    left: 120px;
+    font-family: "Roboto-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #cdcdcd;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+/*리퀘스트 영역*/
+.users-users3 {
+    position: absolute;
+    width: 33px;
+    height: 32px;
+    top: 602px;
+    left: 75px;
+}
+
+.text-wrapper-116 {
+    position: absolute;
+    width: 113px;
+    top: 603px;
+    left: 120px;
+    font-family: "Roboto-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #cdcdcd;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+}

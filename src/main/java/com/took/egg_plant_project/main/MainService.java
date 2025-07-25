@@ -155,12 +155,12 @@ public class MainService {
     }
 
     public Trade getTradeByPostId(Integer postId) {
-        return mainTradeRepository.findByPostId(postId).orElse(null);
+        return mainTradeRepository.findByPost_Id(postId).orElse(null);
     }
 
     public void applyTrade(Post post, Member requester) {
         // 이미 거래중이면 중복 방지
-        if (mainTradeRepository.findByPostId(post.getId()).isPresent()) {
+        if (mainTradeRepository.findByPost_Id(post.getId()).isPresent()) {
             return; // 혹은 예외 처리
         }
 
@@ -176,20 +176,20 @@ public class MainService {
     }
 
     public void cancelTrade(Post post) {
-        mainTradeRepository.deleteByPostId(post.getId());
+        mainTradeRepository.deleteByPost_Id(post.getId());
         updatePostStatus(post, "ACTIVE");
     }
 
     public void completeTrade(Post post) {
         updatePostStatus(post, "DONE");
 
-        mainTradeRepository.findByPostId(post.getId()).ifPresent(trade -> {
+        mainTradeRepository.findByPost_Id(post.getId()).ifPresent(trade -> {
             Trade updated = new Trade(
                     trade.getId(),         // 기존 ID 유지
                     trade.getPost(),
                     trade.getRenter(),
                     trade.getOwner(),
-                    "DONE"                 // ✅ 상태만 바꿔서 새 객체 생성
+                    "DONE"                 // 상태만 바꿔서 새 객체 생성
             );
             mainTradeRepository.save(updated);
         });

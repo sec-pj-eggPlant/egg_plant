@@ -16,7 +16,6 @@
 
 .screen .text-wrapper {
     position: absolute;
-    width: 183px;
     top: 59px;
     left: 401px;
     font-family: "Roboto-Bold", Helvetica;
@@ -432,3 +431,150 @@
 
 /*페이지네이션 영역*/
 
+/*멤버 디테일 영역*/
+.search-top2 {
+    position: absolute;
+    display: flex;
+    margin-top: 120px;
+    left: 820px;
+    margin-bottom: 30px;
+    font-size: 25px;
+    font-weight: 600;
+    color: #525252;
+}
+
+.back-button {
+    display: inline-block;
+    position: absolute;
+    top:95px;
+    left: 520px;
+    margin: 16px 0;
+    padding: 8px 12px;
+    background-color: #eee;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+
+/*포워딩 영역*/
+.screen .users-users2 {
+    position: absolute;
+    width: 33px;
+    height: 32px;
+    top: 662px;
+    left: 75px;
+}
+
+.screen .text-wrapper-115 {
+    position: absolute;
+    width: 113px;
+    top: 663px;
+    left: 120px;
+    font-family: "Roboto-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #cdcdcd;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+.member-info-box{
+    margin-top: 30px;
+}
+
+.member-table-wrapper2 {
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 500px;
+}
+
+.stock-process-form2 {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 500px;
+}
+
+
+/*리퀘스트 영역*/
+.screen .users-users3 {
+    position: absolute;
+    width: 33px;
+    height: 32px;
+    top: 602px;
+    left: 75px;
+}
+
+.screen .text-wrapper-116 {
+    position: absolute;
+    width: 113px;
+    top: 603px;
+    left: 120px;
+    font-family: "Roboto-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #ffc42a;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+
+.screen .users-users4 {
+    position: absolute;
+    width: 33px;
+    height: 32px;
+    top: 662px;
+    left: 75px;
+}
+
+.screen .text-wrapper-117 {
+    position: absolute;
+    width: 113px;
+    top: 663px;
+    left: 120px;
+    font-family: "Roboto-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #ffc42a;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+.screen .users-users5 {
+    position: absolute;
+    width: 33px;
+    height: 32px;
+    top: 602px;
+    left: 75px;
+}
+
+.screen .text-wrapper-118 {
+    position: absolute;
+    width: 113px;
+    top: 603px;
+    left: 120px;
+    font-family: "Roboto-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #cdcdcd;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+
+.screen .text-wrapper-119 {
+    position: absolute;
+    width: 113px;
+    top: 403px;
+    left: 120px;
+    font-family: "Roboto-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #cdcdcd;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+}

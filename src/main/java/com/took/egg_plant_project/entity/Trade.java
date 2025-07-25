@@ -18,7 +18,7 @@ public class Trade extends BaseTime {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "postID", referencedColumnName = "postID")  // ✔️ 정확한 컬럼 지정
+    @JoinColumn(name = "post_ID", referencedColumnName = "postID")  // ✔️ 정확한 컬럼 지정
     private Post post;
 
     @ManyToOne
