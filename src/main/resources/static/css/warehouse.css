@@ -39,7 +39,7 @@ body {
 }
 
 .a-grid {
-  grid-template-columns: repeat(3, 220px);
+  grid-template-columns: repeat(3, 220px);.
   grid-auto-rows: minmax(220px, auto);
 }
 

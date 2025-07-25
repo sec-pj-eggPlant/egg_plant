@@ -31,22 +31,46 @@
 <header id="header">
     <div class="container">
         <h1>
-            <a href=""><img src="../images/logo.svg" alt=""/></a>
+            <a th:href="@{/main/list}"><img src="/images/logo.svg" alt="메인 페이지"/></a>
         </h1>
+        <nav>
+            <ul>
+                <li><a href="/warehouse/warehouse">자사창고 빌려드림</a></li>
+            </ul>
+            <ul>
+                <li><a href="/BDJ/request">배대지 신청하기</a></li>
+            </ul>
+        </nav>
         <div class="search-box">
             <form action="">
                 <input type="text" class="form-control" placeholder="search"/>
                 <button class="btn" type="button">search</button>
             </form>
         </div>
-        <a href="" id="profile">
-            <span>김의진</span>
-            <span class="img">
-            <img src="../images/profile.jpg" alt=""/>
-          </span>
-        </a>
+        <div class="dropdown" id="profile">
+            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+               aria-expanded="false">
+                <span th:text="${#authentication.principal.loggedMember.nickName}">닉네임</span>
+                <span class="img">
+                    <img th:src="${#strings.isEmpty(#authentication.principal.loggedMember.profileImagePath) ? '/images/primary.jpg' : #authentication.principal.loggedMember.profileImagePath}"
+                         alt="profile"/>
+                </span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                <li>
+                    <a class="dropdown-item" href="/my/mypage-profile">마이페이지</a>
+                </li>
+                <li>
+                    <form action="/logout" method="post" class="d-inline">
+                        <button type="submit" class="dropdown-item">로그아웃</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
     </div>
 </header>
+
+
 <div class="container min-vh-100 list-wrap warehouse">
     <div class="sector tab-menu">
         <ul>
