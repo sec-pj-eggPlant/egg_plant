@@ -33,4 +33,21 @@ public class MypageTradesDto {
         this.price = price;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public String getStatusKorean() {
+        return switch (status) {
+            case "IN_PROGRESS" -> "거래중";
+            case "ACTIVE" -> "거래가능";
+            case "DONE" -> "거래완료";
+            default -> "알 수 없음";
+        };
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 }

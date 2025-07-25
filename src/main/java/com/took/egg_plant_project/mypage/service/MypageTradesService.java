@@ -17,10 +17,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class MypageTradesService {
+
     private final MypageTradesDao mypageTradesDao;
     private final MypageTradesRepository mypageTradesRepository;
 
     public List<MypageTradesDto> getTrades(
+            Integer memberId,
             String searchType,
             String keyword,
             LocalDate startDate,
@@ -31,13 +33,13 @@ public class MypageTradesService {
         int startRow = (page - 1) * pageSize;
         int endRow = page * pageSize;
         return mypageTradesDao.searchTrades(
-               searchType, keyword, startDate, endDate, startRow, endRow
+               memberId, searchType, keyword, startDate, endDate, startRow, endRow
         );
 
     }
 
-    public int countTrades(String searchType, String keyword, LocalDate startDate, LocalDate endDate) {
-        return mypageTradesRepository.countTrades(searchType, keyword, startDate, endDate);
+    public int countTrades(Integer memberId, String searchType, String keyword, LocalDate startDate, LocalDate endDate) {
+        return mypageTradesRepository.countTrades(memberId, searchType, keyword, startDate, endDate);
     }
 }
 

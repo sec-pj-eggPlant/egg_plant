@@ -43,7 +43,7 @@ public class MypageService {
                 .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다."));
 
         member.updateInfo(
-                memberDto.getUserPW(),
+                memberDto.getUserName(),
                 memberDto.getUserEmail(),
                 memberDto.getTel()
         );

@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum PostStatus {
 
-    ACTIVATE("거래가능"),
-    ROLE_RENTER("거래중"),
-    ROLE_ADMIN("거래완료");
+    IN_PROGRESS("거래중"),
+    ACTIVE("거래가능"),
+    DONE("거래완료");
 
     private final String label;
 }

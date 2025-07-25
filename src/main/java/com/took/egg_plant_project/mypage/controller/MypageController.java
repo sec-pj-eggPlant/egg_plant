@@ -143,6 +143,7 @@ public class MypageController {
     //거래 내역 조회
     @GetMapping("/trades")
     public String trades(
+                        @AuthenticationPrincipal CustomUserDetails customUserDetails,
                          @RequestParam(required = false) String searchType,
                          @RequestParam(required = false) String keyword,
                          @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
@@ -150,10 +151,17 @@ public class MypageController {
                          @RequestParam(required = false, defaultValue = "1") int page,
                          @RequestParam(required = false, defaultValue = "10") int pageSize,
                          Model model) {
-        int totalCount = mypageTradesService.countTrades(searchType, keyword, startDate, endDate);
+        if (customUserDetails == null) {
+            return "redirect:/member/login"; // 로그인 안된 경우 로그인 페이지로
+        }
+
+        Integer memberId = customUserDetails.getLoggedMember().getId();
+
+        int totalCount = mypageTradesService.countTrades(memberId, searchType, keyword, startDate, endDate);
         model.addAttribute("totalCount", totalCount);
+
         List<MypageTradesDto> tradesList = mypageTradesService.getTrades(
-                 searchType, keyword, startDate, endDate, page, pageSize);
+                 memberId, searchType, keyword, startDate, endDate, page, pageSize);
 
         model.addAttribute("tradesList", tradesList);
         model.addAttribute("searchType", searchType);

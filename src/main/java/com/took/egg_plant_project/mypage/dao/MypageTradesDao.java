@@ -17,6 +17,7 @@ public class MypageTradesDao {
     private final MypageTradesRepository mypageTradesRepository;
 
     public List<MypageTradesDto> searchTrades(
+            Integer memberId,
             String searchType,
             String keyword,
             LocalDate startDate,
@@ -24,7 +25,7 @@ public class MypageTradesDao {
             int startRow,
             int endRow
     ) {
-        List<Object[]> rows = mypageTradesRepository.searchTradesRaw(searchType, keyword, startDate, endDate, startRow, endRow
+        List<Object[]> rows = mypageTradesRepository.searchTradesRaw(memberId, searchType, keyword, startDate, endDate, startRow, endRow
         );
 
         return rows.stream().map(row-> new MypageTradesDto(
