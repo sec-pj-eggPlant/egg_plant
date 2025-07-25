@@ -25,7 +25,7 @@
 <header id="header">
   <div class="container">
     <h1>
-      <a href="#"><img src="../images/logo.svg" alt="로고" /></a>
+      <a th:href="@{main/list}"><img src="../images/logo.svg" alt="로고" /></a>
     </h1>
     <nav>
       <ul>
@@ -123,7 +123,7 @@
             <tbody>
             <tr th:each="trade : ${tradesList}">
               <td th:text="${trade.tradeId}"></td>
-              <td th:text="${trade.status}"></td>
+              <td th:text="${trade.statusKorean}"></td>
               <td th:text="${#dates.format(trade.createDate, 'yyyy-MM-dd')}"></td>
               <td th:text="${trade.renterName}"></td>
               <td th:text="${trade.ownerName}"></td>
