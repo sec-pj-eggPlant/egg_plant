@@ -45,7 +45,11 @@ public class ForwardingParcel {
     @Column(name = "delivered_date", nullable = false)
     private LocalDate deliveredDate;
 
+    private String domesticTrackingNumber;
+
     public static ForwardingParcel create(DeliveryRequest deliveryRequest, String zone) {
+        LocalDate now = LocalDate.now();
+
         return ForwardingParcel.builder()
                 .deliveryRequest(deliveryRequest)
                 .member(deliveryRequest.getMember())
@@ -53,6 +57,12 @@ public class ForwardingParcel {
                 .zone(zone)
                 .status(DeliveryStatus.RECEIVED)
                 .receivedDate(LocalDate.now())
+                .shippedDate(now.plusDays(1))        // 임의 값
+                .deliveredDate(now.plusDays(3))      // 임의 값
                 .build();
+    }
+
+    public void setDomesticTrackingNumber(String domesticTrackingNumber) {
+        this.domesticTrackingNumber = domesticTrackingNumber;
     }
 }

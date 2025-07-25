@@ -40,11 +40,13 @@ public class ForwardingParcelService {
                 .memberName(parcel.getDeliveryRequest().getMember().getUserName())
                 .memberTel(parcel.getDeliveryRequest().getMember().getTel())
                 .trackingNumber(parcel.getTrackingNumber())
+                .domesticTrackingNumber(parcel.getDomesticTrackingNumber())
                 .status(parcel.getStatus())
                 .receivedDate(parcel.getReceivedDate())
                 .shippedDate(parcel.getShippedDate())
                 .deliveredDate(parcel.getDeliveredDate())
-                .deliveryRequest(parcel.getDeliveryRequest())  // ★ 이 한줄 추가!
+                .deliveryRequest(parcel.getDeliveryRequest())
+                .zone(parcel.getZone())
                 .build();
     }
 
@@ -56,6 +58,13 @@ public class ForwardingParcelService {
 
         ForwardingParcel parcel = ForwardingParcel.create(deliveryRequest, zone);
 
+        forwardingParcelRepository.save(parcel);
+    }
+
+    public void updateDomesticTrackingNumber(Integer id, String trackingNumber) {
+        ForwardingParcel parcel = forwardingParcelRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 ID의 배송 정보를 찾을 수 없습니다."));
+        parcel.setDomesticTrackingNumber(trackingNumber);
         forwardingParcelRepository.save(parcel);
     }
 }
