@@ -189,7 +189,7 @@ public class MainService {
                     trade.getPost(),
                     trade.getRenter(),
                     trade.getOwner(),
-                    "DONE"                 // ✅ 상태만 바꿔서 새 객체 생성
+                    "DONE"                 // 상태만 바꿔서 새 객체 생성
             );
             mainTradeRepository.save(updated);
         });
