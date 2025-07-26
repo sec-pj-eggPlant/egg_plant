@@ -5,13 +5,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MypageUpdateDto {
+public class MypageModifyDto {
     private String userName;
     private String nickName;
     private String tel;
     private String userID;
     private String userEmail;
-    private String userPW;
+    private String currentPW;
     private String newPW;
     private String confirmPW;
 }

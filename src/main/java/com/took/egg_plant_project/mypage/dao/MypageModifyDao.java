@@ -1,7 +1,7 @@
 package com.took.egg_plant_project.mypage.dao;
 
 import com.took.egg_plant_project.entity.Member;
-import com.took.egg_plant_project.mypage.repository.MypageRepository;
+import com.took.egg_plant_project.mypage.repository.MypageModifyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -9,18 +9,18 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class MypageDao {
-    private final MypageRepository mypageRepository;
+public class MypageModifyDao {
+    private final MypageModifyRepository mypageModifyRepository;
 
     public Optional<Member> findByUserID(String userID) {
-        return mypageRepository.findByUserID(userID);
+        return mypageModifyRepository.findByUserID(userID);
     }
 
     public Optional<Member> findById(Integer id) {
-        return mypageRepository.findById(id);
+        return mypageModifyRepository.findById(id);
     }
 
     public Member save(Member member) {
-        return mypageRepository.save(member);
+        return mypageModifyRepository.save(member);
     }
 }
