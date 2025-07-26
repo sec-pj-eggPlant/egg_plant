@@ -1,5 +1,6 @@
 package com.took.egg_plant_project.mypage.dao;
 
+import com.took.egg_plant_project.constant.TradeStatus;
 import com.took.egg_plant_project.mypage.dto.MypageTradesDto;
 import com.took.egg_plant_project.mypage.repository.MypageTradesRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +29,10 @@ public class MypageTradesDao {
         List<Object[]> rows = mypageTradesRepository.searchTradesRaw(memberId, searchType, keyword, startDate, endDate, startRow, endRow
         );
 
-        return rows.stream().map(row-> new MypageTradesDto(
+        return rows.stream()
+                .map(row-> new MypageTradesDto(
                 ((Number) row[0]).intValue(),
-                (String) row[1],
+                TradeStatus.fromCode((String) row[1]),
                 (Timestamp) row[2],
                 (String) row[3],
                 (String) row[4],
