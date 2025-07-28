@@ -1,7 +1,7 @@
 package com.took.egg_plant_project.admin.service;
 
+import com.took.egg_plant_project.admin.dto.AdminTradeSummaryDto;
 import com.took.egg_plant_project.admin.repository.AdminTradeRepository;
-import com.took.egg_plant_project.entity.Trade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,23 +20,37 @@ public class AdminTradeService {
 
     private final AdminTradeRepository adminTradeRepository;
 
-    public Page<Trade> searchByCondition(String category, String keyword, LocalDate startDate, LocalDate endDate, Pageable pageable) {
+    public Page<AdminTradeSummaryDto> searchTradeSummaries(String category, String keyword, LocalDate startDate, LocalDate endDate, Pageable pageable) {
         LocalDateTime start = (startDate != null) ? startDate.atStartOfDay() : null;
         LocalDateTime end = (endDate != null) ? endDate.atTime(LocalTime.MAX) : null;
 
-        String status = null;
-        String renterId = null;
-        String ownerId = null;
+        String status = null, renterId = null, ownerId = null;
 
         if (keyword != null && !keyword.isBlank()) {
             switch (category) {
                 case "renter" -> renterId = keyword;
                 case "owner" -> ownerId = keyword;
-                case "status" -> status = keyword;
+                case "status" -> {
+                    status = switch (keyword.trim()) {
+                        case "거래가능" -> "ACTIVE";
+                        case "거래중" -> "IN_PROGRESS";
+                        case "거래완료" -> "DONE";
+                        default -> null;
+                    };
+                }
             }
         }
 
-        return adminTradeRepository.findFilteredTrades(status, renterId, ownerId, start, end, pageable);
+        Page<Object[]> rawPage = adminTradeRepository.findRawTradeSummaryObjects(status, renterId, ownerId, start, end, pageable);
+
+        return rawPage.map(obj -> new AdminTradeSummaryDto(
+                ((Number) obj[0]).intValue(),                 // id
+                ((Number) obj[1]).intValue(),                 // postId
+                (String) obj[2],                              // renterId
+                (String) obj[3],                              // ownerId
+                (String) obj[4],                              // status
+                ((java.sql.Timestamp) obj[5]).toLocalDateTime() // createdAt
+        ));
     }
 
     public Map<Integer, Long> getMonthlyDoneTradeCounts() {
@@ -56,6 +70,4 @@ public class AdminTradeService {
 
         return monthlyDoneCount;
     }
-
-
 }

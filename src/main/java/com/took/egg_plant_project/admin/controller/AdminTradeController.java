@@ -1,5 +1,6 @@
 package com.took.egg_plant_project.admin.controller;
 
+import com.took.egg_plant_project.admin.dto.AdminTradeSummaryDto;
 import com.took.egg_plant_project.admin.repository.AdminTradeRepository;
 import com.took.egg_plant_project.admin.service.AdminMemberService;
 import com.took.egg_plant_project.admin.service.AdminTradeService;
@@ -37,7 +38,7 @@ public class AdminTradeController {
             Model model
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Trade> tradeList = adminTradeService.searchByCondition(category, keyword, startDate, endDate, pageable);
+        Page<AdminTradeSummaryDto> tradeList = adminTradeService.searchTradeSummaries(category, keyword, startDate, endDate, pageable);
 
         model.addAttribute("tradeList", tradeList);
         model.addAttribute("category", category);
