@@ -20,21 +20,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, CustomLoginSuccessHandler customLoginSuccessHandler) throws Exception {
         httpSecurity.authorizeHttpRequests(
                         (auth) -> auth.requestMatchers(
-//                                        "/",
-//                                        "/index/index",
-//                                        "/subscribe/**",
-//                                        "/product/**",
-//                                        "/flowers",
-//                                        "/corporate",
-//                                        "/onsilfaq",
-//                                        "/api/**",
-//                                        "/css/**",
-//                                        "/images/**",
-//                                        "/js/**",
-//                                        "/html/**",
-//                                        "/upload/**"
-                                        "**"
-                                ) //작업 편하게 하기 위해 임시로 모든 경로 보안 허용
+                                        "/",
+                                        "member/**",
+                                        "/index/index",
+                                        "/api/**",
+                                        "/css/**",
+                                        "/images/**",
+                                        "/js/**",
+                                        "/upload/**",
+                                        "/main/list"
+//                                        "**" //작업 편하게 하기 위해 임시로 모든 경로 보안 허용
+                                )
                                 .permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
@@ -52,7 +48,7 @@ public class SecurityConfig {
                 .logout(
                         logout -> logout
                                 .logoutUrl("/logout")
-                                .logoutSuccessUrl("/index/index")
+                                .logoutSuccessUrl("/main/list")
                                 .invalidateHttpSession(true)
                                 .deleteCookies("JSESSIONID")
                                 .permitAll()

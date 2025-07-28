@@ -24,3 +24,4 @@ public class Warehouse {
     @OneToMany(mappedBy = "warehouse")
     private List<Box> boxes = new ArrayList<>();
 }
+

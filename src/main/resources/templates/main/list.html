@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -97,12 +99,14 @@
 <header id="header">
     <div class="container">
         <h1>
-            <a th:href="@{/main}"><img src="/images/logo.svg" alt="메인 페이지"/></a>
+            <a th:href="@{/main/list}"><img src="/images/logo.svg" alt="메인 페이지"/></a>
         </h1>
         <nav>
             <ul>
-                <li><a href="">자사창고</a></li>
-                <li><a href="">빌려드림</a></li>
+                <li><a href="/warehouse/warehouse">자사창고 빌려드림</a></li>
+             </ul>
+            <ul>
+                <li><a href="/BDJ/request">배대지 신청하기</a></li>
             </ul>
         </nav>
         <div class="search-box">

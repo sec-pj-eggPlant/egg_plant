@@ -1,7 +1,9 @@
 package com.took.egg_plant_project.mypage.controller;
 
 import com.took.egg_plant_project.communal.CustomUserDetails;
+import com.took.egg_plant_project.entity.Member;
 import com.took.egg_plant_project.member.MemberDto;
+import com.took.egg_plant_project.mypage.dto.MypageModifyDto;
 import com.took.egg_plant_project.mypage.dto.MypagePostDto;
 import com.took.egg_plant_project.mypage.dto.MypageTradesDto;
 import com.took.egg_plant_project.mypage.service.*;
@@ -16,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ import java.util.Map;
 @RequestMapping("/my")
 public class MypageController {
 
-    private final MypageService mypageService;
+    private final MypageModifyService mypageModifyService;
     private final MypageTradesService mypageTradesService;
     private final MypagePostService mypagePostService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -38,7 +39,7 @@ public class MypageController {
 
         String userID = customUserDetails.getUsername();
         Integer loggedMemberID = customUserDetails.getLoggedMember().getId();
-        MemberDto loggedMemberDto = mypageService.findByUserID(userID);
+        Member loggedMemberDto = mypageModifyService.findByUserID(userID);
         log.info("loggedMemberDto: {}", loggedMemberDto);
 
         model.addAttribute("loggedMemberDto", loggedMemberDto);
@@ -56,15 +57,15 @@ public class MypageController {
         }
 
         String userID = customUserDetails.getUsername();
-        MemberDto memberDto = mypageService.findByUserID(userID);
-        model.addAttribute("user", memberDto);
+        Member member = mypageModifyService.findByUserID(userID);
+        model.addAttribute("user", member);
         return "my/mypage-profile";
     }
 
     //회원 정보 수정
     @GetMapping("/modify")
     public String profileEdit(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        MemberDto member = mypageService.findByUserID(userDetails.getUsername());
+        Member member = mypageModifyService.findByUserID(userDetails.getUsername());
         model.addAttribute("member", member);
         return "my/modify";
     }
@@ -72,9 +73,9 @@ public class MypageController {
 
     @PostMapping("/info") //회원 정보 조회
     @ResponseBody
-    public MemberDto info(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public Member info(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         String userID = customUserDetails.getUsername(); //로그인한 유저의 아이디
-        MemberDto loggedMemberDto = mypageService.findByUserID(userID); //로그인한 유저의 정보들
+        Member loggedMemberDto = mypageModifyService.findByUserID(userID); //로그인한 유저의 정보들
 
         return loggedMemberDto;
     }
@@ -83,60 +84,58 @@ public class MypageController {
 
     @PostMapping("/modify")
     @ResponseBody
-    public Map<String, String> modify(@AuthenticationPrincipal CustomUserDetails customUserDetails,
-                                      @RequestBody Map<String, String> data) {
+    public Map<String, String> modify(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestBody MypageModifyDto data) {
+
         Map<String, String> result = new HashMap<>();
 
-        String currentPassword = data.get("currentPassword");
-        String password = data.get("password");
-        String password2 = data.get("password2");
-        String newEmail = data.get("userEmail");
-        String newTel = data.get("tel");
-
-        String userID = customUserDetails.getUsername();
-        MemberDto loggedMemberDto = mypageService.findByUserID(userID);
-
-        log.info("loggedMemberDto: {}", loggedMemberDto);
-        log.info("currentPassword: {}", currentPassword);
-        log.info("data: {}", newEmail);
-        log.info("data: {}", newTel);
-        log.info("data: {}", userID);
-        log.info("password: {}", password);
-        log.info("password2: {}", password2);
-        log.info("currentPassword != null: {}", currentPassword != null);
-        log.info("currentPassword.isBlank(): {}", !currentPassword.isBlank());
-        if (currentPassword == null || currentPassword.isBlank()) {
+        if (customUserDetails == null) {
             result.put("isModify", "false");
-            result.put("error", "비밀번호를 입력해주세요");
+            result.put("error", "로그인 정보가 없습니다.");
             return result;
         }
-        if (currentPassword != null && !currentPassword.isBlank()) {
-            if (!bCryptPasswordEncoder.matches(currentPassword, loggedMemberDto.getUserPW())) {
-                log.info("첫번째");
+
+        try {
+            String userID = customUserDetails.getUsername();
+            Member member = mypageModifyService.findByUserID(userID);
+
+            // 1. 현재 비밀번호 입력 여부 체크
+            if (data.getCurrentPW() == null || data.getCurrentPW().isBlank()) {
                 result.put("isModify", "false");
-                result.put("error", "현재 비밃번호가 올바르지 않습니다.");
+                result.put("error", "비밀번호를 입력해주세요.");
                 return result;
             }
 
-            if (!password.equals(password2)) {
+            // 2. 현재 비밀번호 일치 여부 확인
+            if (!bCryptPasswordEncoder.matches(data.getCurrentPW(), member.getUserPW())) {
                 result.put("isModify", "false");
-                result.put("error", "비밀번호 확인이 일치하지 않습니다.");
+                result.put("error", "현재 비밀번호가 올바르지 않습니다.");
                 return result;
             }
 
-            String encodeUserPW = bCryptPasswordEncoder.encode(password);
-            loggedMemberDto.setUserPW(encodeUserPW);
-        } else {
-            log.info("두번째");
-            // 비밀번호 변경 안 하는 경우 기존 비밀번호 유지
-            loggedMemberDto.setUserPW(customUserDetails.getPassword());
+            // 3. 새 비밀번호와 확인 비밀번호가 일치하는지 체크 (비밀번호 변경 원할 시)
+            if (data.getNewPW() != null && !data.getNewPW().isBlank()) {
+                if (!data.getNewPW().equals(data.getConfirmPW())) {
+                    result.put("isModify", "false");
+                    result.put("error", "비밀번호 확인이 일치하지 않습니다.");
+                    return result;
+                }
+            }
+
+            // 4. 서비스 호출 (멤버 엔티티와 DTO 전달)
+            mypageModifyService.modifyMemberInfo(member, data);
+
+            result.put("isModify", "true");
+        } catch (IllegalArgumentException e) {
+            result.put("isModify", "false");
+            result.put("error", e.getMessage());
+        } catch (Exception e) {
+            log.error("회원정보 수정 중 오류 발생", e);
+            result.put("isModify", "false");
+            result.put("error", "서버 오류가 발생했습니다.");
         }
 
-        if (newEmail != null) loggedMemberDto.setUserEmail(newEmail);
-        if (newTel != null) loggedMemberDto.setTel(newTel);
-        log.info("modify_loggedMemberDto: {}", loggedMemberDto);
-        mypageService.updateInfo(loggedMemberDto);
-        result.put("isModify", "true");
         return result;
     }
 

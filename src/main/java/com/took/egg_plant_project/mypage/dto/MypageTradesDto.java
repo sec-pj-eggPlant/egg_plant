@@ -1,5 +1,6 @@
 package com.took.egg_plant_project.mypage.dto;
 
+import com.took.egg_plant_project.constant.TradeStatus;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class MypageTradesDto {
     private int tradeId;
-    private String status;
+    private TradeStatus status;
     private Timestamp createDate;
     private String renterName;
     private String ownerName;
@@ -20,7 +21,7 @@ public class MypageTradesDto {
     private String location;
     private int price;
 
-    public MypageTradesDto(int tradeId, String status, Timestamp createDate,
+    public MypageTradesDto(int tradeId, TradeStatus status, Timestamp createDate,
                            String renterName, String ownerName, String postTitle,
                            String location, int price) {
         this.tradeId = tradeId;
@@ -33,21 +34,24 @@ public class MypageTradesDto {
         this.price = price;
     }
 
-    public String getStatus() {
-        return status;
-    }
+//    public TradeStatus getStatus() {
+//        return status;
+//    }
 
     public String getStatusKorean() {
+
+            if (status == null) return "알 수 없음";
+
         return switch (status) {
-            case "IN_PROGRESS" -> "거래중";
-            case "ACTIVE" -> "거래가능";
-            case "DONE" -> "거래완료";
+            case IN_PROGRESS -> "거래중";
+            case ACTIVE -> "거래가능";
+            case DONE -> "거래완료";
             default -> "알 수 없음";
         };
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+//    public void setStatus(TradeStatus status) {
+//        this.status = status;
+//    }
 
 }

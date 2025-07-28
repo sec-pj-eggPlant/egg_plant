@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -33,12 +35,14 @@
 <header id="header">
     <div class="container">
         <h1>
-            <a href=""><img src="../images/logo.svg" alt=""/></a>
+            <a th:href="@{/main/list}"><img src="/images/logo.svg" alt="메인 페이지"/></a>
         </h1>
         <nav>
             <ul>
-                <li><a href="">자사창고</a></li>
-                <li><a href="">빌려드림</a></li>
+                <li><a href="/warehouse/warehouse">자사창고 빌려드림</a></li>
+            </ul>
+            <ul>
+                <li><a href="/BDJ/request">배대지 신청하기</a></li>
             </ul>
         </nav>
         <div class="search-box">
@@ -69,6 +73,7 @@
         </div>
     </div>
 </header>
+
 <div class="container min-vh-100 mypage-wrap">
     <div class="row">
         <div class="col-4 px-5">
@@ -94,23 +99,20 @@
                     <tbody>
                     <tr th:each="post : ${postPage.content}"
                         style="cursor:pointer"
-                        th:onclick="|location.href='@{/my/post/{id}(id=${post.id})}'|">
+                        th:onclick="|location.href='@{/main/detail/{id}(id=${post.id})}'|">
                         <td th:text="${post.postId}">1</td>
                         <td th:text="${post.location}">서울</td>
+                        <td th:text="${post.title}"></td>
                         <td>
-                            <a th:href="@{/my/post/{id}(id=${post.id})}"
-                               th:text="${post.title}"
-                               class="text-decoration-none text-dark"></a>
-                        </td>
-                        <td>
-              <span th:switch="${post.status}">
-                <span th:case="'ACTIVE'">거래가능</span>
-                <span th:case="'IN_PROGRESS'">거래중</span>
-                <span th:case="'DONE'">거래완료</span>
-                <span th:case="*">알 수 없음</span>
-              </span>
+        <span th:switch="${post.status}">
+            <span th:case="'ACTIVE'">거래가능</span>
+            <span th:case="'IN_PROGRESS'">거래중</span>
+            <span th:case="'DONE'">거래완료</span>
+            <span th:case="*">알 수 없음</span>
+        </span>
                         </td>
                     </tr>
+
                     <tr th:if="${postPage.totalElements == 0}">
                         <td colspan="4" class="text-center text-secondary py-4">작성한 게시글이 없습니다.</td>
                     </tr>
