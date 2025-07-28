@@ -60,20 +60,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="trade : ${tradeList}">
-                        <td th:text="${trade.id}">1</td>
-                        <td th:text="${trade.post?.id}">101</td>
-                        <td th:text="${trade.renter?.userID}">renter01</td>
-                        <td th:text="${trade.owner?.userID}">owner01</td>
+                    <tr th:each="tradeSummary : ${tradeList}">
+                        <td th:text="${tradeSummary.id}">1001</td> <!-- 거래ID -->
+                        <td th:text="${tradeSummary.postId}">101</td> <!-- 게시글ID -->
+                        <td th:text="${tradeSummary.renterId}">renter01</td>
+                        <td th:text="${tradeSummary.ownerId}">owner01</td>
                         <td>
-                            <span th:switch="${trade.status}">
-                                <span th:case="'ACTIVE'">거래가능</span>
-                                <span th:case="'IN_PROGRESS'">거래중</span>
-                                <span th:case="'DONE'">거래완료</span>
-                                <span th:case="*">알 수 없음</span>
-                            </span>
+                <span th:switch="${tradeSummary.status}">
+                    <span th:case="'ACTIVE'">거래가능</span>
+                    <span th:case="'IN_PROGRESS'">거래중</span>
+                    <span th:case="'DONE'">거래완료</span>
+                    <span th:case="*">알 수 없음</span>
+                </span>
                         </td>
-                        <td th:text="${#temporals.format(trade.createdAt, 'yyyy-MM-dd')}">2025-07-01</td>
+                        <td th:text="${#temporals.format(tradeSummary.createdAt, 'yyyy-MM-dd')}">2025-07-01</td>
                     </tr>
                     </tbody>
                 </table>
