@@ -190,8 +190,7 @@
                 <div class="text-wrapper-116">Request</div>
             </a>
 
-            <!-- 로그아웃 버튼 -->
-            <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">
+            <a href="/logout" onclick="document.getElementById('logout-form').submit(); return false;">
                 <div class="text-wrapper-53">Logout</div>
             </a>
             <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
